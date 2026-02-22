@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Boss CSS documentation
+    url: https://bosscss.com
+    about: Start with the official docs, setup guides, and API reference.

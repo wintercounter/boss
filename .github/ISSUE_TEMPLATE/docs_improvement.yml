@@ -1,0 +1,44 @@
+name: Documentation improvement
+description: Report unclear docs or suggest documentation updates
+title: "docs: "
+labels:
+  - documentation
+  - triage
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Docs page URL
+      description: Link to the page on bosscss.com.
+      placeholder: https://bosscss.com/docs/getting-started/quick-start
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: What is unclear or incorrect?
+      placeholder: Describe the gap, mistake, or confusing part.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should be documented?
+      placeholder: Describe the clarification or new content you expect.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Include your framework/strategy and any related examples.
+
+  - type: input
+    id: playground_url
+    attributes:
+      label: Playground URL (optional)
+      description: If available, share a Boss playground link.
+      placeholder: https://bosscss.com/playground

@@ -1,0 +1,36 @@
+{
+  "label": "Boss CSS - HTML Only",
+  "description": "Plain HTML + Express server (no Vite)",
+  "openFile": "src/index.html",
+  "init": {
+    "command": "pnpm",
+    "args": [
+      "exec",
+      "boss-css",
+      "init",
+      "-y",
+      "--src-root",
+      "src",
+      "--config-dir",
+      "src/.bo$$",
+      "--strategy",
+      "classname-only",
+      "--plugins",
+      "fontsource,reset,token,at,child,css,pseudo,classname",
+      "--globals",
+      "false",
+      "--eslint-plugin",
+      "false",
+      "--postcss",
+      "auto"
+    ]
+  },
+  "dev": {
+    "command": "pnpm",
+    "args": ["run", "dev"]
+  },
+  "install": {
+    "command": "pnpm",
+    "args": ["install", "--reporter=append-only"]
+  }
+}

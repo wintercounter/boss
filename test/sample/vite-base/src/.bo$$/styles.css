@@ -1,0 +1,4 @@
+.color\:blue { color: blue }
+.hover\:color:hover { color: var(--hover-color) }
+.before\:content:before { content: var(--before-content) }
+@media screen and (min-width: 376px) { .at\:mobile\+\:color { color: var(--at-mobile\+-color) } }

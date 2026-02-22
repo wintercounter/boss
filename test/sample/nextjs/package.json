@@ -1,0 +1,29 @@
+{
+    "name": "nextjs",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "NODE_OPTIONS=--preserve-symlinks ESLINT_USE_FLAT_CONFIG=true eslint ."
+    },
+    "dependencies": {
+        "@next/bundle-analyzer": "^16.1.6",
+        "next": "16.1.6",
+        "react": "^19",
+        "react-dom": "^19"
+    },
+    "devDependencies": {
+        "@types/node": "^25",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "boss-css": "file:../../..",
+        "autoprefixer": "^10.4.24",
+        "eslint": "^10",
+        "eslint-config-next": "16.1.6",
+        "postcss": "^8",
+        "tailwindcss": "^4.2.0",
+        "typescript": "^5"
+    }
+}

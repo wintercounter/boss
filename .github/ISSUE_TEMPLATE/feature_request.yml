@@ -1,0 +1,77 @@
+name: Feature request
+description: Suggest an improvement or new capability
+title: "feat: "
+labels:
+  - enhancement
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing an idea. Please focus on the concrete problem and expected outcome.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem are you trying to solve?
+      placeholder: I cannot do X without Y.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the behavior or API you want.
+      placeholder: Add support for...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What approaches did you evaluate?
+      placeholder: I tried A and B, but...
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Code or config example
+      description: Optional sketch of how this could look.
+      render: ts
+
+  - type: input
+    id: playground_url
+    attributes:
+      label: Playground URL (optional)
+      description: If available, share a Boss playground link.
+      placeholder: https://bosscss.com/playground
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Parser
+        - Strategy/runtime
+        - Tokens/theming
+        - CLI
+        - PostCSS
+        - ESLint plugin
+        - Devtools
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and discussions first.
+          required: true
+        - label: This request is scoped to a concrete use case.
+          required: true

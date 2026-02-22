@@ -1,0 +1,116 @@
+[
+  {
+    "name": "boss-css-authoring",
+    "description": "Boss CSS authoring conventions and style guidelines. Use when writing or reviewing $$ props, tokens, pseudos, @at, or className usage.",
+    "path": ".bo$$/skills/boss-css-authoring/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-tokens",
+    "description": "Token authoring and usage. Use when defining tokens, consuming them in props/className, or overriding tokens at runtime.",
+    "path": ".bo$$/skills/boss-css-tokens/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-strategy",
+    "description": "Guidance for choosing inline-first, classname-first, or runtime-only. Use when deciding strategy or troubleshooting output size/runtime.",
+    "path": ".bo$$/skills/boss-css-strategy/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-props",
+    "description": "Finding the right Boss props and understanding custom non-CSS props. Use when unsure which prop to use or what shorthand exists.",
+    "path": ".bo$$/skills/boss-css-props/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-plugin-authoring",
+    "description": "Creating Boss plugins and emitting metadata. Use when adding plugins or extending the prop pipeline.",
+    "path": ".bo$$/skills/boss-css-plugin-authoring/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-devserver-eval",
+    "description": "Request client-side data via eval-client over the dev server. Use when you need runtime state or DOM data during local dev.",
+    "path": ".bo$$/skills/boss-css-devserver-eval/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-classname",
+    "description": "Classname syntax and shorthands. Use when writing className strings or converting from CSS.",
+    "path": ".bo$$/skills/boss-css-classname/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-values",
+    "description": "Preferred value forms (arrays, unitless numbers, shadows). Use when deciding how to express CSS values.",
+    "path": ".bo$$/skills/boss-css-values/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-breakpoints",
+    "description": "Breakpoint and media shorthand guidance. Use when picking responsive keys or authoring at/mobile styles.",
+    "path": ".bo$$/skills/boss-css-breakpoints/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-bosswind",
+    "description": "Bosswind shorthand preferences. Use when Bosswind is enabled and you want concise, Tailwind-like tokens.",
+    "path": ".bo$$/skills/boss-css-bosswind/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-global-css",
+    "description": "Global CSS usage via $$.css(). Use when you need global styles or arbitrary selectors.",
+    "path": ".bo$$/skills/boss-css-global-css/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-compile-pruning",
+    "description": "How to keep compile output runtime-free. Use when you want compile to prune Boss runtime imports.",
+    "path": ".bo$$/skills/boss-css-compile-pruning/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-compile",
+    "description": "Boss compile usage and constraints. Use when running boss-css compile or deciding if compile is appropriate.",
+    "path": ".bo$$/skills/boss-css-compile/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-runtime-only",
+    "description": "Runtime-only strategy guidance. Use when enabling runtime.only or troubleshooting client-only CSS injection.",
+    "path": ".bo$$/skills/boss-css-runtime-only/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-classname-only",
+    "description": "Classname-only mode guidance. Use when running classname-only strategy or migrating from utility classes.",
+    "path": ".bo$$/skills/boss-css-classname-only/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-debugging",
+    "description": "Debug logging and troubleshooting. Use when investigating Boss parsing, strategy, or CSS output issues.",
+    "path": ".bo$$/skills/boss-css-debugging/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-devtools",
+    "description": "Devtools usage and dev server behavior. Use when enabling the devtools plugin or troubleshooting the socket.",
+    "path": ".bo$$/skills/boss-css-devtools/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-boundaries",
+    "description": "CSS boundary rules and .boss.css behavior. Use when adjusting CSS scoping or boundary outputs.",
+    "path": ".bo$$/skills/boss-css-boundaries/SKILL.md",
+    "source": "builtin"
+  },
+  {
+    "name": "boss-css-metadata",
+    "description": "Emitting AI metadata from plugins. Use when you want LLMS sections or custom AI hints.",
+    "path": ".bo$$/skills/boss-css-metadata/SKILL.md",
+    "source": "builtin"
+  }
+]

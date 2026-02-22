@@ -1,0 +1,9 @@
+*
+!dist/**
+!package.json
+!package-lock.json
+!README.md
+!src/api/config.d.ts
+!src/fontsource/types.d.ts
+!src/reset/reset.css
+!src/prop/css/csstype.json

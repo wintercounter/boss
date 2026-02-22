@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "esnext",
+        "moduleResolution": "Bundler",
+        "allowJs": true,
+        "emitDeclarationOnly": true,
+        "strict": true,
+        "jsx": "preserve",
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "declaration": true,
+        "baseUrl": "./",
+        "skipLibCheck": true,
+        "types": ["node", "vitest/globals"],
+        "incremental": true,
+        "rootDir": ".",
+        "outDir": "src",
+        "paths": {
+            "@": ["./src/index"],
+            "boss-css": ["./src/index"],
+            "@/*": ["./src/*"],
+        },
+    },
+    "exclude": ["node_modules", "test", "dist", "vitest.config.ts", "src/**/*.test.ts", "src/**/test.ts"],
+}

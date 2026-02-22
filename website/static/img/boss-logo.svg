@@ -1,0 +1,6 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <rect x="8" y="8" width="104" height="104" rx="28" fill="#0f766e" />
+  <rect x="18" y="18" width="84" height="84" rx="22" fill="#ea580c" opacity="0.18" />
+  <text x="42" y="75" font-family="'Space Grotesk', 'IBM Plex Sans', sans-serif" font-size="54" fill="#f6f3ee" font-weight="700">$</text>
+  <text x="66" y="75" font-family="'Space Grotesk', 'IBM Plex Sans', sans-serif" font-size="54" fill="#f6f3ee" font-weight="700">$</text>
+</svg>

@@ -1,0 +1,16 @@
+{
+  "name": "boss-playground-html",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "boss:watch": "node scripts/boss-watch.js",
+    "dev": "concurrently -k 'pnpm run boss:watch' 'HOST=0.0.0.0 PORT=5173 node src/server.js'"
+  },
+  "dependencies": {
+    "boss-css": "__BOSS_VERSION__",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}

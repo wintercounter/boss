@@ -1,0 +1,36 @@
+{
+  "label": "Boss CSS - Classname-only",
+  "description": "No runtime; className parsing only",
+  "openFile": "src/App.tsx",
+  "init": {
+    "command": "pnpm",
+    "args": [
+      "exec",
+      "boss-css",
+      "init",
+      "-y",
+      "--src-root",
+      "src",
+      "--config-dir",
+      "src/.bo$$",
+      "--strategy",
+      "classname-only",
+      "--plugins",
+      "fontsource,reset,token,at,child,css,pseudo,classname",
+      "--globals",
+      "false",
+      "--eslint-plugin",
+      "false",
+      "--postcss",
+      "auto"
+    ]
+  },
+  "dev": {
+    "command": "pnpm",
+    "args": ["run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+  },
+  "install": {
+    "command": "pnpm",
+    "args": ["install", "--reporter=append-only"]
+  }
+}

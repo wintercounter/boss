@@ -1,0 +1,317 @@
+{
+    "name": "boss-css",
+    "version": "0.0.16",
+    "description": "Polymorphic, usage-driven CSS-in-JS.",
+    "bin": {
+        "boss": "./dist/cli/index.cjs",
+        "boss-css": "./dist/cli/index.cjs"
+    },
+    "exports": {
+        ".": {
+            "import": "./dist/index.mjs",
+            "require": "./dist/index.cjs"
+        },
+        "./api/browser": {
+            "import": "./dist/api/browser.mjs",
+            "require": "./dist/api/browser.cjs"
+        },
+        "./api/server": {
+            "import": "./dist/api/server.mjs",
+            "require": "./dist/api/server.cjs"
+        },
+        "./api/config": {
+            "types": "./src/api/config.d.ts",
+            "import": "./dist/api/config.mjs",
+            "require": "./dist/api/config.cjs"
+        },
+        "./fontsource/types": {
+            "types": "./src/fontsource/types.d.ts"
+        },
+        "./postcss": {
+            "import": "./dist/postcss/index.mjs",
+            "require": "./dist/postcss/index.cjs"
+        },
+        "./eslint-plugin": {
+            "import": "./dist/eslint-plugin/index.mjs",
+            "require": "./dist/eslint-plugin/index.cjs"
+        },
+        "./parser/jsx/browser": {
+            "import": "./dist/parser/jsx/browser.mjs",
+            "require": "./dist/parser/jsx/browser.cjs"
+        },
+        "./parser/jsx/server": {
+            "import": "./dist/parser/jsx/server.mjs",
+            "require": "./dist/parser/jsx/server.cjs"
+        },
+        "./parser/jsx/runtime": {
+            "import": "./dist/parser/jsx/runtime.mjs",
+            "require": "./dist/parser/jsx/runtime.cjs"
+        },
+        "./runtime": {
+            "import": "./dist/runtime/index.mjs",
+            "require": "./dist/runtime/index.cjs"
+        },
+        "./runtime/react": {
+            "import": "./dist/runtime/react.mjs",
+            "require": "./dist/runtime/react.cjs"
+        },
+        "./runtime/preact": {
+            "import": "./dist/runtime/preact.mjs",
+            "require": "./dist/runtime/preact.cjs"
+        },
+        "./runtime/qwik": {
+            "import": "./dist/runtime/qwik.mjs",
+            "require": "./dist/runtime/qwik.cjs"
+        },
+        "./runtime/stencil": {
+            "import": "./dist/runtime/stencil.mjs",
+            "require": "./dist/runtime/stencil.cjs"
+        },
+        "./runtime/solid": {
+            "import": "./dist/runtime/solid.mjs",
+            "require": "./dist/runtime/solid.cjs"
+        },
+        "./parser/jsx/native": {
+            "import": "./dist/parser/jsx/native.mjs",
+            "require": "./dist/parser/jsx/native.cjs"
+        },
+        "./parser/classname/server": {
+            "import": "./dist/parser/classname/server.mjs",
+            "require": "./dist/parser/classname/server.cjs"
+        },
+        "./native/browser": {
+            "import": "./dist/native/browser.mjs",
+            "require": "./dist/native/browser.cjs"
+        },
+        "./native/server": {
+            "import": "./dist/native/server.mjs",
+            "require": "./dist/native/server.cjs"
+        },
+        "./prop/pseudo/server": {
+            "import": "./dist/prop/pseudo/server.mjs",
+            "require": "./dist/prop/pseudo/server.cjs"
+        },
+        "./prop/pseudo/runtime-only": {
+            "import": "./dist/prop/pseudo/runtime-only.mjs",
+            "require": "./dist/prop/pseudo/runtime-only.cjs"
+        },
+        "./prop/at/server": {
+            "import": "./dist/prop/at/server.mjs",
+            "require": "./dist/prop/at/server.cjs"
+        },
+        "./prop/at/runtime-only": {
+            "import": "./dist/prop/at/runtime-only.mjs",
+            "require": "./dist/prop/at/runtime-only.cjs"
+        },
+        "./prop/child/server": {
+            "import": "./dist/prop/child/server.mjs",
+            "require": "./dist/prop/child/server.cjs"
+        },
+        "./prop/child/runtime-only": {
+            "import": "./dist/prop/child/runtime-only.mjs",
+            "require": "./dist/prop/child/runtime-only.cjs"
+        },
+        "./prop/css/server": {
+            "import": "./dist/prop/css/server.mjs",
+            "require": "./dist/prop/css/server.cjs"
+        },
+        "./prop/css/runtime-only": {
+            "import": "./dist/prop/css/runtime-only.mjs",
+            "require": "./dist/prop/css/runtime-only.cjs"
+        },
+        "./prop/bosswind/server": {
+            "import": "./dist/prop/bosswind/server.mjs",
+            "require": "./dist/prop/bosswind/server.cjs"
+        },
+        "./prop/bosswind/browser": {
+            "import": "./dist/prop/bosswind/browser.mjs",
+            "require": "./dist/prop/bosswind/browser.cjs"
+        },
+        "./prop/bosswind/runtime-only": {
+            "import": "./dist/prop/bosswind/runtime-only.mjs",
+            "require": "./dist/prop/bosswind/runtime-only.cjs"
+        },
+        "./strategy/inline-first/browser": {
+            "import": "./dist/strategy/inline-first/browser.mjs",
+            "require": "./dist/strategy/inline-first/browser.cjs"
+        },
+        "./strategy/inline-first/server": {
+            "import": "./dist/strategy/inline-first/server.mjs",
+            "require": "./dist/strategy/inline-first/server.cjs"
+        },
+        "./strategy/inline-first/runtime-only": {
+            "import": "./dist/strategy/inline-first/runtime-only.mjs",
+            "require": "./dist/strategy/inline-first/runtime-only.cjs"
+        },
+        "./strategy/runtime/runtime-only": {
+            "import": "./dist/strategy/runtime/runtime-only.mjs",
+            "require": "./dist/strategy/runtime/runtime-only.cjs"
+        },
+        "./strategy/classname-first/browser": {
+            "import": "./dist/strategy/classname-first/browser.mjs",
+            "require": "./dist/strategy/classname-first/browser.cjs"
+        },
+        "./strategy/classname-first/server": {
+            "import": "./dist/strategy/classname-first/server.mjs",
+            "require": "./dist/strategy/classname-first/server.cjs"
+        },
+        "./strategy/classname-only/server": {
+            "import": "./dist/strategy/classname-only/server.mjs",
+            "require": "./dist/strategy/classname-only/server.cjs"
+        },
+        "./strategy/classname-first/runtime-only": {
+            "import": "./dist/strategy/classname-first/runtime-only.mjs",
+            "require": "./dist/strategy/classname-first/runtime-only.cjs"
+        },
+        "./strategy/runtime/server": {
+            "import": "./dist/strategy/runtime/server.mjs",
+            "require": "./dist/strategy/runtime/server.cjs"
+        },
+        "./strategy/classic/runtime-only": {
+            "import": "./dist/strategy/classic/runtime-only.mjs",
+            "require": "./dist/strategy/classic/runtime-only.cjs"
+        },
+        "./compile/runtime": {
+            "import": "./dist/compile/runtime.mjs",
+            "require": "./dist/compile/runtime.cjs"
+        },
+        "./merge": {
+            "import": "./dist/merge/index.mjs",
+            "require": "./dist/merge/index.cjs"
+        },
+        "./cx": {
+            "import": "./dist/cx/index.mjs",
+            "require": "./dist/cx/index.cjs"
+        },
+        "./variants": {
+            "import": "./dist/cx/index.mjs",
+            "require": "./dist/cx/index.cjs"
+        },
+        "./detect-fw": {
+            "import": "./dist/detect-fw/index.mjs",
+            "require": "./dist/detect-fw/index.cjs"
+        },
+        "./use/token/server": {
+            "import": "./dist/use/token/server.mjs",
+            "require": "./dist/use/token/server.cjs"
+        },
+        "./use/token/browser": {
+            "import": "./dist/use/token/browser.mjs",
+            "require": "./dist/use/token/browser.cjs"
+        },
+        "./use/token/runtime-only": {
+            "import": "./dist/use/token/runtime-only.mjs",
+            "require": "./dist/use/token/runtime-only.cjs"
+        },
+        "./reset/server": {
+            "import": "./dist/reset/server.mjs",
+            "require": "./dist/reset/server.cjs"
+        },
+        "./reset.css": "./src/reset/reset.css",
+        "./prop/css/csstype.json": "./src/prop/css/csstype.json",
+        "./fontsource/server": {
+            "import": "./dist/fontsource/server.mjs",
+            "require": "./dist/fontsource/server.cjs"
+        },
+        "./dev/server": {
+            "import": "./dist/dev/server.mjs",
+            "require": "./dist/dev/server.cjs"
+        },
+        "./dev/client": {
+            "import": "./dist/dev/client.mjs",
+            "require": "./dist/dev/client.cjs"
+        },
+        "./dev/runtime": {
+            "import": "./dist/dev/runtime.mjs",
+            "require": "./dist/dev/runtime.cjs"
+        },
+        "./devtools-app": {
+            "import": "./dist/devtools-app/index.mjs"
+        },
+        "./dev/plugin/server": {
+            "import": "./dist/dev/plugin/server.mjs",
+            "require": "./dist/dev/plugin/server.cjs"
+        },
+        "./dev/plugin/browser": {
+            "import": "./dist/dev/plugin/browser.mjs",
+            "require": "./dist/dev/plugin/browser.cjs"
+        },
+        "./ai/server": {
+            "import": "./dist/ai/server.mjs",
+            "require": "./dist/ai/server.cjs"
+        },
+        "./ai/skills": {
+            "import": "./dist/ai/skills.mjs",
+            "require": "./dist/ai/skills.cjs"
+        }
+    },
+    "typesVersions": {
+        "*": {
+            "api/config": [
+                "src/api/config.d.ts"
+            ],
+            "fontsource/types": [
+                "src/fontsource/types.d.ts"
+            ]
+        }
+    },
+    "scripts": {
+        "fontsource:sync": "node src/fontsource/fetch-directory.js",
+        "test": "vitest",
+        "build:core": "tsdown -c tsdown.config.mjs",
+        "build": "npm run build:core && npm run build:devtools-app",
+        "setup:devtools-app": "npm --prefix src/packages/devtools-app ci",
+        "build:devtools-app": "npm --prefix src/packages/devtools-app run build",
+        "build:watch": "tsdown -c tsdown.config.mjs --watch",
+        "dev": "npm run build:watch",
+        "generate-playground-registry": "node scripts/generate-playground-registry.mjs",
+        "prepublishOnly": "npm run setup:devtools-app && npm run build && npm pack --dry-run"
+    },
+    "author": "wintercounter",
+    "license": "MIT",
+    "devDependencies": {
+        "@builder.io/qwik": "^1.18.0",
+        "@stencil/core": "^4.41.2",
+        "@types/jsdom": "^27.0.0",
+        "@types/node": "^25.0.9",
+        "@types/react": "^19.2.8",
+        "postcss": "^8.5.6",
+        "preact": "^10.28.2",
+        "prettier": "^3.8.0",
+        "solid-js": "^1.9.10",
+        "tsdown": "^0.20.0-beta.3",
+        "typescript": "^5.9.3",
+        "vite": "^7.3.1",
+        "vite-tsconfig-paths": "^6.0.4",
+        "vitest": "^4.0.17"
+    },
+    "dependencies": {
+        "@boss-css/document-create-element": "1.0.0",
+        "@boss-css/is-css-prop": "1.0.0",
+        "@clack/prompts": "^0.11.0",
+        "@emotion/hash": "^0.9.2",
+        "@parcel/watcher": "^2.5.4",
+        "@swc/core": "^1.15.8",
+        "@webref/css": "^8.2.0",
+        "@webref/elements": "^2.6.0",
+        "@webref/events": "^1.20.0",
+        "css-variants": "^2.3.4",
+        "css.escape": "^1.5.1",
+        "csstype": "^3.2.3",
+        "debug": "^4.4.3",
+        "deepmerge": "^4.3.1",
+        "fast-glob": "^3.3.3",
+        "jsdom": "^27.4.0",
+        "lightningcss": "^1.30.2",
+        "pluvo": "^0.1.1",
+        "source-map-js": "^1.2.1",
+        "ts-deepmerge": "^7.0.3",
+        "ws": "^8.19.0",
+        "yargs": "^18.0.0"
+    },
+    "peerDependencies": {
+        "react": "^19.2.3",
+        "react-dom": "^19.2.3",
+        "react-native": ">=0.83.1"
+    }
+}

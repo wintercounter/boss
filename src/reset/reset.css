@@ -1,0 +1,259 @@
+/*!
+  Modern CSS Reset (2026-ish)
+  ---------------------------------
+  Goals:
+  - Start from a predictable baseline across evergreen browsers (Chrome/Edge, Firefox, Safari).
+  - Keep specificity LOW so your app styles win easily (via :where()).
+  - Make the reset easy to override and easy to delete pieces from.
+  - Prefer modern standards + progressive enhancement over legacy browser hacks.
+*/
+
+/* -----------------------------------------------------------------------------
+   RESET LAYER
+   -----------------------------------------------------------------------------
+   Everything in here should be “baseline” behavior, not brand design.
+*/
+@layer reset {
+    /* 1) Box sizing
+       ----------------------------------------------------------------------------
+       Border-box makes sizing math intuitive: padding + border stay *inside* width/height.
+       Apply to pseudo-elements too so decorative ::before/::after behaves predictably.
+    */
+    :where(*, *::before, *::after) {
+        box-sizing: border-box;
+    }
+
+    /* 2) Prevent font size inflation on mobile
+       ----------------------------------------------------------------------------
+       Some mobile browsers (notably iOS Safari) can auto-inflate text sizes (e.g. on rotation),
+       which can unexpectedly change layout and typography.
+       Using 100% is a safe way to effectively disable inflation while keeping behavior consistent.
+    */
+    :where(html) {
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    /* 3) More readable tab size (opinionated, but very common)
+       ----------------------------------------------------------------------------
+       Browsers often default tab-size to 8, which can make code blocks harder to read.
+       This does *not* affect spaces, only tab characters.
+    */
+    :where(html) {
+        -moz-tab-size: 4;
+        tab-size: 4;
+    }
+
+    /* 4) Remove default margins
+       ----------------------------------------------------------------------------
+       Default margins are “document styling” decisions made by the browser.
+       Most apps/components want explicit control over spacing.
+       Exception: <dialog> uses margin:auto for centering, so we keep that default.
+    */
+    :where(*:not(dialog)) {
+        margin: 0;
+    }
+
+    /* 5) Core body defaults (accessible baseline)
+       ----------------------------------------------------------------------------
+       - min-height: 100vh is handy for full-height layouts/backgrounds.
+       - line-height: 1 avoids general spacing issues and give the control to user to adjust where necessary.
+    */
+    :where(body) {
+        min-height: 100vh;
+        line-height: 1;
+    }
+
+    /* 6) Media elements: make them easier to work with
+       ----------------------------------------------------------------------------
+       - display:block removes the “inline element baseline gap” you see with images/videos.
+       - max-inline-size:100% makes media responsive by default.
+       - block-size:auto preserves aspect ratio when width changes.
+       Using logical properties keeps things friendly for different writing modes.
+    */
+    :where(img, picture, video, canvas, svg) {
+        display: block;
+        max-inline-size: 100%;
+        block-size: auto;
+    }
+
+    /* 7) Form controls: inherit typography
+       ----------------------------------------------------------------------------
+       Browsers often give inputs/buttons their own font styling.
+       Inheriting makes UI consistent without repeating font rules everywhere.
+       `font: inherit` includes font-family, font-size, font-weight, line-height, etc.
+    */
+    :where(input, button, textarea, select) {
+        font: inherit;
+        color: inherit; /* Keeps form text aligned with surrounding text color */
+        letter-spacing: inherit; /* Not included in `font`, but often desirable to inherit */
+    }
+
+    /* 8) Tables: predictable borders/spacing
+       ----------------------------------------------------------------------------
+       `border-collapse: collapse` is the most common baseline for table layouts.
+       If you prefer separated borders, remove this rule.
+    */
+    :where(table) {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    /* 9) Avoid text overflow (long words / URLs)
+       ----------------------------------------------------------------------------
+       Without this, a single long token can blow up layouts by forcing horizontal scrolling.
+       `overflow-wrap: break-word` allows the browser to hard-wrap when needed.
+    */
+    :where(p, h1, h2, h3, h4, h5, h6) {
+        overflow-wrap: break-word;
+    }
+
+    /* 10) Modern text wrapping (progressive enhancement)
+       ----------------------------------------------------------------------------
+       `text-wrap` can improve rag/line breaks:
+       - pretty: nicer paragraph wrapping (more expensive)
+       - balance: balances headings across lines
+       Browsers that don’t support it will just ignore it.
+    */
+    @supports (text-wrap: balance) {
+        :where(p) {
+            text-wrap: pretty;
+        }
+        :where(h1, h2, h3, h4, h5, h6) {
+            text-wrap: balance;
+        }
+    }
+
+    /* 11) Root stacking context
+       ----------------------------------------------------------------------------
+       Creating an isolated stacking context helps avoid “z-index wars”
+       when using portal/root elements (React, Next.js, etc.).
+    */
+    :where(#root, #__next) {
+        isolation: isolate;
+    }
+
+    /* 12) Lists: remove bullets only when explicitly intended
+       ----------------------------------------------------------------------------
+       Removing list-style globally is a footgun because content lists should keep markers.
+       Using role="list" is an explicit signal: “this list is for layout/nav, not content”.
+       Also: this avoids some assistive-tech quirks that can happen when list styles are removed.
+    */
+    :where(ul[role='list'], ol[role='list']) {
+        list-style: none;
+        padding: 0; /* Otherwise you get indented-but-bulletless lists */
+    }
+
+    /* 13) Textareas: avoid tiny default height
+       ----------------------------------------------------------------------------
+       If a <textarea> has no rows attribute, it can be comically small.
+       This gives a reasonable default while still allowing authors to override.
+    */
+    :where(textarea:not([rows])) {
+        min-block-size: 10em;
+    }
+
+    /* 14) Anchor targets: don’t slam to the very top
+       ----------------------------------------------------------------------------
+       When jumping to #hash anchors, adding scroll-margin gives breathing room.
+       Especially useful if you have a sticky header (adjust value accordingly).
+    */
+    :where(:target) {
+        scroll-margin-block: 5ex;
+    }
+
+    /* 15) Reduced motion “safety net”
+       ----------------------------------------------------------------------------
+       If the user requests reduced motion:
+       - turn off smooth scrolling
+       - effectively disable animations/transitions
+       The !important is intentional: this should override later component styles.
+    */
+    @media (prefers-reduced-motion: reduce) {
+        :where(html:focus-within) {
+            scroll-behavior: auto;
+        }
+
+        :where(*, *::before, *::after) {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+
+    /* 16) Enable keyword size transitions (VERY modern, progressive enhancement)
+       ----------------------------------------------------------------------------
+       This opt-in lets CSS transitions animate between:
+         height/width: 0  <->  auto/fit-content/etc.
+       Historically you needed JS measurement for this.
+       It’s opt-in for backwards compatibility: enabling it can cause previously “impossible”
+       size transitions to start animating (sometimes unexpectedly).
+       Limiting it to users who allow motion is a good default.
+    */
+    @media (prefers-reduced-motion: no-preference) {
+        @supports (interpolate-size: allow-keywords) {
+            :where(html) {
+                interpolate-size: allow-keywords;
+            }
+        }
+    }
+
+    /* Links: nicer underlines for unclassed links
+       text-decoration-skip-ink avoids underlines crossing descenders.
+    */
+    :where(a:not([class])) {
+        text-decoration-skip-ink: auto;
+    }
+
+    /* Smooth scrolling (only when focused via keyboard, and overridden by reduced motion)
+       Some teams like this. Others prefer to avoid it globally.
+    */
+    :where(html:focus-within) {
+        scroll-behavior: smooth;
+    }
+
+    /* Reserve scrollbar space to prevent layout shifts
+       When content starts overflowing, scrollbars can appear and shift layout.
+       scrollbar-gutter: stable reserves space to prevent that (supported in modern browsers).
+    */
+    @supports (scrollbar-gutter: stable) {
+        :where(html) {
+            scrollbar-gutter: stable;
+        }
+    }
+
+    /* Dark mode defaults via UA styling
+       color-scheme tells the browser you support light/dark, affecting:
+       - form controls
+       - scrollbars
+       - canvas default colors
+       For best results, also add in HTML:
+         <meta name="color-scheme" content="light dark">
+    */
+    :where(html) {
+        color-scheme: light dark;
+    }
+
+    /* iOS tap highlight
+       Removes the gray flash on tapped elements in iOS Safari.
+    */
+    :where(html) {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Force the hidden attribute to always hide
+       Useful if a component library accidentally applies display styles to [hidden].
+    */
+    :where([hidden]) {
+        display: none !important;
+    }
+
+    /* Font smoothing (macOS only, controversial)
+       Some prefer antialiased rendering; others dislike the reduced contrast.
+    */
+    :where(body) {
+        -webkit-font-smoothing: antialiased;
+    }
+}

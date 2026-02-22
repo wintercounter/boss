@@ -1,0 +1,36 @@
+{
+  "label": "Boss CSS - AI",
+  "description": "Basic runtime template with AI metadata enabled",
+  "openFile": "src/App.tsx",
+  "init": {
+    "command": "pnpm",
+    "args": [
+      "exec",
+      "boss-css",
+      "init",
+      "-y",
+      "--src-root",
+      "src",
+      "--config-dir",
+      "src/.bo$$",
+      "--strategy",
+      "inline-first",
+      "--plugins",
+      "fontsource,reset,token,at,child,css,pseudo,classname,jsx,ai",
+      "--globals",
+      "true",
+      "--eslint-plugin",
+      "false",
+      "--postcss",
+      "auto"
+    ]
+  },
+  "dev": {
+    "command": "pnpm",
+    "args": ["run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+  },
+  "install": {
+    "command": "pnpm",
+    "args": ["install", "--reporter=append-only"]
+  }
+}

@@ -1,0 +1,73 @@
+# Website
+
+This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+
+## Design tokens
+
+The site theme uses a Dracula-inspired palette defined in `src/css/custom.css`. Update the CSS variables there to
+adjust brand colors, glass effects, and dark/light mode behavior. The background gradients are fixed to the viewport
+for a stable scroll experience, and section overlays are kept translucent to let the global backdrop show through.
+Layout defaults keep `html`/`body` height auto with a 100% min-height for reliable scrolling.
+Homepage sections use subtle divider gradients driven by `--boss-divider` to visually separate content blocks.
+The homepage mirrors the v0 Next.js layout using Tailwind utility classes only (no CSS modules): gradient hero with
+heart-shaped floating code showcases (hovercard-enabled and hidden on smaller screens), an expanded feature
+constellation grid with mixed card sizes, and the strategy matrix section.
+Homepage section order is `HeroSection -> HomepageFeatures -> StrategyMatrix` in `src/pages/index.js`.
+The feature grid ordering alternates `big small small` then `small small big`; keep the array order aligned and avoid manual grid placement classes. Big cards use `size: 'xl'` or `size: 'large'` (col-span-2). Icons are unique per card.
+Hero floating snippets are stored with literal line breaks in `src/pages/index.js` to keep the examples easy to edit.
+The homepage uses a lightweight scroll listener to auto-jump from the hero to the feature grid on first scroll and re-arm when the user returns to the top.
+Prism highlighting is configured in `docusaurus.config.js` with PHP enabled via `additionalLanguages` and a `clientModules` import in `src/prism-languages.js`.
+The hero title uses an SVG text mask with the `boss-text-bg-high.mp4` video to clip the video into the headline.
+A fixed, subtle glow backdrop is applied site-wide using layered radial gradients in `src/css/custom.css`.
+The navbar and footer are swizzled to match the v0 layout and include a version stamp pulled from `package.json`.
+The favicon is generated from the project logo at `website/static/img/favicon.webp`.
+
+## Temporarily disabled routes
+
+Blog and changelog routes are currently disabled on purpose:
+- Blog is set to `blog: false` in `website/docusaurus.config.js`.
+- Changelog plugin config is commented out in `website/docusaurus.config.js`.
+- Blog/changelog navbar and footer links are commented out in `website/docusaurus.config.js`.
+- Swizzled navbar/footer links are also commented out in:
+  - `website/src/theme/Navbar/index.js`
+  - `website/src/theme/Footer/index.js`
+
+To re-enable later, uncomment those blocks and restore the links in the same file.
+
+## Installation
+
+```bash
+yarn
+```
+
+## Local Development
+
+```bash
+yarn start
+```
+
+This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+
+## Build
+
+```bash
+yarn build
+```
+
+This command generates static content into the `build` directory and can be served using any static contents hosting service.
+
+## Deployment
+
+Using SSH:
+
+```bash
+USE_SSH=true yarn deploy
+```
+
+Not using SSH:
+
+```bash
+GIT_USER=<Your GitHub username> yarn deploy
+```
+
+If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.

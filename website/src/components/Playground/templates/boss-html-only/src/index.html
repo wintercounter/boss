@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boss CSS HTML Only</title>
+    <link rel="stylesheet" href="/.bo$$/styles.css" data-boss-css />
+  </head>
+  <body class="min-height:100vh padding:32 background:hero font-family:brand color:ink.100 display:flex flex-direction:column gap:24">
+    <header class="display:flex flex-direction:column gap:12 max-width:720">
+      <span class="display:inline-flex align-items:center gap:10 font-size:12 text-transform:uppercase letter-spacing:0.2em color:ink.500">
+        HTML only
+      </span>
+      <h1 class="margin:0 font-size:36 line-height:1.1">
+        Boss CSS without Vite or a framework
+      </h1>
+      <p class="margin:0 color:ink.400 line-height:1.6">
+        This page is served by a tiny Express server. Boss parses class tokens and writes
+        CSS to <code>.bo$$/styles.css</code>.
+      </p>
+    </header>
+
+    <section class="display:grid gap:16 grid-template-columns:repeat(auto-fit,_minmax(220px,_1fr))">
+      <article class="padding:20 border-radius:xl background-color:surface.800 border:1px_solid border-color:surface.700">
+        <h2 class="margin:0 font-size:18">No build tool</h2>
+        <p class="margin:10_0_0 color:ink.400 line-height:1.5">
+          Express serves static HTML and Boss watch keeps CSS updated.
+        </p>
+      </article>
+      <article class="padding:20 border-radius:xl background-color:surface.800 border:1px_solid border-color:surface.700 hover:border-color:accent.400">
+        <h2 class="margin:0 font-size:18">Pseudo states</h2>
+        <p class="margin:10_0_0 color:ink.400 line-height:1.5">
+          Hover tokens still work in plain HTML.
+        </p>
+      </article>
+      <article class="padding:20 border-radius:xl background-color:surface.800 border:1px_solid border-color:surface.700">
+        <h2 class="margin:0 font-size:18">Responsive</h2>
+        <p class="margin:10_0_0 color:ink.400 line-height:1.5">
+          Add mobile: or at: tokens in class strings to adjust layouts.
+        </p>
+        <div class="margin-top:12 padding:10 border-radius:lg background-color:surface.900 mobile:background-color:accent.500 mobile:color:surface.900">
+          Mobile breakpoint preview
+        </div>
+      </article>
+    </section>
+    <script type="module">
+      const link = document.querySelector('link[data-boss-css]');
+      const htmlUrl = new URL(window.location.href);
+      htmlUrl.searchParams.delete('t');
+
+      const getTag = (res) =>
+        res.headers.get('etag') ||
+        res.headers.get('last-modified') ||
+        res.headers.get('content-length');
+
+      let lastCssTag = null;
+      let lastHtmlTag = null;
+
+      const check = async () => {
+        try {
+          if (link) {
+            const base = link.getAttribute('href');
+            const res = await fetch(base, { method: 'HEAD', cache: 'no-store' });
+            const tag = getTag(res);
+            if (tag && lastCssTag && tag !== lastCssTag) {
+              const separator = base.includes('?') ? '&' : '?';
+              link.href = base + separator + 't=' + Date.now();
+            }
+            if (tag) lastCssTag = tag;
+          }
+
+          const htmlRes = await fetch(htmlUrl.toString(), { method: 'HEAD', cache: 'no-store' });
+          const htmlTag = getTag(htmlRes);
+          if (htmlTag && lastHtmlTag && htmlTag !== lastHtmlTag) {
+            const next = new URL(window.location.href);
+            next.searchParams.set('t', String(Date.now()));
+            window.location.replace(next.toString());
+          }
+          if (htmlTag) lastHtmlTag = htmlTag;
+        } catch {
+          // ignore polling errors
+        }
+      };
+
+      check();
+      setInterval(check, 1000);
+    </script>
+  </body>
+</html>

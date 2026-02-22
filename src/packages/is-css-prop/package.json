@@ -1,0 +1,17 @@
+{
+    "name": "@boss-css/is-css-prop",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "main": "./index.js",
+    "module": "./index.js",
+    "browser": "./browser.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@webref/css": "^6.10.2"
+    }
+}

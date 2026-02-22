@@ -1,0 +1,6 @@
+{
+    "type": "module",
+    "browser": {
+        "@swc/core": false
+    }
+}
