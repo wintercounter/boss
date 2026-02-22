@@ -223,7 +223,7 @@ function HeroSection() {
                 <h1 className="relative font-heading text-6xl md:text-8xl font-bold leading-tight -mb-3">
                     <span className="sr-only">{siteConfig.title}</span>
                     <svg
-                        className="w-full h-[120px]"
+                        className="w-full h-[80px] md:h-[120px]"
                         viewBox="0 0 1200 220"
                         role="img"
                         aria-label={siteConfig.title}
@@ -276,10 +276,10 @@ function HeroSection() {
                         </span>
                     </span>
                 </h1>
-                <p className="text-2xl md:text-3xl text-foreground/90 mb-4 font-light tracking-wide">
+                <p className="text-1xl md:text-3xl text-foreground/90 mb-4 font-light tracking-wide">
                     Polymorphic CSS-in-JS that adjusts to your needs.
                 </p>
-                <p className="text-lg md:text-xl text-foreground/60 mb-12 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-md md:text-xl text-foreground/60 mb-12 max-w-3xl mx-auto leading-relaxed">
                     Generate only what you use. Runtime or Zero-runtime output, classNames or style props, it's up to
                     you, you're the{' '}
                     <Highlighter action="underline" color="#e60076" strokeWidth={4}>

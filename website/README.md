@@ -71,3 +71,11 @@ GIT_USER=<Your GitHub username> yarn deploy
 ```
 
 If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+
+### Netlify headers for playground
+
+The playground requires cross-origin isolation in production. Netlify headers are configured in `website/netlify.toml`
+for `/playground` and `/playground/*`:
+- `Cross-Origin-Opener-Policy: same-origin`
+- `Cross-Origin-Embedder-Policy: credentialless`
+- `Cross-Origin-Resource-Policy: cross-origin`
