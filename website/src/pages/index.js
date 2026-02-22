@@ -277,11 +277,11 @@ function HeroSection() {
                     </span>
                 </h1>
                 <p className="text-2xl md:text-3xl text-foreground/90 mb-4 font-light tracking-wide">
-                    Polymorphic CSS-in-JS. One global API. Infinite input and output strategies.
+                    Polymorphic CSS-in-JS that adjusts to your needs.
                 </p>
                 <p className="text-lg md:text-xl text-foreground/60 mb-12 max-w-3xl mx-auto leading-relaxed">
-                    Shape-shifting CSS library that generates only what you use. Runtime or Zero-runtime output,
-                    classNames or style props, it's up to you, you're the{' '}
+                    Generate only what you use. Runtime or Zero-runtime output, classNames or style props, it's up to
+                    you, you're the{' '}
                     <Highlighter action="underline" color="#e60076" strokeWidth={4}>
                         Bo$$
                     </Highlighter>
