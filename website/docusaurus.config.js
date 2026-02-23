@@ -5,11 +5,83 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import path from 'path'
+import fs from 'fs'
 import { createRequire } from 'module'
 import { themes as prismThemes } from 'prism-react-renderer'
 
 const require = createRequire(import.meta.url)
 const rootPackage = require('../package.json')
+
+function parseEnvFile(filePath) {
+    if (!fs.existsSync(filePath)) return {}
+    const parsed = {}
+    const lines = fs.readFileSync(filePath, 'utf8').split(/\r?\n/)
+
+    for (const rawLine of lines) {
+        const line = rawLine.trim()
+        if (!line || line.startsWith('#')) continue
+
+        const normalizedLine = line.startsWith('export ') ? line.slice(7).trim() : line
+        const separatorIndex = normalizedLine.indexOf('=')
+        if (separatorIndex === -1) continue
+
+        const key = normalizedLine.slice(0, separatorIndex).trim()
+        if (!key) continue
+
+        let value = normalizedLine.slice(separatorIndex + 1).trim()
+        if (
+            (value.startsWith('"') && value.endsWith('"')) ||
+            (value.startsWith("'") && value.endsWith("'"))
+        ) {
+            value = value.slice(1, -1)
+        }
+        parsed[key] = value
+    }
+
+    return parsed
+}
+
+const fileEnv = Object.assign(
+    {},
+    parseEnvFile(path.resolve(__dirname, '../.env')),
+    parseEnvFile(path.resolve(__dirname, '../.env.local')),
+    parseEnvFile(path.resolve(__dirname, '.env')),
+    parseEnvFile(path.resolve(__dirname, '.env.local')),
+)
+
+const readEnv = name => process.env[name]?.trim() || fileEnv[name]?.trim() || ''
+
+const gtagTrackingID = readEnv('DOCUSAURUS_GTAG_TRACKING_ID') || readEnv('DOCUSAURUS_GTAG_ID')
+
+const algoliaAppId = readEnv('DOCUSAURUS_ALGOLIA_APP_ID')
+const algoliaApiKey = readEnv('DOCUSAURUS_ALGOLIA_API_KEY')
+const algoliaIndexName = readEnv('DOCUSAURUS_ALGOLIA_INDEX_NAME')
+const algoliaEnv = [
+    ['DOCUSAURUS_ALGOLIA_APP_ID', algoliaAppId],
+    ['DOCUSAURUS_ALGOLIA_API_KEY', algoliaApiKey],
+    ['DOCUSAURUS_ALGOLIA_INDEX_NAME', algoliaIndexName],
+]
+const hasAnyAlgoliaEnv = algoliaEnv.some(([, value]) => value)
+const hasAllAlgoliaEnv = algoliaEnv.every(([, value]) => value)
+
+if (hasAnyAlgoliaEnv && !hasAllAlgoliaEnv) {
+    const missing = algoliaEnv
+        .filter(([, value]) => !value)
+        .map(([name]) => name)
+        .join(', ')
+    throw new Error(
+        `Partial Algolia config detected. Set all required vars or none: DOCUSAURUS_ALGOLIA_APP_ID, DOCUSAURUS_ALGOLIA_API_KEY, DOCUSAURUS_ALGOLIA_INDEX_NAME. Missing: ${missing}.`,
+    )
+}
+
+const algoliaConfig = hasAllAlgoliaEnv
+    ? {
+          appId: algoliaAppId,
+          apiKey: algoliaApiKey,
+          indexName: algoliaIndexName,
+          contextualSearch: true,
+      }
+    : undefined
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -63,6 +135,14 @@ const config = {
                 theme: {
                     customCss: './src/css/custom.css',
                 },
+                ...(gtagTrackingID
+                    ? {
+                          gtag: {
+                              trackingID: gtagTrackingID,
+                              anonymizeIP: true,
+                          },
+                      }
+                    : {}),
             }),
         ],
     ],
@@ -225,6 +305,11 @@ const config = {
                 darkTheme: prismThemes.dracula,
                 additionalLanguages: ['php'],
             },
+            ...(algoliaConfig
+                ? {
+                      algolia: algoliaConfig,
+                  }
+                : {}),
             metadata: [{ name: 'keywords', content: 'css-in-js, design-system, css, boss-css, plugins' }],
         }),
     stylesheets: [
@@ -233,7 +318,7 @@ const config = {
             type: 'text/css',
         },
     ],
-    clientModules: [require.resolve('./src/prism-languages')],
+    clientModules: [require.resolve('./src/gtag-shim'), require.resolve('./src/prism-languages')],
 }
 
 export default config

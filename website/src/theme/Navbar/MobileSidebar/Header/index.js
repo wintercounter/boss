@@ -3,6 +3,7 @@ import Link from '@docusaurus/Link'
 import { translate } from '@docusaurus/Translate'
 import { useNavbarMobileSidebar } from '@docusaurus/theme-common/internal'
 import IconClose from '@theme/Icon/Close'
+import SearchBar from '@theme/SearchBar'
 import MorphingLogo from '@site/src/components/MorphingLogo'
 
 function CloseButton() {
@@ -25,11 +26,16 @@ function CloseButton() {
 
 export default function NavbarMobileSidebarHeader() {
     return (
-        <div className="navbar-sidebar__brand boss-navbar-sidebar__brand">
-            <Link to="/" className="boss-navbar-sidebar__logo-link" aria-label="Boss CSS home">
-                <MorphingLogo className="block" />
-            </Link>
-            <CloseButton />
-        </div>
+        <>
+            <div className="navbar-sidebar__brand boss-navbar-sidebar__brand">
+                <Link to="/" className="boss-navbar-sidebar__logo-link" aria-label="Boss CSS home">
+                    <MorphingLogo className="block" />
+                </Link>
+                <CloseButton />
+            </div>
+            <div className="boss-navbar-sidebar__search">
+                <SearchBar />
+            </div>
+        </>
     )
 }

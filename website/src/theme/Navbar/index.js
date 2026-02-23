@@ -4,6 +4,7 @@ import Link from '@docusaurus/Link'
 import { useLocation } from '@docusaurus/router'
 import { useNavbarMobileSidebar } from '@docusaurus/theme-common/internal'
 import NavbarMobileSidebar from '@theme/Navbar/MobileSidebar'
+import SearchBar from '@theme/SearchBar'
 import { Button } from '@site/src/components/ui/button'
 import { Github, Menu, X } from 'lucide-react'
 import MorphingLogo from '@site/src/components/MorphingLogo'
@@ -53,6 +54,9 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-3 md:gap-4">
+                    <div className="boss-navbar-desktop-search">
+                        <SearchBar />
+                    </div>
                     <div className="boss-navbar-desktop-actions items-center gap-4">
                         <Button asChild variant="ghost" size="sm" className="text-foreground/60 hover:text-foreground">
                             <Link href="https://github.com/wintercounter/boss" target="_blank" rel="noreferrer">

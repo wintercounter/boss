@@ -248,7 +248,8 @@ body::after {
 }
 
 .boss-navbar-desktop-links,
-.boss-navbar-desktop-actions {
+.boss-navbar-desktop-actions,
+.boss-navbar-desktop-search {
     display: none;
 }
 
@@ -258,7 +259,8 @@ body::after {
 
 @media (min-width: 997px) {
     .boss-navbar-desktop-links,
-    .boss-navbar-desktop-actions {
+    .boss-navbar-desktop-actions,
+    .boss-navbar-desktop-search {
         display: flex;
     }
 
@@ -339,6 +341,17 @@ body::after {
     .navbar.navbar--custom .boss-navbar-sidebar__brand .navbar__logo,
     .navbar.navbar--custom .boss-navbar-sidebar__brand .navbar__title {
         display: none;
+    }
+
+    .navbar.navbar--custom .boss-navbar-sidebar__search {
+        padding: 0;
+        border-bottom: 1px solid var(--boss-divider);
+    }
+
+    .navbar.navbar--custom .boss-navbar-sidebar__search .DocSearch-Button {
+        width: 100%;
+        margin: 0;
+        border: 0;
     }
 
     .navbar.navbar--custom .navbar-sidebar__close {

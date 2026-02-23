@@ -22,6 +22,30 @@ A fixed, subtle glow backdrop is applied site-wide using layered radial gradient
 The navbar and footer are swizzled to match the v0 layout and include a version stamp pulled from `package.json`.
 The favicon is generated from the project logo at `website/static/img/favicon.webp`.
 
+## Search and analytics setup
+
+The docs site can enable Algolia DocSearch and Google Analytics (GA4) through environment variables.
+
+Create `website/.env` (or `/.env` at repo root, or set equivalent env vars in Netlify/Vercel):
+
+```bash
+# Algolia DocSearch (all 3 required together)
+DOCUSAURUS_ALGOLIA_APP_ID=
+DOCUSAURUS_ALGOLIA_API_KEY=
+DOCUSAURUS_ALGOLIA_INDEX_NAME=
+
+# Google Analytics 4 (either name works)
+DOCUSAURUS_GTAG_TRACKING_ID=
+# DOCUSAURUS_GTAG_ID=
+```
+
+Notes:
+- Algolia is enabled only when all 3 Algolia variables are set.
+- If only some Algolia variables are set, the build will fail with a clear error.
+- Google Analytics is enabled when `DOCUSAURUS_GTAG_TRACKING_ID` (or `DOCUSAURUS_GTAG_ID`) is set.
+- A small client shim (`src/gtag-shim.js`) keeps `window.gtag` defined to avoid route-change errors when analytics scripts are blocked.
+- The docs search UI is rendered by swizzled components in `src/theme/Navbar/index.js`, `src/theme/Navbar/MobileSidebar/Header/index.js`, and `src/theme/SearchBar/index.js`.
+
 ## Temporarily disabled routes
 
 Blog and changelog routes are currently disabled on purpose:
