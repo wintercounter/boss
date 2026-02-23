@@ -47,6 +47,7 @@ Notes:
 - The docs search UI is rendered by swizzled components in `src/theme/Navbar/index.js`, `src/theme/Navbar/MobileSidebar/Header/index.js`, and `src/theme/SearchBar/index.js`.
 - `src/theme/SearchTranslations/index.js` is provided as a local fallback so swizzled search builds cleanly in CI environments where the Algolia theme alias chain is unavailable.
 - Search button/icon contrast is intentionally bound to `--foreground` in `src/theme/SearchBar/styles.css` so desktop placeholder text remains visible in dark mode production builds.
+- Algolia site verification is emitted as a head meta tag from `docusaurus.config.js` with name `algolia-site-verification`.
 
 ## Temporarily disabled routes
 

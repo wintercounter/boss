@@ -310,7 +310,10 @@ const config = {
                       algolia: algoliaConfig,
                   }
                 : {}),
-            metadata: [{ name: 'keywords', content: 'css-in-js, design-system, css, boss-css, plugins' }],
+            metadata: [
+                { name: 'keywords', content: 'css-in-js, design-system, css, boss-css, plugins' },
+                { name: 'algolia-site-verification', content: 'B21CE20923C2434A' },
+            ],
         }),
     stylesheets: [
         {
