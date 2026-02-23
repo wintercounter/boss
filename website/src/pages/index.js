@@ -306,7 +306,7 @@ function HeroSection() {
                         variant="outline"
                         className="border-2 border-white/60 bg-black/45 text-white hover:text-white hover:bg-black/65 hover:border-white/85 px-8 py-6 text-lg font-semibold shadow-[0_12px_35px_rgba(0,0,0,0.35)] backdrop-blur-[1px]"
                     >
-                        <Link href="/playground">Launch Playground</Link>
+                        <a href="/playground">Launch Playground</a>
                     </Button>
                 </div>
             </div>

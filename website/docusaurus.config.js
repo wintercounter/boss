@@ -216,7 +216,7 @@ const config = {
                         position: 'left',
                         label: 'Docs',
                     },
-                    { href: '/playground', label: 'Playground', position: 'left' },
+                    { to: 'pathname:///playground', label: 'Playground', position: 'left' },
                     // { to: '/blog', label: 'Blog', position: 'left' },
                     // { to: '/changelog', label: 'Changelog', position: 'left' },
                     {
@@ -256,7 +256,7 @@ const config = {
                         items: [
                             {
                                 label: 'Playground',
-                                href: '/playground',
+                                to: 'pathname:///playground',
                             },
                             {
                                 label: 'Inline-first',
@@ -318,7 +318,11 @@ const config = {
             type: 'text/css',
         },
     ],
-    clientModules: [require.resolve('./src/gtag-shim'), require.resolve('./src/prism-languages')],
+    clientModules: [
+        require.resolve('./src/playground-hard-navigation'),
+        require.resolve('./src/gtag-shim'),
+        require.resolve('./src/prism-languages'),
+    ],
 }
 
 export default config

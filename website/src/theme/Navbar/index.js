@@ -41,15 +41,25 @@ export default function Navbar() {
                     </Link>
 
                     <div className="boss-navbar-desktop-links items-center gap-8">
-                        {navLinks.map(link => (
-                            <Link
-                                key={link.to}
-                                {...(link.hardReload ? { href: link.to } : { to: link.to })}
-                                className={`text-foreground/70 ${link.hoverClass} transition-colors font-medium`}
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
+                        {navLinks.map(link =>
+                            link.hardReload ? (
+                                <a
+                                    key={link.to}
+                                    href={link.to}
+                                    className={`text-foreground/70 ${link.hoverClass} transition-colors font-medium`}
+                                >
+                                    {link.label}
+                                </a>
+                            ) : (
+                                <Link
+                                    key={link.to}
+                                    to={link.to}
+                                    className={`text-foreground/70 ${link.hoverClass} transition-colors font-medium`}
+                                >
+                                    {link.label}
+                                </Link>
+                            ),
+                        )}
                     </div>
                 </div>
 

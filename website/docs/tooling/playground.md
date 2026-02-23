@@ -40,6 +40,6 @@ Use the `template` fragment param to link directly to a template without embeddi
 
 - Use Cmd/Ctrl + S to save the active file and trigger a rebuild (files are only written on save).
 - Shared URLs exclude generated `.bo$$/` outputs (except `.bo$$/config.js` or `src/.bo$$/config.js`) and never embed `pnpm-lock.yaml`. If `package.json` diverges from the template, the lockfile is omitted so installs re-resolve.
-- If the preview is blocked, you may need proper COOP/COEP headers in production. The local playground already runs with the right headers.
+- If the preview is blocked, you may need proper COOP/COEP headers in production. Entering `/playground` uses a hard page load so those headers are present on the document response, even when the link originates from docs/sidebar content.
 - On mobile widths (`<=900px`), the playground shows one panel at a time with icon-only tabs; desktop split-pane behavior is unchanged.
 - On the docs page (`/playground`), mobile keeps the navbar offset so panel tabs stay below the site header.

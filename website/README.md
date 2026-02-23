@@ -106,5 +106,6 @@ for `/playground` and `/playground/*`:
 - `Cross-Origin-Embedder-Policy: credentialless`
 - `Cross-Origin-Resource-Policy: cross-origin`
 
-Because COOP/COEP headers are applied on document responses, links that enter `/playground` use hard navigation (`href`)
-instead of client-side routing.
+Because COOP/COEP headers are applied on document responses, `/playground` entry uses hard navigation.
+Custom UI links use plain anchors, and `src/playground-hard-navigation.js` enforces a document navigation for any
+same-origin link targeting `/playground` (including links rendered from docs/sidebar content).

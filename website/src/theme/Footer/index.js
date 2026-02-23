@@ -75,15 +75,27 @@ export default function Footer() {
                         <ul className="space-y-3 list-none p-0 m-0">
                             {links.build.map(link => (
                                 <li key={link.label}>
-                                    <Link
-                                        {...(link.hardReload ? { href: link.to } : { to: link.to })}
-                                        className="text-foreground/60 hover:text-purple-400 transition-colors text-sm"
-                                    >
-                                        <span className="font-mono text-sm font-semibold text-purple-500/70 mr-2">
-                                            $$
-                                        </span>
-                                        {link.label}
-                                    </Link>
+                                    {link.hardReload ? (
+                                        <a
+                                            href={link.to}
+                                            className="text-foreground/60 hover:text-purple-400 transition-colors text-sm"
+                                        >
+                                            <span className="font-mono text-sm font-semibold text-purple-500/70 mr-2">
+                                                $$
+                                            </span>
+                                            {link.label}
+                                        </a>
+                                    ) : (
+                                        <Link
+                                            to={link.to}
+                                            className="text-foreground/60 hover:text-purple-400 transition-colors text-sm"
+                                        >
+                                            <span className="font-mono text-sm font-semibold text-purple-500/70 mr-2">
+                                                $$
+                                            </span>
+                                            {link.label}
+                                        </Link>
+                                    )}
                                 </li>
                             ))}
                         </ul>
