@@ -22,7 +22,7 @@ export default function Navbar() {
 
     const navLinks = [
         { to: '/docs/getting-started/quick-start', label: 'Docs', hoverClass: 'hover:text-pink-400' },
-        { to: '/playground', label: 'Playground', hoverClass: 'hover:text-purple-400' },
+        { to: '/playground', label: 'Playground', hoverClass: 'hover:text-purple-400', hardReload: true },
         // { to: '/blog', label: 'Blog', hoverClass: 'hover:text-cyan-400' },
         // { to: '/changelog', label: 'Changelog', hoverClass: 'hover:text-blue-400' },
     ]
@@ -44,7 +44,7 @@ export default function Navbar() {
                         {navLinks.map(link => (
                             <Link
                                 key={link.to}
-                                to={link.to}
+                                {...(link.hardReload ? { href: link.to } : { to: link.to })}
                                 className={`text-foreground/70 ${link.hoverClass} transition-colors font-medium`}
                             >
                                 {link.label}

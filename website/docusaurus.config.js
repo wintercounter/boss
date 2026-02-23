@@ -216,7 +216,7 @@ const config = {
                         position: 'left',
                         label: 'Docs',
                     },
-                    { to: '/playground', label: 'Playground', position: 'left' },
+                    { href: '/playground', label: 'Playground', position: 'left' },
                     // { to: '/blog', label: 'Blog', position: 'left' },
                     // { to: '/changelog', label: 'Changelog', position: 'left' },
                     {
@@ -256,7 +256,7 @@ const config = {
                         items: [
                             {
                                 label: 'Playground',
-                                to: '/playground',
+                                href: '/playground',
                             },
                             {
                                 label: 'Inline-first',

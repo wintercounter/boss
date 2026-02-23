@@ -105,3 +105,6 @@ for `/playground` and `/playground/*`:
 - `Cross-Origin-Opener-Policy: same-origin`
 - `Cross-Origin-Embedder-Policy: credentialless`
 - `Cross-Origin-Resource-Policy: cross-origin`
+
+Because COOP/COEP headers are applied on document responses, links that enter `/playground` use hard navigation (`href`)
+instead of client-side routing.

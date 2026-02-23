@@ -13,7 +13,7 @@ export default function Footer() {
             { label: 'Migration Guide', to: '/docs/recipes/bosswind-migration' },
         ],
         build: [
-            { label: 'Playground', to: '/playground' },
+            { label: 'Playground', to: '/playground', hardReload: true },
             { label: 'Runtime-only', to: '/docs/recipes/runtime-only' },
             { label: 'Server-first', to: '/docs/concepts/inline-first' },
         ],
@@ -76,7 +76,7 @@ export default function Footer() {
                             {links.build.map(link => (
                                 <li key={link.label}>
                                     <Link
-                                        to={link.to}
+                                        {...(link.hardReload ? { href: link.to } : { to: link.to })}
                                         className="text-foreground/60 hover:text-purple-400 transition-colors text-sm"
                                     >
                                         <span className="font-mono text-sm font-semibold text-purple-500/70 mr-2">
