@@ -45,6 +45,7 @@ Notes:
 - Google Analytics is enabled when `DOCUSAURUS_GTAG_TRACKING_ID` (or `DOCUSAURUS_GTAG_ID`) is set.
 - A small client shim (`src/gtag-shim.js`) keeps `window.gtag` defined to avoid route-change errors when analytics scripts are blocked.
 - The docs search UI is rendered by swizzled components in `src/theme/Navbar/index.js`, `src/theme/Navbar/MobileSidebar/Header/index.js`, and `src/theme/SearchBar/index.js`.
+- `src/theme/SearchTranslations/index.js` is provided as a local fallback so swizzled search builds cleanly in CI environments where the Algolia theme alias chain is unavailable.
 
 ## Temporarily disabled routes
 
