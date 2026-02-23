@@ -46,6 +46,7 @@ Notes:
 - A small client shim (`src/gtag-shim.js`) keeps `window.gtag` defined to avoid route-change errors when analytics scripts are blocked.
 - The docs search UI is rendered by swizzled components in `src/theme/Navbar/index.js`, `src/theme/Navbar/MobileSidebar/Header/index.js`, and `src/theme/SearchBar/index.js`.
 - `src/theme/SearchTranslations/index.js` is provided as a local fallback so swizzled search builds cleanly in CI environments where the Algolia theme alias chain is unavailable.
+- Search button/icon contrast is intentionally bound to `--foreground` in `src/theme/SearchBar/styles.css` so desktop placeholder text remains visible in dark mode production builds.
 
 ## Temporarily disabled routes
 
