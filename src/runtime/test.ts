@@ -132,6 +132,51 @@ describe('runtime', () => {
             })
         })
 
+        test('custom as component is rendered and receives non-css props', async ({ $ }) => {
+            await $.createBrowserApi({
+                runtimeApi: {
+                    createElement: (Component: any, props: any, children: any) => ({ Component, props, children }),
+                },
+                plugins: [...$.essentialsBrowser, $.strategy.inlineFirstBrowser],
+            })
+
+            const Link = () => null
+            const result = $$({
+                as: Link,
+                to: '/docs',
+                'data-track': 'nav',
+                color: 'red',
+            })
+
+            expect(result.Component).toBe(Link)
+            expect(result.props).toStrictEqual({
+                to: '/docs',
+                'data-track': 'nav',
+                style: { color: 'red' },
+            })
+        })
+
+        test('non-css props are forwarded on default tag', async ({ $ }) => {
+            await $.createBrowserApi({
+                runtimeApi: {
+                    createElement: (Component: any, props: any, children: any) => ({ Component, props, children }),
+                },
+                plugins: [...$.essentialsBrowser, $.strategy.inlineFirstBrowser],
+            })
+
+            const result = $$({
+                to: '/docs',
+                'data-track': 'hero',
+                color: 'red',
+            })
+
+            expect(result.props).toStrictEqual({
+                to: '/docs',
+                'data-track': 'hero',
+                style: { color: 'red' },
+            })
+        })
+
         test('void elements do not receive children', async ({ $ }) => {
             await $.createBrowserApi({
                 runtimeApi: {

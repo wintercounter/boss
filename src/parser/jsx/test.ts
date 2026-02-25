@@ -130,10 +130,13 @@ $$.tokenVars = tokenVars_1w3f7mg`)
             const source = `import './bo$$'
 
 const Custom = (props: { id: string }) => null
+const Link = (props: { to: string; replace?: boolean }) => null
 
 $$.$({ as: 'a', href: 'https://example.com' })
 $$.$({ display: 'flex' })
 $$.$({ as: Custom, id: 'ok' })
+$$.$({ as: Link, to: '/docs' })
+$$.$({ as: Link, to: '/docs', replace: true })
 $$.a({ href: 'https://example.com' })
 
 // @ts-expect-error href requires as="a"
@@ -145,10 +148,15 @@ $$.$({ foo: 'bar' })
 // @ts-expect-error missing required prop
 $$.$({ as: Custom })
 
+// @ts-expect-error missing required prop
+$$.$({ as: Link })
+
 // @ts-expect-error wrong handler type
 $$.$({ onClick: 'nope' })
 
 const good = <$$ as="a" href="https://example.com" />
+const goodLink = <$$ as={Link} to="/docs" />
+const goodLinkReplace = <$$ as={Link} to="/docs" replace />
 
 // @ts-expect-error href invalid on div
 const badHref = <$$ href="https://example.com" />
@@ -156,8 +164,14 @@ const badHref = <$$ href="https://example.com" />
 // @ts-expect-error unknown prop
 const badFoo = <$$ foo="bar" />
 
+// @ts-expect-error to requires as={Link}
+const badTo = <$$ to="/docs" />
+
 // @ts-expect-error missing required prop
 const badCustom = <$$ as={Custom} />
+
+// @ts-expect-error missing required prop
+const badLink = <$$ as={Link} />
 `
 
             const { diagnostics, formattedDiagnostics } = await $.typeTest({

@@ -39,6 +39,14 @@ const Card = ({ className, style, ...props }) => (
 <$$ as={Card} padding={16} borderRadius={12} />
 ```
 
+Non-CSS props are forwarded, so router props work with `as` components:
+
+```tsx
+<$$ as={Link} to="/docs" padding={12}>
+  Docs
+</$$>
+```
+
 ## Framework notes
 
 Boss will use `className` or `class` based on framework detection (React/Next/Preact vs Solid/Qwik/Stencil).

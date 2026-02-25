@@ -25,6 +25,8 @@ Qwik note: refs must be Signals. Pass `ref` as a prop (for example `ref={mySigna
 
 `$$.a`, `$$.img`, and other DOM tags are all supported through the proxy.
 
+Non-CSS props (for example `to`, `data-*`, `aria-*`) are forwarded to the rendered element/component.
+
 ## Polymorphic `as`
 
 ```tsx

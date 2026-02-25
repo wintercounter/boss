@@ -43,14 +43,19 @@ export const onBrowserObjectStart: Plugin<'onBrowserObjectStart'> = (api, { inpu
             continue
         }
 
-        if (ignoredProps.has(prop) || isDOMProp(tag, prop)) {
-            output[prop] = input[prop]
+        const value = input[prop]
+        const isNestedContextObject = value !== null && typeof value === 'object' && !Array.isArray(value)
+        const resolved = api.dictionary.resolve(prop)
+        const hasDescriptor = Boolean(resolved.descriptor)
+        const isCssProp = isCSSProp(tag, prop)
+        if (ignoredProps.has(prop) || isDOMProp(tag, prop) || (!isCssProp && !hasDescriptor && !isNestedContextObject)) {
+            output[prop] = value
             delete input[prop]
             continue
         }
 
         if (typeof input[prop] === 'function') {
-            if (isClassnameFirst && isCSSProp(tag, prop)) {
+            if (isClassnameFirst) {
                 continue
             }
             input[prop] = input[prop]()

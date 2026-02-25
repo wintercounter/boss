@@ -62,17 +62,20 @@ function resolveBossOutput(input: Record<string, unknown>, tag?: string) {
 function resolveStyleTag(input: Record<string, unknown>) {
     const asValue = input.as
     if (typeof asValue === 'string') return asValue
-    if (asValue && typeof asValue === 'function' && typeof (asValue as BossRuntimeComponent).__bossTag === 'string') {
-        return (asValue as BossRuntimeComponent).__bossTag as string
+    if (
+        asValue &&
+        typeof asValue === 'function' &&
+        typeof (asValue as BossRuntimeComponent).__bossTag === 'string'
+    ) {
+        return (asValue as BossRuntimeComponent).__bossTag
     }
     return 'div'
 }
 
-export function factory(tag?: string) {
+export function factory(tag?: unknown) {
     return function $$(props: Record<string, unknown>, ref?: unknown, ...restArgs: unknown[]) {
         const currentApi = getApi()
-        if (tag || ref !== undefined) {
-            let tagName = tag
+        if (tag !== undefined || ref !== undefined) {
             const input = props ?? {}
             const { children, as, ...rest } = input
             const runtimeApi = currentApi.runtimeApi
@@ -87,12 +90,23 @@ export function factory(tag?: string) {
                     rest.ref = ref
                 }
             }
-            const asTag = typeof as === 'string' ? as : undefined
-            const displayName = asTag || tagName
-            tagName = asTag || tagName || 'div'
-            const Component = createComponent(tagName)
-            Component.displayName = displayName ? '$$.' + displayName : '$$'
-            const output = resolveBossOutput(rest, tagName)
+            const asBossTag =
+                as && typeof as === 'function' && typeof (as as BossRuntimeComponent).__bossTag === 'string'
+                    ? (as as BossRuntimeComponent).__bossTag
+                    : undefined
+            const styleTag =
+                (typeof as === 'string' ? as : asBossTag) ?? (typeof tag === 'string' ? tag : undefined) ?? 'div'
+            const renderTarget = as ?? tag ?? 'div'
+            const Component =
+                typeof renderTarget === 'string' ? createComponent(renderTarget) : (renderTarget as BossRuntimeComponent)
+            if (
+                typeof Component === 'function' &&
+                typeof (Component as BossRuntimeComponent).__bossTag === 'string'
+            ) {
+                const displayName = typeof as === 'string' ? as : typeof tag === 'string' ? tag : styleTag
+                ;(Component as BossRuntimeComponent).displayName = displayName ? '$$.' + displayName : '$$'
+            }
+            const output = resolveBossOutput(rest, styleTag)
             if (dev !== undefined) {
                 return currentApi.runtimeApi?.createElement(Component, output, resolvedChildren, dev)
             }
