@@ -91,7 +91,8 @@ export const onBrowserObjectStart: Plugin<'onBrowserObjectStart'> = (api, { inpu
             }
         } else if (typeof prop === 'string') {
             const rawValue = mutableInput[prop]
-            if (typeof rawValue !== 'string') continue
+            if (typeof rawValue !== 'string' && typeof rawValue !== 'number') continue
+            const rawTokenKey = String(rawValue)
             const dashProp = api.camelCaseToDash?.(prop) ?? prop
             const groupCandidates: string[] = []
             const seen = new Set<string>()
@@ -104,9 +105,9 @@ export const onBrowserObjectStart: Plugin<'onBrowserObjectStart'> = (api, { inpu
             for (const group of getTokenGroupsForProp(dashProp)) addCandidate(group)
             addCandidate(prop)
             addCandidate(dashProp)
-            const groupName = groupCandidates.find(group => tokenPaths.has(`${group}.${rawValue}`))
+            const groupName = groupCandidates.find(group => tokenPaths.has(`${group}.${rawTokenKey}`))
             if (groupName && !isClassnameFirst) {
-                mutableInput[prop] = toTokenVar(`${groupName}.${rawValue.replace('$$.token.', '')}`)
+                mutableInput[prop] = toTokenVar(`${groupName}.${rawTokenKey.replace('$$.token.', '')}`)
             }
         }
     }

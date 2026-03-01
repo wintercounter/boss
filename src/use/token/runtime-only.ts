@@ -137,7 +137,8 @@ const getTokenPath = (api: BossBrowserApi, prop: string, value: unknown) => {
         return { path: value.replace('$$.token.', ''), source: 'group' as const }
     }
 
-    if (typeof value !== 'string') return null
+    if (typeof value !== 'string' && typeof value !== 'number') return null
+    const rawTokenKey = String(value)
 
     const { groups } = getTokenState(api)
     const dashProp = api?.camelCaseToDash ? api.camelCaseToDash(prop) : prop
@@ -155,11 +156,9 @@ const getTokenPath = (api: BossBrowserApi, prop: string, value: unknown) => {
 
     if (!groupCandidates.length) return null
 
-    if (typeof value !== 'string') return null
-
-    const tokenAlphaCandidate = parseTokenAlphaValue(value)
+    const tokenAlphaCandidate = typeof value === 'string' ? parseTokenAlphaValue(value) : null
     const baseParts = tokenAlphaCandidate ? tokenAlphaCandidate.base.split('.') : []
-    const rawParts = value.split('.')
+    const rawParts = rawTokenKey.split('.')
     const colorTokens = groups?.color as Record<string, unknown> | undefined
 
     for (const group of groupCandidates) {
@@ -179,10 +178,10 @@ const getTokenPath = (api: BossBrowserApi, prop: string, value: unknown) => {
         }
         const dottedValue = resolveTokenParts(values as Record<string, any>, rawParts)
         if (dottedValue !== undefined) {
-            return { path: `${group}.${value}`, source: 'prop' as const, values: values as Record<string, any> }
+            return { path: `${group}.${rawTokenKey}`, source: 'prop' as const, values: values as Record<string, any> }
         }
-        if (value in values) {
-            return { path: `${group}.${value}`, source: 'prop' as const, values: values as Record<string, any> }
+        if (rawTokenKey in values) {
+            return { path: `${group}.${rawTokenKey}`, source: 'prop' as const, values: values as Record<string, any> }
         }
     }
     return null

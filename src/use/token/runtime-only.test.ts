@@ -49,6 +49,26 @@ describe('runtime-only tokens', () => {
         })
     })
 
+    test('resolves numeric prop token values in runtime-only mode', async ({ $ }) => {
+        const api = await $.createBrowserApi({
+            runtime: { only: true },
+            tokens: {
+                size: {
+                    '2': 6,
+                },
+            },
+        })
+
+        const token = resolveRuntimeToken(api, 'padding', 2)
+
+        expect(token).toMatchObject({
+            value: 'var(--size-2)',
+            selectorValue: '2',
+            tokenKey: '2',
+            tokenPath: 'size.2',
+        })
+    })
+
     test('resolves token groups by prop name in runtime-only mode', async ({ $ }) => {
         const api = await $.createBrowserApi({
             runtime: { only: true },

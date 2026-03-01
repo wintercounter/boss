@@ -862,6 +862,28 @@ describe('token', () => {
                     })
                 })
 
+                test('numeric token shorthand resolves in browser', async ({ $ }) => {
+                    const api = await $.createBrowserApi({
+                        plugins: [...$.essentialsBrowser, $.strategy.inlineFirstBrowser],
+                    })
+
+                    $.use.tokenBrowser.tokenPaths.add('size.2')
+
+                    const props = {}
+                    api.trigger('onBrowserObjectStart', {
+                        output: props,
+                        input: {
+                            padding: 2,
+                        },
+                    })
+
+                    expect(props).toStrictEqual({
+                        style: {
+                            padding: 'var(--size-2)',
+                        },
+                    })
+                })
+
                 test('token shorthand prefers the first matching group in browser', async ({ $ }) => {
                     const api = await $.createBrowserApi({
                         plugins: [...$.essentialsBrowser, $.strategy.inlineFirstBrowser],

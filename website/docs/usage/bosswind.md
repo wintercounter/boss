@@ -90,6 +90,9 @@ Aliases map short names to CSS props. They work in JSX and className.
 </TabItem>
 </Tabs>
 
+Numeric alias values can resolve through token groups at runtime the same way as compile-time tokenization. Example:
+`p={2}` resolves to `padding: var(--size-2)` when `size.2` exists.
+
 ### flex/grid coexistence
 
 Bosswind keeps the CSS `flex` and `grid` props intact, while also supporting boolean keywords:
