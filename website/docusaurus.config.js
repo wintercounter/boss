@@ -126,12 +126,11 @@ const config = {
                     sidebarPath: './sidebars.js',
                     exclude: ['tutorial-basics/**', 'tutorial-extras/**', 'intro.md'],
                 },
-                blog: false,
-                // blog: {
-                //     showReadingTime: true,
-                //     blogTitle: 'Blog',
-                //     blogDescription: 'Boss CSS updates and announcements.',
-                // },
+                blog: {
+                    showReadingTime: true,
+                    blogTitle: 'Blog',
+                    blogDescription: 'Boss CSS updates and announcements.',
+                },
                 theme: {
                     customCss: './src/css/custom.css',
                 },
@@ -217,7 +216,7 @@ const config = {
                         label: 'Docs',
                     },
                     { to: 'pathname:///playground', label: 'Playground', position: 'left' },
-                    // { to: '/blog', label: 'Blog', position: 'left' },
+                    { to: '/blog', label: 'Blog', position: 'left' },
                     // { to: '/changelog', label: 'Changelog', position: 'left' },
                     {
                         to: '/docs/getting-started/quick-start',
@@ -275,10 +274,10 @@ const config = {
                     {
                         title: 'Resources',
                         items: [
-                            // {
-                            //     label: 'Blog',
-                            //     to: '/blog',
-                            // },
+                            {
+                                label: 'Blog',
+                                to: '/blog',
+                            },
                             // {
                             //     label: 'Changelog',
                             //     to: '/changelog',

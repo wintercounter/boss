@@ -51,15 +51,9 @@ Notes:
 
 ## Temporarily disabled routes
 
-Blog and changelog routes are currently disabled on purpose:
-- Blog is set to `blog: false` in `website/docusaurus.config.js`.
+Only changelog routes are currently disabled on purpose:
 - Changelog plugin config is commented out in `website/docusaurus.config.js`.
-- Blog/changelog navbar and footer links are commented out in `website/docusaurus.config.js`.
-- Swizzled navbar/footer links are also commented out in:
-  - `website/src/theme/Navbar/index.js`
-  - `website/src/theme/Footer/index.js`
-
-To re-enable later, uncomment those blocks and restore the links in the same file.
+- Changelog navbar/footer links are commented out in config and swizzled theme components.
 
 ## Installation
 

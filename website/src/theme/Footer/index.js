@@ -19,7 +19,7 @@ export default function Footer() {
         ],
         resources: [
             { label: 'Documentation', to: '/docs/getting-started/quick-start' },
-            // { label: 'Blog', to: '/blog' },
+            { label: 'Blog', to: '/blog' },
             // { label: 'Changelog', to: '/changelog' },
             { label: 'GitHub', href: 'https://github.com/wintercounter/boss' },
         ],
