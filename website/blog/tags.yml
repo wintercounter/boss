@@ -1,19 +1,14 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+boss-css:
+  label: Boss CSS
+  permalink: /boss-css
+  description: Boss CSS project updates, architecture notes, and release-related posts.
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+announcement:
+  label: Announcement
+  permalink: /announcement
+  description: Public announcements about Boss CSS.
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
-
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+css-in-js:
+  label: CSS-in-JS
+  permalink: /css-in-js
+  description: Posts about CSS-in-JS tradeoffs, strategies, and implementation details.

@@ -1,3 +1,10 @@
+---
+slug: introducing-boss-css
+title: 'Boss-CSS: I created another "CSS-in-JS" lib, and here is why!'
+authors: [wintercounter]
+tags: [boss-css, announcement, css-in-js]
+---
+
 # Boss-CSS: I created another "CSS-in-JS" lib, and here is why!
 
 > **Boss-CSS** is a _polymorphic_ "CSS-in-JS" library supporting multiple different ways of applying CSS to your
