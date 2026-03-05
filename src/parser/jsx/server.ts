@@ -165,7 +165,15 @@ type BossComponentProps<C> = C extends keyof BossIntrinsicElements
 type AsProp<C extends BossElementType> = {
     as?: C
 }
-type PolymorphicComponentProp<C extends BossElementType, Props = {}> = Props & BossComponentProps<C> & AsProp<C>
+type BossMergedProps<Props, ComponentProps> = Omit<Props, keyof ComponentProps> &
+    Omit<ComponentProps, keyof Props> & {
+        [K in Extract<keyof ComponentProps, keyof Props>]?: ComponentProps[K] | Props[K]
+    }
+type PolymorphicComponentProp<C extends BossElementType, Props = {}> = BossMergedProps<
+    Props,
+    BossComponentProps<C>
+> &
+    AsProp<C>
 type PolymorphicComponentPropWithRef<C extends BossElementType, Props = {}> = PolymorphicComponentProp<C, Props> & {
     ref?: unknown
 }

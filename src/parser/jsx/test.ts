@@ -255,5 +255,64 @@ $$.style({ notAProp: 123 })
 
             expect(diagnostics, formattedDiagnostics).toStrictEqual([])
         })
+
+        test('intrinsic pseudo/native overlaps are accepted across intrinsic elements', async ({ $ }) => {
+            const source = `import './bo$$'
+
+const isLoading = true
+const isChecked = true
+const isOpen = true
+const target = '_blank'
+const scope = 'col'
+const isMuted = true
+
+const okBoolean = <$$.button disabled={isLoading} />
+const okPseudo = <$$.button disabled={{ opacity: 0.5 }} />
+const okInputBoolean = <$$.input checked={isChecked} disabled={isLoading} />
+const okInputPseudo = <$$.input checked={{ opacity: 0.8 }} disabled={{ opacity: 0.4 }} />
+const okDetailsBoolean = <$$.details open={isOpen} />
+const okDetailsPseudo = <$$.details open={{ opacity: 1 }} />
+const okTargetBoolean = <$$.a target={target} />
+const okTargetPseudo = <$$.a target={{ opacity: 0.5 }} />
+const okScopeBoolean = <$$.th scope={scope} />
+const okScopePseudo = <$$.th scope={{ opacity: 0.5 }} />
+const okMutedBoolean = <$$.video muted={isMuted} />
+const okMutedPseudo = <$$.video muted={{ opacity: 0.5 }} />
+const okDefaultBoolean = <$$.track default={true} />
+const okDefaultPseudo = <$$.track default={{ opacity: 0.5 }} />
+
+const okAsInputBoolean = <$$ as="input" checked={isChecked} />
+const okAsInputPseudo = <$$ as="input" checked={{ opacity: 0.8 }} />
+const okAsDetailsBoolean = <$$ as="details" open={isOpen} />
+const okAsDetailsPseudo = <$$ as="details" open={{ opacity: 1 }} />
+const okAsLinkTargetNative = <$$ as="a" target={target} />
+const okAsLinkTargetPseudo = <$$ as="a" target={{ opacity: 0.5 }} />
+const okAsVideoMutedNative = <$$ as="video" muted={isMuted} />
+const okAsVideoMutedPseudo = <$$ as="video" muted={{ opacity: 0.5 }} />
+
+// @ts-expect-error disabled only accepts boolean (native) or object (pseudo)
+const badDisabled = <$$.button disabled="yes" />
+// @ts-expect-error checked only accepts boolean (native) or object (pseudo)
+const badChecked = <$$.input checked="yes" />
+// @ts-expect-error open only accepts boolean (native) or object (pseudo)
+const badOpen = <$$.details open="yes" />
+// @ts-expect-error target only accepts string (native) or object (pseudo)
+const badTarget = <$$.a target={123} />
+// @ts-expect-error scope only accepts string (native) or object (pseudo)
+const badScope = <$$.th scope={true} />
+// @ts-expect-error muted only accepts boolean (native) or object (pseudo)
+const badMuted = <$$.video muted="yes" />
+// @ts-expect-error default only accepts boolean (native) or object (pseudo)
+const badDefault = <$$.track default="yes" />
+`
+
+            const { diagnostics, formattedDiagnostics } = await $.typeTest({
+                files: {
+                    'case.tsx': source,
+                },
+            })
+
+            expect(diagnostics, formattedDiagnostics).toStrictEqual([])
+        })
     })
 })

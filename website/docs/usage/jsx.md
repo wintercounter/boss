@@ -27,6 +27,14 @@ Qwik note: refs must be Signals. Pass `ref` as a prop (for example `ref={mySigna
 
 Non-CSS props (for example `to`, `data-*`, `aria-*`) are forwarded to the rendered element/component.
 
+When a prop name exists both as a native element prop and a Boss pseudo prop (for example `disabled` on `button`), both
+forms are accepted:
+
+```tsx
+<$$.button disabled={isLoading} />
+<$$.button disabled={{ opacity: 0.5 }} />
+```
+
 ## Polymorphic `as`
 
 ```tsx

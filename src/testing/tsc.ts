@@ -17,10 +17,22 @@ type TypecheckResult = {
 const defaultModuleStubs: Record<string, string> = {
     react: `export namespace JSX {
   export interface IntrinsicElements {
-    a: { href?: string; onClick?: (event: MouseEvent) => void }
-    button: { onClick?: (event: MouseEvent) => void; type?: string }
+    a: { href?: string; onClick?: (event: MouseEvent) => void; target?: string }
+    area: { target?: string }
+    audio: { muted?: boolean }
+    button: { onClick?: (event: MouseEvent) => void; type?: string; disabled?: boolean }
+    details: { open?: boolean }
+    form: { target?: string }
+    fieldset: { disabled?: boolean }
     div: { onClick?: (event: MouseEvent) => void }
+    input: { checked?: boolean; disabled?: boolean; type?: string }
+    option: { disabled?: boolean }
+    optgroup: { disabled?: boolean }
+    select: { disabled?: boolean }
     span: { onClick?: (event: MouseEvent) => void }
+    th: { scope?: string }
+    track: { default?: boolean }
+    video: { muted?: boolean }
   }
 
   export type Element = any
