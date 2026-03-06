@@ -44,6 +44,14 @@ ClassName parsing only supports static strings (string literals or template lite
 <div className="display:flex gap:12" />
 ```
 
+Static string literals can span multiple lines:
+
+```tsx
+<div className="display:flex
+  hover:color:red
+  focus-visible:background:blue" />
+```
+
 Template literals with expressions are skipped:
 
 ```tsx

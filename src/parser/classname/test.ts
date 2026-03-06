@@ -539,6 +539,106 @@ ${query} { .${toClassName} { animation-name: ${keyframesName} } }`,
                     )
                 })
 
+                test('multiline className strings inside a file', async ({ $ }) => {
+                    const api = await $.createServerApi({
+                        plugins: [...$.essentialsServer, $.strategy.inlineFirstServer],
+                    })
+                    await api.trigger('onParse', {
+                        content: `import { Select as BaseSelect } from '@base-ui/react/select'
+import { Check, ChevronDown } from 'lucide-react'
+
+export function Select() {
+    return (
+        <BaseSelect.Root>
+            <BaseSelect.Trigger className="display:flex
+  hover:color:red
+  focus-visible:background:blue">
+                {'Select'}
+            </BaseSelect.Trigger>
+        </BaseSelect.Root>
+    )
+}`,
+                    })
+
+                    expect(api.css.text.trim()).toStrictEqual(
+                        `.display\\:flex { display: flex }
+.hover\\:color\\:red:hover { color: red }
+.focus-visible\\:background\\:blue:focus-visible { background: blue }`,
+                    )
+                })
+
+                test('multiline select component sample parses nested pseudos', async ({ $ }) => {
+                    const api = await $.createServerApi({
+                        plugins: [...$.essentialsServer, $.strategy.inlineFirstServer],
+                    })
+                    await api.trigger('onParse', {
+                        content: `import { Select as BaseSelect } from '@base-ui/react/select'
+import { Check, ChevronDown } from 'lucide-react'
+
+type SelectOption = {
+    label: string
+    value: string
+}
+
+export function Select({
+    value,
+    onValueChange,
+    options,
+    placeholder,
+}: {
+    value: string
+    onValueChange: (value: string) => void
+    options: SelectOption[]
+    placeholder?: string
+}) {
+    return (
+        <BaseSelect.Root value={value} onValueChange={onValueChange}>
+            <BaseSelect.Trigger className="width:100% min-height:44 display:flex align-items:center justify-content:space-between gap:2 border:1_solid border-color:brand.border border-radius:24 padding:0_14 background:rgba(17,25,47,0.82) color:brand.ink font-size:14
+  cursor:pointer">
+                <BaseSelect.Value>
+                    {(item: SelectOption | null) => item?.label ?? placeholder ?? 'Select'}
+                </BaseSelect.Value>
+                <BaseSelect.Icon>
+                    <ChevronDown size={16} />
+                </BaseSelect.Icon>
+            </BaseSelect.Trigger>
+
+            <BaseSelect.Portal>
+                <BaseSelect.Positioner sideOffset={10}>
+                    <BaseSelect.Popup className="min-width:220 border:1_solid border-color:rgba(255,255,255,0.08) border-radius:24 padding:8 background:rgba(11,17,33,0.98) box-shadow:0_20px_80px_rgba(3,8,18,0.55) backdrop-filter:blur(18px)">
+                        <BaseSelect.List>
+                            {options.map((option) => (
+                                <BaseSelect.Item
+                                    key={option.value}
+                                    value={option.value}
+                                    className="display:flex align-items:center justify-content:space-between gap:2 min-height:40 border-radius:18 padding:0_12 font-size:14 font-weight:600 color:brand.inkSoft cursor:pointer outline:none hover:background:rgba(255,255,255,0.06)
+  hover:color:brand.ink focus-visible:background:rgba(255,255,255,0.06) focus-visible:color:brand.ink"
+                                >
+                                    <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
+                                    <BaseSelect.ItemIndicator>
+                                        <Check size={14} />
+                                    </BaseSelect.ItemIndicator>
+                                </BaseSelect.Item>
+                            ))}
+                        </BaseSelect.List>
+                    </BaseSelect.Popup>
+                </BaseSelect.Positioner>
+            </BaseSelect.Portal>
+        </BaseSelect.Root>
+    )
+}`,
+                    })
+
+                    expect(api.css.text).toContain(
+                        '.hover\\:background\\:rgba\\(255\\,255\\,255\\,0\\.06\\):hover { background: rgba(255,255,255,0.06) }',
+                    )
+                    expect(api.css.text).toContain('.hover\\:color\\:brand\\.ink:hover { color: brand.ink }')
+                    expect(api.css.text).toContain(
+                        '.focus-visible\\:background\\:rgba\\(255\\,255\\,255\\,0\\.06\\):focus-visible { background: rgba(255,255,255,0.06) }',
+                    )
+                    expect(api.css.text).toContain('.focus-visible\\:color\\:brand\\.ink:focus-visible { color: brand.ink }')
+                })
+
                 describe.each([
                     {
                         content: `"display:block"`,

@@ -25,30 +25,85 @@ export const onParse: Plugin<'onParse'> = async (api, input) => {
     }
 }
 
-const templateRegexp = /`([\S\s]+?)`/g
-const quoteRegexps = [/"(.+?)"/g, /'(.+?)'/g, templateRegexp]
-
 const extractCode = (content: string) => {
     const results: string[] = []
 
-    for (const regexp of quoteRegexps) {
-        const matches = content.matchAll(regexp)
-        const isTemplate = regexp === templateRegexp
-
-        for (const match of matches) {
-            const [, code] = match
-            if (isTemplate && code.includes('${')) {
+    ;(['"', "'", '`'] as const).forEach(quote => {
+        scanQuotedSegments(content, quote, ({ value, hasTemplateExpression }) => {
+            if (quote === '`' && hasTemplateExpression) {
                 console.warn(
                     '[boss-css] classname parser skipped template literals with expressions. Classnames must be static.',
                 )
-                console.warn(code)
-                continue
+                console.warn(value)
+                return
             }
-            results.push(code)
-        }
-    }
+
+            results.push(value)
+        })
+    })
 
     return { codes: results }
+}
+
+type QuotedSegment = {
+    value: string
+    hasTemplateExpression: boolean
+}
+
+const scanQuotedSegments = (
+    input: string,
+    quote: '"' | "'" | '`',
+    onSegment: (segment: QuotedSegment) => void,
+) => {
+    let index = 0
+    const length = input.length
+
+    while (index < length) {
+        const char = input[index]
+        if (char !== quote) {
+            index += 1
+            continue
+        }
+
+        index += 1
+        let value = ''
+        let escaped = false
+        let hasTemplateExpression = false
+
+        while (index < length) {
+            const current = input[index]
+
+            if (escaped) {
+                value += current
+                escaped = false
+                index += 1
+                continue
+            }
+
+            if (current === '\\') {
+                value += current
+                escaped = true
+                index += 1
+                continue
+            }
+
+            if (quote === '`' && current === '$' && input[index + 1] === '{') {
+                hasTemplateExpression = true
+            }
+
+            if (current === quote) {
+                break
+            }
+
+            value += current
+            index += 1
+        }
+
+        if (index >= length) break
+
+        onSegment({ value, hasTemplateExpression })
+        index += 1
+    }
 }
 
 type PropNode = {
