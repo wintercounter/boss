@@ -5,8 +5,12 @@ const RULE_NAME = 'redundant-cx'
 
 const defaultOptions = {
     components: DEFAULT_COMPONENTS,
-    callees: ['^cx$', '^\\$\\$\\.cx$'],
+    callees: null,
 }
+
+const escapeRegExp = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+const getDefaultCalleePatterns = components => components.map(component => `^${escapeRegExp(component)}\\.cx$`)
 
 const getCallExpression = node => {
     if (!node) return null
@@ -19,7 +23,9 @@ const getCallExpression = node => {
 const create = context => {
     const options = { ...defaultOptions, ...(context.options[0] || {}) }
     const componentSet = new Set(options.components)
-    const calleePatterns = compilePatterns(options.callees)
+    const calleePatterns = compilePatterns(
+        Array.isArray(options.callees) ? options.callees : getDefaultCalleePatterns(options.components)
+    )
 
     return {
         JSXOpeningElement(node) {

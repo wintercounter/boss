@@ -45,7 +45,7 @@ export default [
 - `boss-css/classnames-only`: Disallow Boss props; require className.
 - `boss-css/prefer-classnames`: Prefer className for static Boss props, allow props for dynamic values.
 - `boss-css/require-prop-functions`: Require `prop={() => value}` for dynamic Boss props when classname-first is enabled.
-- `boss-css/redundant-cx`: Disallow wrapping `$$` className with `cx` since `className` already accepts cx inputs.
+- `boss-css/redundant-cx`: Disallow wrapping `$$` className with the component-scoped `$$.cx` since `className` already accepts cx inputs.
 - `boss-css/prefer-token-values`: Prefer token keys (for example `color="foo"`) instead of `$$.token.*` when the prop has tokens.
 - `boss-css/prefer-unitless-values`: Prefer unitless numeric class values for the configured default unit (for example `border:1_solid` over `border:1px_solid`).
 
@@ -100,6 +100,8 @@ Boss component rules (`classnames-only`, `prefer-classnames`, `prefer-token-valu
 ```json
 {
     "components": ["$$"],
-    "callees": ["^cx$", "^\\$\\$\\.cx$"]
+    "callees": ["^\\$\\$\\.cx$"]
 }
 ```
+
+By default this rule only matches `<component>.cx()` for the configured Boss components, so imported `cx()` helpers are not reported unless you opt into them with `callees`.

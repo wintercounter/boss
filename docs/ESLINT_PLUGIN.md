@@ -42,7 +42,7 @@ export default [
 
 Stylistic:
 - `boss-css/format-classnames`: Normalizes class lists using `boss-css/merge`.
-- `boss-css/redundant-cx`: Disallow wrapping `$$` className with `cx` since `className` already accepts cx inputs.
+- `boss-css/redundant-cx`: Disallow wrapping `$$` className with the component-scoped `$$.cx` since `className` already accepts cx inputs.
 - `boss-css/prefer-token-values`: Prefer token keys (for example `color="foo"`) instead of `$$.token.*` when the prop has tokens.
 - `boss-css/prefer-unitless-values`: Prefer unitless numeric class values for the configured default unit (for example `border:1_solid` over `border:1px_solid`).
 
@@ -108,6 +108,8 @@ Boss component rules (`classnames-only`, `prefer-classnames`) accept:
 ```json
 {
     "components": ["$$"],
-    "callees": ["^cx$", "^\\$\\$\\.cx$"]
+    "callees": ["^\\$\\$\\.cx$"]
 }
 ```
+
+By default this rule only matches `<component>.cx()` for the configured Boss components, so imported `cx()` helpers are not reported unless you opt into them with `callees`.
