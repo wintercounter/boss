@@ -15,6 +15,7 @@ import {
 import { buildLiteralReplacement } from '../utils/format.js'
 import { getApi } from '../utils/api.js'
 import { isCssPropName, parseGroupedSelector, splitClassList, splitFragments } from '../utils/boss-classes.js'
+import { getSourceCode } from '../utils/context.js'
 
 const RULE_NAME = 'prefer-unitless-values'
 
@@ -158,7 +159,7 @@ const analyzeClassList = (classList, unit, extraProps) => {
 }
 
 const create = context => {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = getSourceCode(context)
     const options = { ...defaultOptions, ...(context.options[0] || {}) }
     const patterns = createPatterns(options)
     const extraProps = options.additionalProps?.length ? new Set(options.additionalProps) : null
@@ -166,6 +167,10 @@ const create = context => {
     const unit = normalizeUnit(options.unit) || normalizeUnit(api?.unit) || 'px'
 
     if (!unit) {
+        return {}
+    }
+
+    if (!sourceCode) {
         return {}
     }
 

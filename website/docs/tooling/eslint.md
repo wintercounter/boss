@@ -12,6 +12,7 @@ npm install --save-dev boss-css
 
 The ESLint plugin ships inside `boss-css` and is imported from `boss-css/eslint-plugin`.
 This plugin is ESM-only, so use ESLint flat config or an ESM config file.
+Compatible with ESLint 9 and 10 (flat config).
 
 ## Quick start
 

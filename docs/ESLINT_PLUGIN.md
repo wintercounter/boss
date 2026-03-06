@@ -11,6 +11,7 @@ npm install --save-dev boss-css
 The ESLint plugin is bundled with `boss-css`, so no separate package is needed.
 
 This plugin is ESM-only; use ESLint flat config or an ESM config file.
+Compatible with ESLint 9 and 10 (flat config).
 
 The plugin loads your Boss server API using the local `.bo$$/config.js` (via `boss-css/api/config`) so it can validate custom props and contexts.
 In source/test runs inside this repository, the plugin resolves the same API through local `@/api/*` modules (no external package install required).

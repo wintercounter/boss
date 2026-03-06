@@ -2,6 +2,7 @@ import { getContextSet, isCssPropName } from '../utils/boss-classes.js'
 import { getJSXRootName, getJSXAttributeName, getLiteralInfo } from '../utils/ast.js'
 import { DEFAULT_COMPONENTS } from '../utils/defaults.js'
 import { getApi } from '../utils/api.js'
+import { getSourceCode } from '../utils/context.js'
 
 const RULE_NAME = 'prefer-token-values'
 
@@ -134,7 +135,7 @@ const resolveTokenValue = (groupValues, tokenPath) => {
 }
 
 const create = context => {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = getSourceCode(context)
     const options = { ...defaultOptions, ...(context.options[0] || {}) }
     const componentSet = new Set(options.components)
     const contextSet = getContextSet(options)
@@ -143,6 +144,10 @@ const create = context => {
     const tokenGroups = api?.tokens && typeof api.tokens === 'object' ? api.tokens : null
 
     if (!api || !tokenGroups) {
+        return {}
+    }
+
+    if (!sourceCode) {
         return {}
     }
 

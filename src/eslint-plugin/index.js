@@ -25,7 +25,9 @@ const plugin = {
     },
 }
 
-const plugins = [plugin.meta.name]
+const plugins = {
+    [plugin.meta.name]: plugin,
+}
 
 const globalOptions = {
     languageOptions: {

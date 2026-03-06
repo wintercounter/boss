@@ -66,6 +66,16 @@ When changing CLI/task behavior:
 2. Verify config interactions (`loadConfig`, path resolution, defaults).
 3. Update docs (`docs/INIT.md`, `docs/BUILD.md`, `docs/COMPILE.md`, AI docs as needed).
 
+## Work on ESLint plugin
+
+Primary files:
+- `src/eslint-plugin/*`
+
+When changing ESLint plugin behavior:
+1. Add/update focused rule tests under `src/eslint-plugin/**`.
+2. Run the ESLint API integration test (`src/eslint-plugin/eslint10.integration.test.ts`) to verify flat-config compatibility.
+3. Update user-facing docs (`docs/ESLINT_PLUGIN.md`, `website/docs/tooling/eslint.md`) when rule behavior or compatibility changes.
+
 ## Work on AI plugin
 
 Primary files:

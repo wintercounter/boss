@@ -16,6 +16,7 @@ import {
 import { buildLiteralReplacement } from '../utils/format.js'
 import { splitClassList } from '../utils/boss-classes.js'
 import { sortTokens } from '../utils/order.js'
+import { getSourceCode } from '../utils/context.js'
 
 const RULE_NAME = 'format-classnames'
 
@@ -47,10 +48,12 @@ const formatClassList = (merge, literal, options) => {
 }
 
 const create = context => {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = getSourceCode(context)
     const options = { ...defaultOptions, ...(context.options[0] || {}) }
     const patterns = createPatterns(options)
     const merge = createBossMerge(options.merge || {})
+
+    if (!sourceCode) return {}
 
     const reportLiteral = literal => {
         if (!literal || !literal.canFix) return

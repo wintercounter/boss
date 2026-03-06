@@ -13,6 +13,7 @@ import {
     DEFAULT_TAG_PATTERNS,
 } from '../utils/defaults.js'
 import { containsBossToken } from '../utils/boss-classes.js'
+import { getSourceCode } from '../utils/context.js'
 
 const RULE_NAME = 'props-only'
 
@@ -35,9 +36,11 @@ const createPatterns = options => ({
 })
 
 const create = context => {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = getSourceCode(context)
     const options = { ...defaultOptions, ...(context.options[0] || {}) }
     const patterns = createPatterns(options)
+
+    if (!sourceCode) return {}
 
     const reportLiteral = literal => {
         if (!literal || !literal.value) return
