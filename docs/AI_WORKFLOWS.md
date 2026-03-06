@@ -107,6 +107,7 @@ Use this flow before publishing:
 1. Install root dependencies (`npm ci`).
 2. Run release validation (`npm run prepublishOnly`).
 3. Confirm `npm pack --dry-run` includes `dist/devtools-app/index.mjs` when `boss-css/devtools-app` export is present.
+4. Confirm public exports ship declaration siblings in `dist/` (for example `dist/cx/index.d.mts` and `dist/cx/index.d.cts`). If you add a new public subpath export, keep its source entry in `tsdown.config.mjs` so JS and types are emitted together.
 
 Notes:
 - The devtools app depends on the local package via `file:../../..`, so `prepublishOnly` runs `npm run setup:devtools-app` first.

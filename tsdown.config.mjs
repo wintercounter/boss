@@ -65,6 +65,7 @@ export default defineConfig({
     ],
     format: ['esm', 'cjs'],
     outDir: 'dist',
+    dts: true,
     unbundle: true,
     fixedExtension: true,
     skipNodeModulesBundle: true,
