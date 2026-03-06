@@ -1,4 +1,4 @@
-import { createBossMerge } from 'boss-css/merge'
+import { createBossMerge } from '@/merge/index'
 import {
     collectClassLiteralsFromExpression,
     compilePatterns,
