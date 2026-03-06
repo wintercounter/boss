@@ -1,6 +1,6 @@
 {
     "name": "boss-css",
-    "version": "0.0.19",
+    "version": "0.0.20",
     "description": "Polymorphic, usage-driven CSS-in-JS.",
     "bin": {
         "boss": "./dist/cli/index.cjs",

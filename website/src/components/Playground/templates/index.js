@@ -59,8 +59,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.19
-    version: 0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.20
+    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -1831,8 +1831,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-bGrA8RCFM4/seiT1UPlVsAFa7Yl0g6O8oGrCU/kU9d5LcE7Ie1kCTtatORBMyzPcng/VNnDoBNIxLtwEVJAEQQ==}
+  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -1894,7 +1894,7 @@ packages:
     hasBin: true
     dependencies:
       baseline-browser-mapping: 2.10.0
-      caniuse-lite: 1.0.30001776
+      caniuse-lite: 1.0.30001777
       electron-to-chromium: 1.5.307
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -1927,8 +1927,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001776:
-    resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
+  /caniuse-lite@1.0.30001777:
+    resolution: {integrity: sha512-tmN+fJxroPndC74efCdp12j+0rk0RHwV5Jwa1zWaFVyw2ZxAuPeG8ZgWC3Wz7uSjT3qMRQ5XHZ4COgQmsCMJAQ==}
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -4658,8 +4658,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.19
-    version: 0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.20
+    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -6430,8 +6430,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-bGrA8RCFM4/seiT1UPlVsAFa7Yl0g6O8oGrCU/kU9d5LcE7Ie1kCTtatORBMyzPcng/VNnDoBNIxLtwEVJAEQQ==}
+  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -6493,7 +6493,7 @@ packages:
     hasBin: true
     dependencies:
       baseline-browser-mapping: 2.10.0
-      caniuse-lite: 1.0.30001776
+      caniuse-lite: 1.0.30001777
       electron-to-chromium: 1.5.307
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -6526,8 +6526,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001776:
-    resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
+  /caniuse-lite@1.0.30001777:
+    resolution: {integrity: sha512-tmN+fJxroPndC74efCdp12j+0rk0RHwV5Jwa1zWaFVyw2ZxAuPeG8ZgWC3Wz7uSjT3qMRQ5XHZ4COgQmsCMJAQ==}
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -9257,8 +9257,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.19
-    version: 0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.20
+    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -11029,8 +11029,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-bGrA8RCFM4/seiT1UPlVsAFa7Yl0g6O8oGrCU/kU9d5LcE7Ie1kCTtatORBMyzPcng/VNnDoBNIxLtwEVJAEQQ==}
+  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -11092,7 +11092,7 @@ packages:
     hasBin: true
     dependencies:
       baseline-browser-mapping: 2.10.0
-      caniuse-lite: 1.0.30001776
+      caniuse-lite: 1.0.30001777
       electron-to-chromium: 1.5.307
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -11125,8 +11125,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001776:
-    resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
+  /caniuse-lite@1.0.30001777:
+    resolution: {integrity: sha512-tmN+fJxroPndC74efCdp12j+0rk0RHwV5Jwa1zWaFVyw2ZxAuPeG8ZgWC3Wz7uSjT3qMRQ5XHZ4COgQmsCMJAQ==}
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -13679,8 +13679,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.19
-    version: 0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.20
+    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -15451,8 +15451,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-bGrA8RCFM4/seiT1UPlVsAFa7Yl0g6O8oGrCU/kU9d5LcE7Ie1kCTtatORBMyzPcng/VNnDoBNIxLtwEVJAEQQ==}
+  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -15514,7 +15514,7 @@ packages:
     hasBin: true
     dependencies:
       baseline-browser-mapping: 2.10.0
-      caniuse-lite: 1.0.30001776
+      caniuse-lite: 1.0.30001777
       electron-to-chromium: 1.5.307
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -15547,8 +15547,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001776:
-    resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
+  /caniuse-lite@1.0.30001777:
+    resolution: {integrity: sha512-tmN+fJxroPndC74efCdp12j+0rk0RHwV5Jwa1zWaFVyw2ZxAuPeG8ZgWC3Wz7uSjT3qMRQ5XHZ4COgQmsCMJAQ==}
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -18044,8 +18044,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.19
-    version: 0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.20
+    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -19816,8 +19816,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-bGrA8RCFM4/seiT1UPlVsAFa7Yl0g6O8oGrCU/kU9d5LcE7Ie1kCTtatORBMyzPcng/VNnDoBNIxLtwEVJAEQQ==}
+  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -19879,7 +19879,7 @@ packages:
     hasBin: true
     dependencies:
       baseline-browser-mapping: 2.10.0
-      caniuse-lite: 1.0.30001776
+      caniuse-lite: 1.0.30001777
       electron-to-chromium: 1.5.307
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -19912,8 +19912,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001776:
-    resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
+  /caniuse-lite@1.0.30001777:
+    resolution: {integrity: sha512-tmN+fJxroPndC74efCdp12j+0rk0RHwV5Jwa1zWaFVyw2ZxAuPeG8ZgWC3Wz7uSjT3qMRQ5XHZ4COgQmsCMJAQ==}
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -22579,8 +22579,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.19
-    version: 0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.20
+    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -24351,8 +24351,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-bGrA8RCFM4/seiT1UPlVsAFa7Yl0g6O8oGrCU/kU9d5LcE7Ie1kCTtatORBMyzPcng/VNnDoBNIxLtwEVJAEQQ==}
+  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -24414,7 +24414,7 @@ packages:
     hasBin: true
     dependencies:
       baseline-browser-mapping: 2.10.0
-      caniuse-lite: 1.0.30001776
+      caniuse-lite: 1.0.30001777
       electron-to-chromium: 1.5.307
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -24447,8 +24447,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001776:
-    resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
+  /caniuse-lite@1.0.30001777:
+    resolution: {integrity: sha512-tmN+fJxroPndC74efCdp12j+0rk0RHwV5Jwa1zWaFVyw2ZxAuPeG8ZgWC3Wz7uSjT3qMRQ5XHZ4COgQmsCMJAQ==}
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -27009,8 +27009,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.19
-    version: 0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.20
+    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -28781,8 +28781,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-bGrA8RCFM4/seiT1UPlVsAFa7Yl0g6O8oGrCU/kU9d5LcE7Ie1kCTtatORBMyzPcng/VNnDoBNIxLtwEVJAEQQ==}
+  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -28844,7 +28844,7 @@ packages:
     hasBin: true
     dependencies:
       baseline-browser-mapping: 2.10.0
-      caniuse-lite: 1.0.30001776
+      caniuse-lite: 1.0.30001777
       electron-to-chromium: 1.5.307
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -28877,8 +28877,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001776:
-    resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
+  /caniuse-lite@1.0.30001777:
+    resolution: {integrity: sha512-tmN+fJxroPndC74efCdp12j+0rk0RHwV5Jwa1zWaFVyw2ZxAuPeG8ZgWC3Wz7uSjT3qMRQ5XHZ4COgQmsCMJAQ==}
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -31342,8 +31342,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.19
-    version: 0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.20
+    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   express:
     specifier: ^4.21.2
     version: 4.22.1
@@ -32683,8 +32683,8 @@ packages:
       - supports-color
     dev: false
 
-  /boss-css@0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-bGrA8RCFM4/seiT1UPlVsAFa7Yl0g6O8oGrCU/kU9d5LcE7Ie1kCTtatORBMyzPcng/VNnDoBNIxLtwEVJAEQQ==}
+  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -32746,7 +32746,7 @@ packages:
     hasBin: true
     dependencies:
       baseline-browser-mapping: 2.10.0
-      caniuse-lite: 1.0.30001776
+      caniuse-lite: 1.0.30001777
       electron-to-chromium: 1.5.307
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -32793,8 +32793,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001776:
-    resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
+  /caniuse-lite@1.0.30001777:
+    resolution: {integrity: sha512-tmN+fJxroPndC74efCdp12j+0rk0RHwV5Jwa1zWaFVyw2ZxAuPeG8ZgWC3Wz7uSjT3qMRQ5XHZ4COgQmsCMJAQ==}
     dev: false
 
   /chalk@4.1.2:
@@ -35491,8 +35491,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.19
-    version: 0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.20
+    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -37263,8 +37263,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-bGrA8RCFM4/seiT1UPlVsAFa7Yl0g6O8oGrCU/kU9d5LcE7Ie1kCTtatORBMyzPcng/VNnDoBNIxLtwEVJAEQQ==}
+  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -37326,7 +37326,7 @@ packages:
     hasBin: true
     dependencies:
       baseline-browser-mapping: 2.10.0
-      caniuse-lite: 1.0.30001776
+      caniuse-lite: 1.0.30001777
       electron-to-chromium: 1.5.307
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -37359,8 +37359,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001776:
-    resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
+  /caniuse-lite@1.0.30001777:
+    resolution: {integrity: sha512-tmN+fJxroPndC74efCdp12j+0rk0RHwV5Jwa1zWaFVyw2ZxAuPeG8ZgWC3Wz7uSjT3qMRQ5XHZ4COgQmsCMJAQ==}
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -39919,8 +39919,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.19
-    version: 0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.20
+    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -41691,8 +41691,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.19(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-bGrA8RCFM4/seiT1UPlVsAFa7Yl0g6O8oGrCU/kU9d5LcE7Ie1kCTtatORBMyzPcng/VNnDoBNIxLtwEVJAEQQ==}
+  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -41754,7 +41754,7 @@ packages:
     hasBin: true
     dependencies:
       baseline-browser-mapping: 2.10.0
-      caniuse-lite: 1.0.30001776
+      caniuse-lite: 1.0.30001777
       electron-to-chromium: 1.5.307
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -41787,8 +41787,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001776:
-    resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
+  /caniuse-lite@1.0.30001777:
+    resolution: {integrity: sha512-tmN+fJxroPndC74efCdp12j+0rk0RHwV5Jwa1zWaFVyw2ZxAuPeG8ZgWC3Wz7uSjT3qMRQ5XHZ4COgQmsCMJAQ==}
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
