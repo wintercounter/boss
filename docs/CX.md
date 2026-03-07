@@ -44,7 +44,8 @@ const customCx = createBossCx({
 ## Notes
 
 - `cx` uses css-variants input semantics (strings, arrays, objects, falsy values).
-- Output is passed through `merge` to remove Boss class conflicts.
+- Output is passed through `merge` to remove exact Boss property conflicts.
 - `cv` and `scv` default to the Boss-aware className resolver, so their outputs also merge conflicts.
 - `sv` uses `merge` for style objects, so nested style objects are deep-merged.
+- CSS shorthand and longhand tokens are preserved together by default, so `border:1px_solid border-color:red` stays intact.
 - See `docs/MERGE.md` for merge configuration details.

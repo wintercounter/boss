@@ -42,6 +42,14 @@ describe('runtime', () => {
             expect(tokens).toStrictEqual(['color:red', 'display:flex', 'padding:4'])
         })
 
+        test('cv preserves shorthand and longhand tokens', async () => {
+            const button = $$.cv({
+                base: 'border:1px_solid border-color:rgba(255,255,255,0.08)',
+            })
+
+            expect(button()).toBe('border:1px_solid border-color:rgba(255,255,255,0.08)')
+        })
+
         test('scv resolves slot variants', async () => {
             const card = $$.scv({
                 slots: ['root', 'title'],

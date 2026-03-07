@@ -121,3 +121,4 @@ panel({ tone: 'primary', style: { padding: 16 } })
 - `cx` calls `merge` internally, so all merge behavior still applies.
 - `$$.merge` is available, but `$$.cx` is preferred for composition.
 - `sv` uses `merge` for style objects, so nested style objects are deep-merged.
+- By default, `merge` only de-duplicates the same property in the same context. Shorthand and longhand CSS tokens are preserved together, so `border:1px_solid border-color:red` stays intact.

@@ -59,8 +59,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.20
-    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.23
+    version: 0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -1831,8 +1831,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
+  /boss-css@0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-66tc4NDS4WXZgrBtUAhcsxkh5Hl/hTf8QXx1IMLcnxp5n0FbvlG11czTcKCHFpTFgovSa1PDu78dPc9+dFEwdQ==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -3943,15 +3943,15 @@ packages:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  /tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  /tldts-core@7.0.25:
+    resolution: {integrity: sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==}
     dev: false
 
-  /tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  /tldts@7.0.25:
+    resolution: {integrity: sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==}
     hasBin: true
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.25
     dev: false
 
   /tmpl@1.0.5:
@@ -3984,7 +3984,7 @@ packages:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.25
     dev: false
 
   /tr46@5.1.1:
@@ -4658,8 +4658,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.20
-    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.23
+    version: 0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -6430,8 +6430,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
+  /boss-css@0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-66tc4NDS4WXZgrBtUAhcsxkh5Hl/hTf8QXx1IMLcnxp5n0FbvlG11czTcKCHFpTFgovSa1PDu78dPc9+dFEwdQ==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -8542,15 +8542,15 @@ packages:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  /tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  /tldts-core@7.0.25:
+    resolution: {integrity: sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==}
     dev: false
 
-  /tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  /tldts@7.0.25:
+    resolution: {integrity: sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==}
     hasBin: true
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.25
     dev: false
 
   /tmpl@1.0.5:
@@ -8583,7 +8583,7 @@ packages:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.25
     dev: false
 
   /tr46@5.1.1:
@@ -9257,8 +9257,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.20
-    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.23
+    version: 0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -11029,8 +11029,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
+  /boss-css@0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-66tc4NDS4WXZgrBtUAhcsxkh5Hl/hTf8QXx1IMLcnxp5n0FbvlG11czTcKCHFpTFgovSa1PDu78dPc9+dFEwdQ==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -13141,15 +13141,15 @@ packages:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  /tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  /tldts-core@7.0.25:
+    resolution: {integrity: sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==}
     dev: false
 
-  /tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  /tldts@7.0.25:
+    resolution: {integrity: sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==}
     hasBin: true
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.25
     dev: false
 
   /tmpl@1.0.5:
@@ -13182,7 +13182,7 @@ packages:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.25
     dev: false
 
   /tr46@5.1.1:
@@ -13679,8 +13679,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.20
-    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.23
+    version: 0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -15451,8 +15451,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
+  /boss-css@0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-66tc4NDS4WXZgrBtUAhcsxkh5Hl/hTf8QXx1IMLcnxp5n0FbvlG11czTcKCHFpTFgovSa1PDu78dPc9+dFEwdQ==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -17563,15 +17563,15 @@ packages:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  /tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  /tldts-core@7.0.25:
+    resolution: {integrity: sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==}
     dev: false
 
-  /tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  /tldts@7.0.25:
+    resolution: {integrity: sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==}
     hasBin: true
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.25
     dev: false
 
   /tmpl@1.0.5:
@@ -17604,7 +17604,7 @@ packages:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.25
     dev: false
 
   /tr46@5.1.1:
@@ -18044,8 +18044,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.20
-    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.23
+    version: 0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -19816,8 +19816,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
+  /boss-css@0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-66tc4NDS4WXZgrBtUAhcsxkh5Hl/hTf8QXx1IMLcnxp5n0FbvlG11czTcKCHFpTFgovSa1PDu78dPc9+dFEwdQ==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -21928,15 +21928,15 @@ packages:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  /tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  /tldts-core@7.0.25:
+    resolution: {integrity: sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==}
     dev: false
 
-  /tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  /tldts@7.0.25:
+    resolution: {integrity: sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==}
     hasBin: true
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.25
     dev: false
 
   /tmpl@1.0.5:
@@ -21969,7 +21969,7 @@ packages:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.25
     dev: false
 
   /tr46@5.1.1:
@@ -22579,8 +22579,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.20
-    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.23
+    version: 0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -24351,8 +24351,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
+  /boss-css@0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-66tc4NDS4WXZgrBtUAhcsxkh5Hl/hTf8QXx1IMLcnxp5n0FbvlG11czTcKCHFpTFgovSa1PDu78dPc9+dFEwdQ==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -26463,15 +26463,15 @@ packages:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  /tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  /tldts-core@7.0.25:
+    resolution: {integrity: sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==}
     dev: false
 
-  /tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  /tldts@7.0.25:
+    resolution: {integrity: sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==}
     hasBin: true
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.25
     dev: false
 
   /tmpl@1.0.5:
@@ -26504,7 +26504,7 @@ packages:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.25
     dev: false
 
   /tr46@5.1.1:
@@ -27009,8 +27009,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.20
-    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.23
+    version: 0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -28781,8 +28781,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
+  /boss-css@0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-66tc4NDS4WXZgrBtUAhcsxkh5Hl/hTf8QXx1IMLcnxp5n0FbvlG11czTcKCHFpTFgovSa1PDu78dPc9+dFEwdQ==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -30893,15 +30893,15 @@ packages:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  /tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  /tldts-core@7.0.25:
+    resolution: {integrity: sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==}
     dev: false
 
-  /tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  /tldts@7.0.25:
+    resolution: {integrity: sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==}
     hasBin: true
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.25
     dev: false
 
   /tmpl@1.0.5:
@@ -30934,7 +30934,7 @@ packages:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.25
     dev: false
 
   /tr46@5.1.1:
@@ -31342,8 +31342,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.20
-    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.23
+    version: 0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   express:
     specifier: ^4.21.2
     version: 4.22.1
@@ -32683,8 +32683,8 @@ packages:
       - supports-color
     dev: false
 
-  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
+  /boss-css@0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-66tc4NDS4WXZgrBtUAhcsxkh5Hl/hTf8QXx1IMLcnxp5n0FbvlG11czTcKCHFpTFgovSa1PDu78dPc9+dFEwdQ==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -34932,15 +34932,15 @@ packages:
       picomatch: 4.0.3
     dev: false
 
-  /tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  /tldts-core@7.0.25:
+    resolution: {integrity: sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==}
     dev: false
 
-  /tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  /tldts@7.0.25:
+    resolution: {integrity: sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==}
     hasBin: true
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.25
     dev: false
 
   /tmpl@1.0.5:
@@ -34973,7 +34973,7 @@ packages:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.25
     dev: false
 
   /tr46@5.1.1:
@@ -35491,8 +35491,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.20
-    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.23
+    version: 0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -37263,8 +37263,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
+  /boss-css@0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-66tc4NDS4WXZgrBtUAhcsxkh5Hl/hTf8QXx1IMLcnxp5n0FbvlG11czTcKCHFpTFgovSa1PDu78dPc9+dFEwdQ==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -39375,15 +39375,15 @@ packages:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  /tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  /tldts-core@7.0.25:
+    resolution: {integrity: sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==}
     dev: false
 
-  /tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  /tldts@7.0.25:
+    resolution: {integrity: sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==}
     hasBin: true
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.25
     dev: false
 
   /tmpl@1.0.5:
@@ -39416,7 +39416,7 @@ packages:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.25
     dev: false
 
   /tr46@5.1.1:
@@ -39919,8 +39919,8 @@ settings:
 
 dependencies:
   boss-css:
-    specifier: 0.0.20
-    version: 0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
+    specifier: 0.0.23
+    version: 0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4)
   react:
     specifier: ^19.2.4
     version: 19.2.4
@@ -41691,8 +41691,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /boss-css@0.0.20(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
-    resolution: {integrity: sha512-PJMGeN7zDDrdO3b9QjRT4tl0hYVpssSdDHY91++CnQNS7K7PP0aEfUTZmQcmfnHJ22ujjS9zYxA9ooJt4zc/hw==}
+  /boss-css@0.0.23(css-tree@3.2.1)(react-dom@19.2.4)(react-native@0.84.1)(react@19.2.4):
+    resolution: {integrity: sha512-66tc4NDS4WXZgrBtUAhcsxkh5Hl/hTf8QXx1IMLcnxp5n0FbvlG11czTcKCHFpTFgovSa1PDu78dPc9+dFEwdQ==}
     hasBin: true
     peerDependencies:
       react: ^19.2.3
@@ -43803,15 +43803,15 @@ packages:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  /tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  /tldts-core@7.0.25:
+    resolution: {integrity: sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==}
     dev: false
 
-  /tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  /tldts@7.0.25:
+    resolution: {integrity: sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==}
     hasBin: true
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.25
     dev: false
 
   /tmpl@1.0.5:
@@ -43844,7 +43844,7 @@ packages:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.25
     dev: false
 
   /tr46@5.1.1:

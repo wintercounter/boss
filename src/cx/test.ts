@@ -11,6 +11,12 @@ test('cx respects css-variants falsy values', () => {
     expect(cx('card', false && 'color:red', { 'color:blue': false }, ['gap:4'])).toBe('card gap:4')
 })
 
+test('cx preserves shorthand and longhand tokens', () => {
+    expect(cx('border:1px_solid', 'border-color:rgba(255,255,255,0.08)')).toBe(
+        'border:1px_solid border-color:rgba(255,255,255,0.08)',
+    )
+})
+
 test('cx can customize merge behavior', () => {
     const custom = createBossCx({ sortContexts: false })
     expect(custom('hover:focus:color:red', 'focus:hover:color:blue')).toBe(
@@ -34,6 +40,14 @@ test('cv applies boss merge to variant output', () => {
     expect(button()).toBe('color:blue')
 })
 
+test('cv preserves shorthand and longhand tokens in base output', () => {
+    const button = cv({
+        base: 'border:1px_solid border-color:rgba(255,255,255,0.08)',
+    })
+
+    expect(button()).toBe('border:1px_solid border-color:rgba(255,255,255,0.08)')
+})
+
 test('scv applies boss merge to slot output', () => {
     const card = scv({
         slots: ['root'],
@@ -53,6 +67,17 @@ test('scv applies boss merge to slot output', () => {
     })
 
     expect(card().root).toBe('color:blue')
+})
+
+test('scv preserves shorthand and longhand tokens per slot', () => {
+    const card = scv({
+        slots: ['root'],
+        base: {
+            root: 'border:1px_solid border-color:rgba(255,255,255,0.08)',
+        },
+    })
+
+    expect(card().root).toBe('border:1px_solid border-color:rgba(255,255,255,0.08)')
 })
 
 test('sv deep merges style objects', () => {

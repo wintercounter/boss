@@ -1,6 +1,6 @@
 # Merge
 
-`boss-css/merge` provides a helper to merge Boss className strings by removing conflicts.
+`boss-css/merge` provides a helper to merge Boss className strings by removing exact property conflicts.
 
 ## Usage
 
@@ -31,7 +31,7 @@ join("card", ["color:red"])
 // -> "card color:red"
 
 merge("margin:1", "margin-top:2")
-// -> "margin-top:2"
+// -> "margin:1 margin-top:2"
 
 const customMerge = createBossMerge({
   sortContexts: false,
@@ -48,7 +48,7 @@ const customMerge = createBossMerge({
 
 - Only Boss-style tokens are merged (colon-delimited with a recognized CSS prop).
 - Conflicts are resolved by the last matching token for the same context + property.
-- Shorthand props remove matching longhand tokens defined by `conflictMap`.
+- Native shorthand and longhand props are preserved together by default. Boss does not try to collapse real CSS shorthand semantics for you.
 - Contexts are normalized by default (sorted alphabetically) to de-duplicate order-insensitive variants.
 - Contexts listed in `orderSensitiveContexts` keep their relative order.
 - Compound contexts (for example `at:dark` or `container:mobile`) are kept together when sorting.
@@ -68,7 +68,7 @@ type BossMergeConfig = {
 }
 ```
 
-`conflictMap` entries describe shorthand-to-longhand relationships. Only shorthands remove longhands; longhands do not conflict with each other.
+`conflictMap` is optional and opt-in. Use it only when you want utility-style shorthand rules where a later shorthand should remove specific earlier longhands. Longhands still do not remove earlier shorthands.
 
 ## Inputs
 

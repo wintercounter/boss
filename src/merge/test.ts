@@ -49,15 +49,30 @@ test('merge keeps non-conflicting props', () => {
     expect(merge('border-top-width:1 border-color:white')).toBe('border-top-width:1 border-color:white')
 })
 
-test('merge handles shorthand conflicts', () => {
-    expect(merge('margin:1 margin-top:2')).toBe('margin-top:2')
-    expect(merge('margin-top:2 margin:1')).toBe('margin:1')
-    expect(merge('padding-inline:1 padding-inline-start:2')).toBe('padding-inline-start:2')
-    expect(merge('inset:0 top:4')).toBe('top:4')
-    expect(merge('border-width:1 border-top-width:2')).toBe('border-top-width:2')
+test('merge preserves shorthand and longhand tokens by default', () => {
+    expect(merge('margin:1 margin-top:2')).toBe('margin:1 margin-top:2')
+    expect(merge('margin-top:2 margin:1')).toBe('margin-top:2 margin:1')
+    expect(merge('padding-inline:1 padding-inline-start:2')).toBe('padding-inline:1 padding-inline-start:2')
+    expect(merge('inset:0 top:4')).toBe('inset:0 top:4')
+    expect(merge('border-width:1 border-top-width:2')).toBe('border-width:1 border-top-width:2')
     expect(merge('border-top-width:2 border-right-width:3')).toBe('border-top-width:2 border-right-width:3')
-    expect(merge('border-radius:4 border-top-left-radius:2')).toBe('border-top-left-radius:2')
-    expect(merge('place-items:center align-items:start')).toBe('align-items:start')
+    expect(merge('border-radius:4 border-top-left-radius:2')).toBe('border-radius:4 border-top-left-radius:2')
+    expect(merge('place-items:center align-items:start')).toBe('place-items:center align-items:start')
+})
+
+test('merge applies custom shorthand conflicts directionally', () => {
+    const customMerge = createBossMerge({
+        conflictMap: {
+            margin: ['margin-top'],
+            'padding-inline': ['padding-inline-start'],
+            inset: ['top'],
+        },
+    })
+
+    expect(customMerge('margin-top:2 margin:1')).toBe('margin:1')
+    expect(customMerge('margin:1 margin-top:2')).toBe('margin:1 margin-top:2')
+    expect(customMerge('padding-inline-start:2 padding-inline:1')).toBe('padding-inline:1')
+    expect(customMerge('inset:0 top:4')).toBe('inset:0 top:4')
 })
 
 test('merge keeps non-boss classes intact', () => {

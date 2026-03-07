@@ -37,17 +37,13 @@ type LruCache<Key extends string, Value> = {
 
 const cssPropCache = new Map<string, boolean>()
 const whitespaceRegexp = /\s/
-const borderSideVariants = ['width', 'style', 'color'] as const
-const physicalSides = ['top', 'right', 'bottom', 'left'] as const
-const logicalAxes = ['block', 'inline'] as const
-const logicalSides = logicalAxes.flatMap(axis => [`${axis}-start`, `${axis}-end`])
 
 const defaultConfig = {
     cacheSize: 500,
     sortContexts: true,
     orderSensitiveContexts: ['before', 'after'],
     compoundContexts: ['at', 'container'],
-    conflictMap: createDefaultConflictMap(),
+    conflictMap: {},
 }
 
 export const createBossMerge = (config: BossMergeConfig = {}) => {
@@ -128,19 +124,30 @@ const mergeClassList = (classList: string, config: ResolvedConfig): string => {
     const lastIndexByKey = new Map<string, number>()
 
     for (const token of tokens.flatMap(expandGroupedSelector)) {
-        const conflictKeys = getConflictKeys(token, config)
+        const parsed = parseToken(token)
 
-        if (conflictKeys) {
-            for (const key of conflictKeys) {
-                const previousIndex = lastIndexByKey.get(key)
-                if (previousIndex !== undefined) {
-                    parsedTokens[previousIndex] = { value: '' }
+        if (parsed) {
+            const { contexts, prop } = parsed
+            const contextTokens = normalizeContexts(contexts, config)
+            const contextKey = contextTokens.join(':')
+            const exactKey = buildKey(contextKey, prop)
+            const previousExactIndex = lastIndexByKey.get(exactKey)
+
+            if (previousExactIndex !== undefined) {
+                parsedTokens[previousExactIndex] = { value: '' }
+            }
+
+            const shorthandConflicts = config.conflictMap.get(prop)
+            if (shorthandConflicts?.length) {
+                for (const longhand of shorthandConflicts) {
+                    const previousLonghandIndex = lastIndexByKey.get(buildKey(contextKey, longhand))
+                    if (previousLonghandIndex !== undefined) {
+                        parsedTokens[previousLonghandIndex] = { value: '' }
+                    }
                 }
             }
 
-            for (const key of conflictKeys) {
-                lastIndexByKey.set(key, parsedTokens.length)
-            }
+            lastIndexByKey.set(exactKey, parsedTokens.length)
         }
 
         parsedTokens.push({ value: token })
@@ -309,26 +316,6 @@ const findGroupStart = (selector: string) => {
     return -1
 }
 
-const getConflictKeys = (token: string, config: ResolvedConfig): string[] | null => {
-    const parsed = parseToken(token)
-    if (!parsed) return null
-
-    const { contexts, prop } = parsed
-    const contextTokens = normalizeContexts(contexts, config)
-    const contextKey = contextTokens.join(':')
-
-    const keys = [buildKey(contextKey, prop)]
-    const longhands = config.conflictMap.get(prop)
-
-    if (longhands?.length) {
-        for (const longhand of longhands) {
-            keys.push(buildKey(contextKey, longhand))
-        }
-    }
-
-    return keys
-}
-
 const parseToken = (token: string): { contexts: string[]; prop: string } | null => {
     const grouped = parseGroupedSelector(token)
     if (grouped) {
@@ -477,263 +464,6 @@ function createLruCache<Key extends string, Value>(maxCacheSize: number): LruCac
             }
         },
     }
-}
-
-function createDefaultConflictMap() {
-    const map: Record<string, string[]> = {}
-
-    const marginLonghands = unique([
-        ...physicalSides.map(side => `margin-${side}`),
-        ...logicalAxes.map(axis => `margin-${axis}`),
-        ...logicalSides.map(side => `margin-${side}`),
-    ])
-
-    map.margin = marginLonghands
-    map['margin-block'] = ['margin-block-start', 'margin-block-end']
-    map['margin-inline'] = ['margin-inline-start', 'margin-inline-end']
-
-    const paddingLonghands = unique([
-        ...physicalSides.map(side => `padding-${side}`),
-        ...logicalAxes.map(axis => `padding-${axis}`),
-        ...logicalSides.map(side => `padding-${side}`),
-    ])
-
-    map.padding = paddingLonghands
-    map['padding-block'] = ['padding-block-start', 'padding-block-end']
-    map['padding-inline'] = ['padding-inline-start', 'padding-inline-end']
-
-    map.inset = unique([
-        'top',
-        'right',
-        'bottom',
-        'left',
-        ...logicalAxes.map(axis => `inset-${axis}`),
-        ...logicalSides.map(side => `inset-${side}`),
-    ])
-    map['inset-block'] = ['inset-block-start', 'inset-block-end']
-    map['inset-inline'] = ['inset-inline-start', 'inset-inline-end']
-
-    const borderSideLonghands = (side: string) => borderSideVariants.map(variant => `border-${side}-${variant}`)
-
-    const borderPhysicalSideLonghands = physicalSides.flatMap(side => borderSideLonghands(side))
-    const borderLogicalSideLonghands = logicalSides.flatMap(side => borderSideLonghands(side))
-
-    const borderAxisVariants = (axis: string) => borderSideVariants.map(variant => `border-${axis}-${variant}`)
-    const borderAxisSides = (axis: string) => [`${axis}-start`, `${axis}-end`]
-    const borderAxisSideLonghands = (axis: string) =>
-        borderAxisSides(axis).flatMap(side => borderSideLonghands(side))
-
-    const borderWidthLonghands = unique([
-        ...physicalSides.map(side => `border-${side}-width`),
-        ...logicalSides.map(side => `border-${side}-width`),
-        ...logicalAxes.map(axis => `border-${axis}-width`),
-        ...logicalAxes.flatMap(axis => borderAxisSides(axis).map(side => `border-${side}-width`)),
-    ])
-
-    const borderStyleLonghands = unique([
-        ...physicalSides.map(side => `border-${side}-style`),
-        ...logicalSides.map(side => `border-${side}-style`),
-        ...logicalAxes.map(axis => `border-${axis}-style`),
-        ...logicalAxes.flatMap(axis => borderAxisSides(axis).map(side => `border-${side}-style`)),
-    ])
-
-    const borderColorLonghands = unique([
-        ...physicalSides.map(side => `border-${side}-color`),
-        ...logicalSides.map(side => `border-${side}-color`),
-        ...logicalAxes.map(axis => `border-${axis}-color`),
-        ...logicalAxes.flatMap(axis => borderAxisSides(axis).map(side => `border-${side}-color`)),
-    ])
-
-    map.border = unique([
-        ...physicalSides.map(side => `border-${side}`),
-        ...logicalSides.map(side => `border-${side}`),
-        ...logicalAxes.map(axis => `border-${axis}`),
-        ...borderPhysicalSideLonghands,
-        ...borderLogicalSideLonghands,
-        ...borderAxisVariants('block'),
-        ...borderAxisVariants('inline'),
-        ...borderAxisSideLonghands('block'),
-        ...borderAxisSideLonghands('inline'),
-        'border-width',
-        'border-style',
-        'border-color',
-    ])
-
-    map['border-top'] = borderSideLonghands('top')
-    map['border-right'] = borderSideLonghands('right')
-    map['border-bottom'] = borderSideLonghands('bottom')
-    map['border-left'] = borderSideLonghands('left')
-
-    map['border-block'] = unique([
-        'border-block-start',
-        'border-block-end',
-        ...borderAxisVariants('block'),
-        ...borderAxisSideLonghands('block'),
-    ])
-
-    map['border-inline'] = unique([
-        'border-inline-start',
-        'border-inline-end',
-        ...borderAxisVariants('inline'),
-        ...borderAxisSideLonghands('inline'),
-    ])
-
-    map['border-block-start'] = borderSideLonghands('block-start')
-    map['border-block-end'] = borderSideLonghands('block-end')
-    map['border-inline-start'] = borderSideLonghands('inline-start')
-    map['border-inline-end'] = borderSideLonghands('inline-end')
-
-    map['border-width'] = borderWidthLonghands
-    map['border-style'] = borderStyleLonghands
-    map['border-color'] = borderColorLonghands
-
-    map['border-block-width'] = ['border-block-start-width', 'border-block-end-width']
-    map['border-inline-width'] = ['border-inline-start-width', 'border-inline-end-width']
-    map['border-block-style'] = ['border-block-start-style', 'border-block-end-style']
-    map['border-inline-style'] = ['border-inline-start-style', 'border-inline-end-style']
-    map['border-block-color'] = ['border-block-start-color', 'border-block-end-color']
-    map['border-inline-color'] = ['border-inline-start-color', 'border-inline-end-color']
-
-    map['border-radius'] = [
-        'border-top-left-radius',
-        'border-top-right-radius',
-        'border-bottom-right-radius',
-        'border-bottom-left-radius',
-        'border-start-start-radius',
-        'border-start-end-radius',
-        'border-end-start-radius',
-        'border-end-end-radius',
-    ]
-
-    map['border-image'] = [
-        'border-image-source',
-        'border-image-slice',
-        'border-image-width',
-        'border-image-outset',
-        'border-image-repeat',
-    ]
-
-    map['background'] = [
-        'background-color',
-        'background-image',
-        'background-position',
-        'background-size',
-        'background-repeat',
-        'background-origin',
-        'background-clip',
-        'background-attachment',
-    ]
-
-    map['background-position'] = ['background-position-x', 'background-position-y']
-
-    map['font'] = [
-        'font-style',
-        'font-variant',
-        'font-variant-ligatures',
-        'font-variant-caps',
-        'font-variant-numeric',
-        'font-variant-east-asian',
-        'font-weight',
-        'font-stretch',
-        'font-size',
-        'line-height',
-        'font-family',
-    ]
-
-    map['font-variant'] = ['font-variant-ligatures', 'font-variant-caps', 'font-variant-numeric', 'font-variant-east-asian']
-
-    map['list-style'] = ['list-style-position', 'list-style-image', 'list-style-type']
-
-    map['grid'] = [
-        'grid-template',
-        'grid-template-rows',
-        'grid-template-columns',
-        'grid-template-areas',
-        'grid-auto-rows',
-        'grid-auto-columns',
-        'grid-auto-flow',
-        'grid-row',
-        'grid-row-start',
-        'grid-row-end',
-        'grid-column',
-        'grid-column-start',
-        'grid-column-end',
-        'grid-area',
-    ]
-
-    map['grid-template'] = ['grid-template-rows', 'grid-template-columns', 'grid-template-areas']
-    map['grid-row'] = ['grid-row-start', 'grid-row-end']
-    map['grid-column'] = ['grid-column-start', 'grid-column-end']
-    map['grid-area'] = ['grid-row-start', 'grid-row-end', 'grid-column-start', 'grid-column-end']
-
-    map['flex'] = ['flex-grow', 'flex-shrink', 'flex-basis']
-    map['flex-flow'] = ['flex-direction', 'flex-wrap']
-
-    map['gap'] = ['row-gap', 'column-gap']
-
-    map['overflow'] = ['overflow-x', 'overflow-y']
-    map['overscroll-behavior'] = ['overscroll-behavior-x', 'overscroll-behavior-y']
-
-    map['scroll-margin'] = unique([
-        ...physicalSides.map(side => `scroll-margin-${side}`),
-        ...logicalAxes.map(axis => `scroll-margin-${axis}`),
-        ...logicalSides.map(side => `scroll-margin-${side}`),
-    ])
-
-    map['scroll-margin-block'] = ['scroll-margin-block-start', 'scroll-margin-block-end']
-    map['scroll-margin-inline'] = ['scroll-margin-inline-start', 'scroll-margin-inline-end']
-
-    map['scroll-padding'] = unique([
-        ...physicalSides.map(side => `scroll-padding-${side}`),
-        ...logicalAxes.map(axis => `scroll-padding-${axis}`),
-        ...logicalSides.map(side => `scroll-padding-${side}`),
-    ])
-
-    map['scroll-padding-block'] = ['scroll-padding-block-start', 'scroll-padding-block-end']
-    map['scroll-padding-inline'] = ['scroll-padding-inline-start', 'scroll-padding-inline-end']
-
-    map['place-content'] = ['align-content', 'justify-content']
-    map['place-items'] = ['align-items', 'justify-items']
-    map['place-self'] = ['align-self', 'justify-self']
-
-    map['column-rule'] = ['column-rule-width', 'column-rule-style', 'column-rule-color']
-    map['columns'] = ['column-width', 'column-count']
-
-    map['text-decoration'] = [
-        'text-decoration-line',
-        'text-decoration-style',
-        'text-decoration-color',
-        'text-decoration-thickness',
-        'text-decoration-skip-ink',
-    ]
-
-    map['text-emphasis'] = ['text-emphasis-style', 'text-emphasis-color', 'text-emphasis-position']
-
-    map['transition'] = [
-        'transition-property',
-        'transition-duration',
-        'transition-timing-function',
-        'transition-delay',
-        'transition-behavior',
-    ]
-
-    map['animation'] = [
-        'animation-name',
-        'animation-duration',
-        'animation-timing-function',
-        'animation-delay',
-        'animation-iteration-count',
-        'animation-direction',
-        'animation-fill-mode',
-        'animation-play-state',
-        'animation-composition',
-        'animation-timeline',
-        'animation-range',
-    ]
-
-    map['outline'] = ['outline-color', 'outline-style', 'outline-width']
-
-    return map
 }
 
 function normalizeConflictMap(conflictMap: Record<string, string[]>) {
