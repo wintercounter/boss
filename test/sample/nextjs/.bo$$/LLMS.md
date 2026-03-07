@@ -45,7 +45,7 @@
 <!-- boss:ai:summary:start -->
 ## Summary
 
-- Generated: 2026-02-22T05:24:32.464Z
+- Generated: 2026-03-07T03:58:35.920Z
 - Base dir: /Users/winter/PhpstormProjects/boss/test/sample/nextjs
 - Config path: /Users/winter/PhpstormProjects/boss/test/sample/nextjs/.bo$/config.js
 - LLMS path: /Users/winter/PhpstormProjects/boss/test/sample/nextjs/.bo$/LLMS.md

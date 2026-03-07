@@ -298,6 +298,57 @@ module.exports = {
         expect(warnings.some(warning => warning.includes('src/app.tsx'))).toBe(true)
     })
 
+    it('parses changed files serially on the shared postcss api', async () => {
+        const root = await createTempDir()
+        const configDir = path.join(root, '.bo$$')
+        const stylesheetPath = path.join(configDir, 'styles.css')
+
+        await fs.mkdir(configDir, { recursive: true })
+        await fs.mkdir(path.join(root, 'src'), { recursive: true })
+        await fs.writeFile(stylesheetPath, '', 'utf8')
+
+        ;(globalThis as any).__bossOverlapActive = 0
+        ;(globalThis as any).__bossOverlapSeen = false
+
+        const configPath = path.join(configDir, 'config.js')
+        const contentPattern = JSON.stringify([path.join(root, 'src/**/*.{ts,tsx}')])
+        await fs.writeFile(
+            configPath,
+            `
+module.exports = {
+  folder: '.bo$$',
+  configDir: '.bo$$',
+  plugins: [{
+    name: 'overlap-detector',
+    async onParse() {
+      globalThis.__bossOverlapActive = (globalThis.__bossOverlapActive || 0) + 1
+      if (globalThis.__bossOverlapActive > 1) {
+        globalThis.__bossOverlapSeen = true
+      }
+      await new Promise(resolve => setTimeout(resolve, 25))
+      globalThis.__bossOverlapActive -= 1
+    }
+  }, {
+    name: 'classname-only',
+    onBoot(api) {
+      api.strategy = 'classname-only'
+    }
+  }],
+  content: ${contentPattern},
+}
+`,
+            'utf8',
+        )
+
+        await fs.writeFile(path.join(root, 'src', 'app.tsx'), 'export const App = () => null', 'utf8')
+        await fs.writeFile(path.join(root, 'src', 'other.tsx'), 'export const Other = () => null', 'utf8')
+
+        const processor = postcss([bossPostcss({ baseDir: root })])
+        await processor.process('', { from: stylesheetPath })
+
+        expect((globalThis as any).__bossOverlapSeen).toBe(false)
+    })
+
     it('waits for runtime writes before resolving postcss', async () => {
         const root = await createTempDir()
         const configDir = path.join(root, '.bo$$')

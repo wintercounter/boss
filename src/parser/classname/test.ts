@@ -639,6 +639,24 @@ export function Select({
                     expect(api.css.text).toContain('.focus-visible\\:color\\:brand\\.ink:focus-visible { color: brand.ink }')
                 })
 
+                test('cv base string parses focus-visible border-color selectors', async ({ $ }) => {
+                    const api = await $.createServerApi({
+                        plugins: [...$.essentialsServer, $.strategy.inlineFirstServer],
+                    })
+                    await api.trigger('onParse', {
+                        content: `const focusTest = $$.cv({
+    base:
+      'display:inline-flex align-items:center justify-content:center border:1_solid border-color:transparent focus-visible:border-color:rgba(109,214,255,0.42)',
+  })`,
+                    })
+
+                    expect(api.css.text).toContain('.display\\:inline-flex { display: inline-flex }')
+                    expect(api.css.text).toContain('.border-color\\:transparent { border-color: transparent }')
+                    expect(api.css.text).toContain(
+                        '.focus-visible\\:border-color\\:rgba\\(109\\,214\\,255\\,0\\.42\\):focus-visible { border-color: rgba(109,214,255,0.42) }',
+                    )
+                })
+
                 describe.each([
                     {
                         content: `"display:block"`,

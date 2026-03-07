@@ -92,11 +92,14 @@ File: `src/tasks/postcss.ts`.
 Flow:
 1. Resolve config/API caches per `baseDir`.
 2. Process changed content files with transform cache.
-3. Trigger `onParse` for changed files.
+3. Trigger `onParse` for changed files serially on the shared API instance.
 4. Recompute boundary CSS outputs.
 5. Replace PostCSS root with generated CSS for the current stylesheet.
 6. Await runtime/types writes before returning from the PostCSS run.
 7. Report parse failures as PostCSS warnings (file path + error) instead of silently ignoring them.
+
+Why serial:
+- PostCSS reuses one server API per `baseDir`, so concurrent `onParse` calls can interleave shared CSS/source state and produce nondeterministic parse errors.
 
 ### `compile`
 

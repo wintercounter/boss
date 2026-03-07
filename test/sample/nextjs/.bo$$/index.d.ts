@@ -62183,7 +62183,15 @@ type BossComponentProps<C> = C extends keyof BossIntrinsicElements
 type AsProp<C extends BossElementType> = {
     as?: C
 }
-type PolymorphicComponentProp<C extends BossElementType, Props = {}> = Props & BossComponentProps<C> & AsProp<C>
+type BossMergedProps<Props, ComponentProps> = Omit<Props, keyof ComponentProps> &
+    Omit<ComponentProps, keyof Props> & {
+        [K in Extract<keyof ComponentProps, keyof Props>]?: ComponentProps[K] | Props[K]
+    }
+type PolymorphicComponentProp<C extends BossElementType, Props = {}> = BossMergedProps<
+    Props,
+    BossComponentProps<C>
+> &
+    AsProp<C>
 type PolymorphicComponentPropWithRef<C extends BossElementType, Props = {}> = PolymorphicComponentProp<C, Props> & {
     ref?: unknown
 }
@@ -62229,8 +62237,8 @@ interface $$Prepared {
     get Prepared(): BaseFn<"div">;
     set Prepared(value: $$PreparedDefinitionForSet<"div">);
     /**
-     * Declared in: app/ClientSide.tsx
-     * Styles: { color: 'lime' }
+     * Declared in: app/layout.tsx
+     * Styles: { boxShadow: '0 0 0 2px currentColor', textTransform: 'uppercase', width: 300, hover: { color: 'purple' }, at: { 'mobile+': { color: 'cyan' } }, before: { content: '""' } }
      */
     get PreparedUppercaseA(): BaseFn<"div">;
     set PreparedUppercaseA(value: $$PreparedDefinitionForSet<"div">);

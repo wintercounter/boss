@@ -131,7 +131,6 @@ export const runPostcss = async (root: postcss.Root, result: postcss.Result, opt
 
             const processedFiles = await Promise.allSettled(promises)
 
-            const onParseTasks: Array<{ filePath: string; promise: ReturnType<typeof api.trigger> }> = []
             for (const settled of processedFiles) {
                 if (settled.status !== 'fulfilled') continue
                 const processed = settled.value
@@ -142,26 +141,23 @@ export const runPostcss = async (root: postcss.Root, result: postcss.Result, opt
                     api.css?.removeSource?.(changedPath)
                 }
                 const sourcePath = changedPath ?? value.path ?? '(unknown file)'
-                onParseTasks.push({
-                    filePath: sourcePath,
-                    promise: api.trigger('onParse', value),
-                })
-            }
-            const onParseResults = await Promise.allSettled(onParseTasks.map(task => task.promise))
-            onParseResults.forEach((parseResult, index) => {
-                if (parseResult.status !== 'rejected') return
-                const task = onParseTasks[index]
-                const relativePath = path.relative(baseDir ?? process.cwd(), task.filePath)
-                const sourceLabel = relativePath && !relativePath.startsWith('..') ? relativePath : task.filePath
-                const reason =
-                    parseResult.reason instanceof Error
-                        ? parseResult.reason.message
-                        : String(parseResult.reason ?? 'Unknown parsing error')
+                try {
+                    // PostCSS reuses a single API instance, so parsing files in parallel
+                    // can interleave shared css/source state and produce nondeterministic errors.
+                    await api.trigger('onParse', value)
+                } catch (parseError) {
+                    const relativePath = path.relative(baseDir ?? process.cwd(), sourcePath)
+                    const sourceLabel = relativePath && !relativePath.startsWith('..') ? relativePath : sourcePath
+                    const reason =
+                        parseError instanceof Error
+                            ? parseError.message
+                            : String(parseError ?? 'Unknown parsing error')
 
-                result.warn(`[boss-css] Failed parsing ${sourceLabel}: ${reason}`, {
-                    plugin: 'boss-postcss-plugin',
-                })
-            })
+                    result.warn(`[boss-css] Failed parsing ${sourceLabel}: ${reason}`, {
+                        plugin: 'boss-postcss-plugin',
+                    })
+                }
+            }
 
             const boundaryResult = await resolveBoundaryOutputs(api, {
                 rootDir: baseDir ?? process.cwd(),

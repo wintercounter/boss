@@ -449,6 +449,43 @@ describe('bosswind', () => {
             expect(css).toContain('.icon')
         })
 
+        test('focus-visible border-color class parses with bosswind plugin stack', async ({ $ }) => {
+            const api = await $.createServerApi({
+                plugins: [
+                    $.prop.bosswindServer,
+                    $.use.tokenServer,
+                    $.prop.atServer,
+                    $.prop.childServer,
+                    $.prop.cssServer,
+                    $.prop.pseudoServer,
+                    $.parser.classNameServer,
+                    $.parser.jsxServer,
+                    $.strategy.inlineFirstServer,
+                ],
+                tokens: {
+                    color: {
+                        brand: {
+                            accent: '#6dd6ff',
+                        },
+                    },
+                },
+            })
+
+            await api.trigger('onParse', {
+                content: `const focusTest = $$.cv({
+    base:
+      'display:inline-flex align-items:center justify-content:center border:1_solid border-color:transparent focus-visible:border-color:rgba(109,214,255,0.42)',
+  })`,
+            })
+
+            const css = api.css.text.trim()
+            expect(css).toContain('.display\\:inline-flex { display: inline-flex }')
+            expect(css).toContain('.border-color\\:transparent { border-color: transparent }')
+            expect(css).toContain(
+                '.focus-visible\\:border-color\\:rgba\\(109\\,214\\,255\\,0\\.42\\):focus-visible { border-color: rgba(109,214,255,0.42) }',
+            )
+        })
+
         test('jsx aliases keep shorthand classnames in classname-first', async ({ $ }) => {
             const api = await $.createServerApi({
                 plugins: [$.prop.bosswindServer, ...$.essentialsServer, $.strategy.classnameFirstServer],
