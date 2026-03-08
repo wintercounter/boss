@@ -91,7 +91,7 @@ export const onBoot: Plugin<'onBoot'> = async api => {
             'body',
             '$$:AtNamedProps',
             `export type $$AtNamedProps = {
-    [key in \`container_\${string}\`]?: StandardProperties['container'] | $$FinalProps
+    [key in \`container_\${string}\`]?: Properties['container'] | $$FinalProps
 } & {
     [key in \`keyframes_\${string}\`]?: $$KeyframesProps
 }`,
@@ -137,10 +137,10 @@ export const onReady: Plugin<'onReady'> = async api => {
     const updateFinalProps = (value: { content?: string } | string | null | undefined) => {
         const content = typeof value === 'string' ? value : value?.content
         if (typeof content !== 'string') return value
-        if (!content.includes('StandardProperties')) return content
-        if (content.includes(`Omit<StandardProperties, 'container'>`)) return content
-        return content.replace(' & StandardProperties', () => {
-            return ` & Omit<StandardProperties, 'container'> & { container?: StandardProperties['container'] | $$FinalProps }`
+        if (!content.includes(' & Properties')) return content
+        if (content.includes(`Omit<Properties, 'container'>`)) return content
+        return content.replace(' & Properties', () => {
+            return ` & Omit<Properties, 'container'> & { container?: Properties['container'] | $$FinalProps }`
         })
     }
 

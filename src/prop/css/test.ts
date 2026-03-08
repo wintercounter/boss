@@ -43,6 +43,28 @@ describe('css', () => {
                     )
                 })
 
+                test('vendor-prefixed lowercase prop emits CSS', async ({ $ }) => {
+                    const api = await $.createServerApi({
+                        plugins: [...$.essentialsServer, $.strategy.inlineFirstServer],
+                    })
+                    await api.trigger('onParse', {
+                        content: `<$$ webkitMaskImage="linear-gradient(red, transparent)" />`,
+                    })
+
+                    expect(api.css.text).toContain('-webkit-mask-image:')
+                })
+
+                test('vendor-prefixed uppercase alias emits CSS', async ({ $ }) => {
+                    const api = await $.createServerApi({
+                        plugins: [...$.essentialsServer, $.strategy.inlineFirstServer],
+                    })
+                    await api.trigger('onParse', {
+                        content: `<$$ WebkitMaskImage="linear-gradient(red, transparent)" />`,
+                    })
+
+                    expect(api.css.text).toContain('-webkit-mask-image:')
+                })
+
                 test('prepared', async ({ $ }) => {
                     const api = await $.createServerApi({
                         plugins: [...$.essentialsServer, $.strategy.inlineFirstServer],
@@ -92,6 +114,18 @@ $$.PreparedUppercaseA = $$.$({
                     expect(text.includes('type VisualBox')).toBeTruthy()
                 })
 
+                test('generated dts includes full CSS props and alias interface in $$ props', async ({ $ }) => {
+                    const api = await $.createServerApi({
+                        plugins: [$.prop.atServer, $.prop.childServer, $.prop.cssServer, $.prop.pseudoServer, $.parser.jsxServer],
+                    })
+                    const text = api.file.js.dts.text
+
+                    expect(text).toContain('& Omit<Properties, \'container\'>')
+                    expect(text).toContain('& $$CSSMissingProps')
+                    expect(text).toContain('webkitMaskImage?: $$PropValues | Property.WebkitMaskImage | undefined')
+                    expect(text).toContain('"WebkitMaskImage"?: $$PropValues | undefined')
+                })
+
                 test('css props typecheck', async ({ $ }) => {
                     const source = `import './bo$$'
 
@@ -103,6 +137,24 @@ $$.$({
 
 // @ts-expect-error css props should not accept object values
 $$.$({ display: {} })
+`
+
+                    const { diagnostics, formattedDiagnostics } = await $.typeTest({
+                        files: {
+                            'case.ts': source,
+                        },
+                    })
+
+                    expect(diagnostics, formattedDiagnostics).toStrictEqual([])
+                })
+
+                test('vendor-prefixed css props typecheck for canonical and alias keys', async ({ $ }) => {
+                    const source = `import './bo$$'
+
+$$.$({
+    webkitMaskImage: 'linear-gradient(black, transparent)',
+    WebkitMaskImage: 'linear-gradient(black, transparent)',
+})
 `
 
                     const { diagnostics, formattedDiagnostics } = await $.typeTest({

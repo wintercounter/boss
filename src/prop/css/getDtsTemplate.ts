@@ -18,6 +18,8 @@ const baseInterfaces = [
 ]
 
 const lcfirst = (str: string) => str.charAt(0).toLowerCase() + str.slice(1)
+const isIdentifier = (str: string) => /^[$A-Z_a-z][$\w]*$/.test(str)
+const formatDeclarationName = (str: string) => (isIdentifier(str) ? str : JSON.stringify(str))
 
 let cachedTemplate:
     | Promise<[Record<string, { description?: string; types?: string[]; iface?: string | null }>, Array<[string | null, string]>]>
@@ -55,6 +57,7 @@ export default async function getDtsTemplate() {
                 if (!match) continue
                 const [, _name, values] = match
                 const name = lcfirst(_name)
+                const declarationName = formatDeclarationName(name)
                 csstypeObject[name] = {
                     description: csstypeObject[name]?.description || comment.join('\n'),
                     types:
@@ -69,7 +72,7 @@ export default async function getDtsTemplate() {
                 csstypeTemplate.push([`css:${name}:description`, ''])
                 csstypeTemplate.push([
                     `css:${name}:declaration`,
-                    line.replace(/;$/, '').replace(`?: `, () => '?: $$PropValues | '),
+                    `  ${declarationName}?: $$PropValues | ${values.trim()}`,
                 ])
                 comment = []
             } else if (csstypeTemplate.at(-1)?.[0] === null) {

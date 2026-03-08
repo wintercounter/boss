@@ -14,8 +14,9 @@ export const onBoot: Plugin<'onBoot'> = async api => {
         Array<[string | null, string]>,
     ]
 
-    // Add the props to $$FinalProps
-    api.file.js.dts.replace('body', `$$:FinalProps`, v => `${v} & StandardProperties`)
+    // Add the full generated CSS surface to $$FinalProps, including vendor/obsolete/svg props
+    // and the extra alias keys discovered from Webref.
+    api.file.js.dts.replace('body', `$$:FinalProps`, v => `${v} & Properties & $$CSSMissingProps`)
 
     // Generate initial d.ts file
     typeTemplate.forEach(entry => {
