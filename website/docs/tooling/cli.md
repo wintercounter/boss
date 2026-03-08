@@ -51,7 +51,7 @@ Replace `init` with `build`, `watch`, `compile`, or `dev` for other commands.
 
 ## Init
 
-`npx boss-css init` scaffolds `.bo$$`, wires PostCSS (except for Stencil), updates Next.js instrumentation files, sets `css.autoLoad: false` for Next.js, and only touches ESLint when an ESLint config/dependency already exists or when you pass `--eslint-plugin true`.
+`npx boss-css init` scaffolds `.bo$$`, wires PostCSS (except for Stencil), updates Next.js instrumentation files, sets `css.autoLoad: false` for Next.js, updates Nitro Vite plugin config with `traceDeps: ['jsdom']` when it finds `nitro(...)` in `vite.config.*`, and only touches ESLint when an ESLint config/dependency already exists or when you pass `--eslint-plugin true`.
 If the config folder already exists, answering "No" to overwrite keeps existing files and only writes missing ones.
 
 Flags:
@@ -67,6 +67,7 @@ Flags:
 
 Generated blocks in ESLint/PostCSS config and instrumentation files are wrapped with `// bo$$:begin` and `// bo$$:end` so reruns can update safely.
 Stencil note: PostCSS setup is skipped; use `npx boss-css watch`, set `css.autoLoad: false`, and wire `globalScript` + `globalStyle` in `stencil.config.*`.
+Nitro note: if your `vite.config.*` uses `nitro(...)`, keep `traceDeps: ['jsdom']` on that plugin so Nitro traces Boss server helpers correctly.
 
 When `--strategy runtime-only` is chosen, the generated config includes a `runtime` block with `runtime.only: true` and `runtime.strategy: 'inline-first'`.
 When `--strategy runtime-hybrid` is chosen, the generated config includes a `runtime` block with `runtime.only: false` and `runtime.strategy: 'inline-first'`. Edit the config to switch to `classname-first` or `classic` if needed.

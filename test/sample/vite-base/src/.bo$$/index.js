@@ -15,6 +15,11 @@ import { onBrowserObjectStart as onBrowserObjectStart_1jrxoir } from 'boss-css/s
 import './styles.css'
 
 createApi_1acf3eh({
+tokenPropGroups: {
+  "font": [
+    "font-family"
+  ]
+},
 runtimeApi: runtimeApi,
 framework: {
   "name": "react",
@@ -22,6 +27,7 @@ framework: {
 },
 strategy: "inline-first",
 plugins: [{
+  "onInit": onInit_1w3f7mg,
   "onBrowserObjectStart": onBrowserObjectStart_1w3f7mg
 },
 {

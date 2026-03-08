@@ -249,6 +249,13 @@ const POSTCSS_CONFIG_FILES = [
     '.postcssrc.mjs',
 ]
 
+const VITE_CONFIG_FILES = [
+    'vite.config.ts',
+    'vite.config.js',
+    'vite.config.mjs',
+    'vite.config.cjs',
+]
+
 const ESLINT_CONFIG_FILES: Array<{ file: string; type: EslintConfigType }> = [
     { file: 'eslint.config.js', type: 'flat' },
     { file: 'eslint.config.cjs', type: 'flat' },
@@ -433,6 +440,8 @@ const init: TaskFn = async config => {
                     })
                 }
 
+                const nitroViteUpdate = await ensureNitroViteTraceDeps(cwd)
+
                 const packageManager = await detectPackageManager(cwd, config.runtimeType)
                 const installCommand = packageUpdate.bossCssAdded
                     ? formatInstallCommand(packageManager)
@@ -452,6 +461,7 @@ const init: TaskFn = async config => {
                     selectedStrategyId,
                     cssAutoLoad,
                     installCommand,
+                    nitroUpdated: nitroViteUpdate.updated,
                 })
 
                 return true
@@ -1623,6 +1633,113 @@ const ensureRuleEntry = (content: string, key: string, entry: string) => {
     }
 }
 
+export const updateNitroViteConfigContent = (content: string) => {
+    const nitroPattern = /\bnitro\s*\(/g
+    let next = content
+    let updated = false
+    let hasNitro = false
+    let unsupported = false
+    let offset = 0
+
+    while (true) {
+        nitroPattern.lastIndex = offset
+        const match = nitroPattern.exec(next)
+        if (!match) break
+        hasNitro = true
+        const callStart = match.index + match[0].length - 1
+        const callEnd = findMatchingIndex(next, callStart, '(', ')')
+        if (callEnd === -1) {
+            unsupported = true
+            break
+        }
+
+        const rawArgs = next.slice(callStart + 1, callEnd)
+        const trimmedArgs = rawArgs.trim()
+
+        if (!trimmedArgs) {
+            next = `${next.slice(0, callStart + 1)}{ traceDeps: ['jsdom'] }${next.slice(callEnd)}`
+            updated = true
+            offset = callStart + 1 + "{ traceDeps: ['jsdom'] }".length
+            continue
+        }
+
+        const firstArgOffset = rawArgs.search(/\S/)
+        if (firstArgOffset === -1) {
+            next = `${next.slice(0, callStart + 1)}{ traceDeps: ['jsdom'] }${next.slice(callEnd)}`
+            updated = true
+            offset = callStart + 1 + "{ traceDeps: ['jsdom'] }".length
+            continue
+        }
+
+        const objectStart = callStart + 1 + firstArgOffset
+        if (next[objectStart] !== '{') {
+            unsupported = true
+            offset = callEnd + 1
+            continue
+        }
+
+        const objectEnd = findMatchingIndex(next, objectStart, '{', '}')
+        if (objectEnd === -1 || next.slice(objectEnd + 1, callEnd).trim()) {
+            unsupported = true
+            offset = callEnd + 1
+            continue
+        }
+
+        const objectText = next.slice(objectStart, objectEnd + 1)
+        const updatedObject = ensureNitroTraceDepsInObject(objectText, getIndentFromIndex(next, objectStart))
+        if (updatedObject !== objectText) {
+            next = `${next.slice(0, objectStart)}${updatedObject}${next.slice(objectEnd + 1)}`
+            updated = true
+            offset = objectStart + updatedObject.length
+            continue
+        }
+
+        offset = callEnd + 1
+    }
+
+    return { content: next, updated, hasNitro, unsupported }
+}
+
+const ensureNitroTraceDepsInObject = (objectText: string, baseIndent: string) => {
+    if (!objectText.startsWith('{') || !objectText.endsWith('}')) return objectText
+
+    const traceMatch = objectText.match(/\btraceDeps\s*:\s*\[/)
+    if (!traceMatch) {
+        if (objectText.trim() === '{}') return "{ traceDeps: ['jsdom'] }"
+
+        if (!objectText.includes('\n')) {
+            const inner = objectText.slice(1, -1).trim()
+            return `{ traceDeps: ['jsdom'], ${inner} }`
+        }
+
+        const entryIndent = `${baseIndent}  `
+        return objectText.replace('{', `{\n${entryIndent}traceDeps: ['jsdom'],`)
+    }
+
+    const arrayStart = (traceMatch.index ?? 0) + traceMatch[0].length - 1
+    const arrayEnd = findMatchingIndex(objectText, arrayStart, '[', ']')
+    if (arrayEnd === -1) return objectText
+    const arrayBody = objectText.slice(arrayStart + 1, arrayEnd)
+    if (/['"]jsdom['"]/.test(arrayBody)) return objectText
+
+    const updatedArrayBody = appendTraceDep(arrayBody, `${baseIndent}    `)
+    return `${objectText.slice(0, arrayStart + 1)}${updatedArrayBody}${objectText.slice(arrayEnd)}`
+}
+
+const appendTraceDep = (arrayBody: string, indent: string) => {
+    if (!arrayBody.trim()) {
+        if (!arrayBody.includes('\n')) return "'jsdom'"
+        const closingIndent = arrayBody.match(/\n([ \t]*)$/)?.[1] ?? indent.slice(0, -2)
+        return `\n${indent}'jsdom'\n${closingIndent}`
+    }
+    if (!arrayBody.includes('\n')) return `${arrayBody.trim()}, 'jsdom'`
+
+    const trimmedEnd = arrayBody.replace(/\s*$/, '')
+    const separator = /,\s*$/.test(trimmedEnd) ? '' : ','
+    const closingIndent = arrayBody.match(/\n([ \t]*)$/)?.[1] ?? indent.slice(0, -2)
+    return `${trimmedEnd}${separator}\n${indent}'jsdom'\n${closingIndent}`
+}
+
 const ensureAllowGlobalsRule = (rules: Record<string, unknown>) => {
     const existing = rules['react/jsx-no-undef']
     if (Array.isArray(existing)) {
@@ -2281,6 +2398,31 @@ const ensureBossImport = (content: string, isEsm: boolean) => {
     return `const boss = require('boss-css/postcss')\n${content}`
 }
 
+const detectViteConfigPath = async (cwd: string) => {
+    for (const file of VITE_CONFIG_FILES) {
+        const fullPath = path.join(cwd, file)
+        if (await exists(fullPath)) return fullPath
+    }
+    return null
+}
+
+const ensureNitroViteTraceDeps = async (cwd: string) => {
+    const viteConfigPath = await detectViteConfigPath(cwd)
+    if (!viteConfigPath) return { updated: false, hasNitro: false }
+
+    const content = await fs.readFile(viteConfigPath, 'utf8')
+    const update = updateNitroViteConfigContent(content)
+    if (update.unsupported) {
+        log.warn('Nitro detected in vite.config.*, but init could not safely add traceDeps: [\'jsdom\'].')
+    }
+    if (!update.updated) {
+        return { updated: false, hasNitro: update.hasNitro }
+    }
+
+    await fs.writeFile(viteConfigPath, update.content)
+    return { updated: true, hasNitro: update.hasNitro }
+}
+
 const getIndentFromIndex = (content: string, index: number) => {
     const lineStart = content.lastIndexOf('\n', index)
     const line = content.slice(lineStart + 1)
@@ -2422,6 +2564,7 @@ const logInitSummary = ({
     selectedStrategyId,
     cssAutoLoad,
     installCommand,
+    nitroUpdated,
 }: {
     configDir: string
     isNext: boolean
@@ -2436,6 +2579,7 @@ const logInitSummary = ({
     selectedStrategyId: string
     cssAutoLoad: boolean
     installCommand: string | null
+    nitroUpdated: boolean
 }) => {
     log.info('boss init complete.')
     log.message(`Generated Boss CSS config in ${configDir}`)
@@ -2485,6 +2629,10 @@ const logInitSummary = ({
     if (frameworkId === 'stencil') {
         log.message('Stencil note:')
         log.message('- PostCSS setup is skipped; run `npx boss-css watch` for CSS generation.')
+    }
+
+    if (nitroUpdated) {
+        log.message("Updated vite.config.* Nitro plugin with traceDeps: ['jsdom'].")
     }
 
     if (globalsEnabled) {

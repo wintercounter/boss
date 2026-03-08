@@ -5,7 +5,7 @@
 /* eslint-disable */
 import type * as BossJSX from 'react'
 
-export type $$FinalProps = {} & $$AtProps & $$ChildProps & Omit<StandardProperties, 'container'> & { container?: StandardProperties['container'] | $$FinalProps } & $$PseudoProps & { className?: import('boss-css/cx').CxValue } & { tokens?: $$TokenOverrides }
+export type $$FinalProps = {} & $$AtProps & $$ChildProps & Omit<Properties, 'container'> & { container?: Properties['container'] | $$FinalProps } & $$CSSMissingProps & $$PseudoProps & { className?: import('boss-css/variants').CxValue } & { tokens?: $$TokenOverrides }
 type $$PropFunction = (...args: any) => $$PropValues
 type $$PropValues =
     | string
@@ -20,7 +20,7 @@ export interface $$AtPropsShorthands {
   "keyframes"?: $$KeyframesProps
 
   /**
-   * @media screen and (max-width: 375px)
+   * @media screen and (min-width: 0px) and (max-width: 375px)
   */
   "micro"?: $$FinalProps
 
@@ -45,17 +45,17 @@ export interface $$AtPropsShorthands {
   "medium"?: $$FinalProps
 
   /**
-   * @media screen and (min-width: 1920px)
+   * @media screen and (min-width: 1920px) and (max-width: 100000px)
   */
   "large"?: $$FinalProps
 
   /**
-   * @media screen and (max-width: 1023px)
+   * @media screen and (min-width: 0px) and (max-width: 1023px)
   */
   "device"?: $$FinalProps
 
   /**
-   * @media screen and (max-width: nullpx)
+   * @media screen and (min-width: 0px)
   */
   "micro+"?: $$FinalProps
 
@@ -110,12 +110,12 @@ export interface $$AtPropsShorthands {
   "large+"?: $$FinalProps
 
   /**
-   * @media screen and (max-width: nullpx)
+   * @media screen and (max-width: 100000px)
   */
   "large-"?: $$FinalProps
 
   /**
-   * @media screen and (max-width: nullpx)
+   * @media screen and (min-width: 0px)
   */
   "device+"?: $$FinalProps
 
@@ -144,7 +144,7 @@ export type $$KeyframesProps = {
     [key: string]: $$FinalProps
 }
 export type $$AtNamedProps = {
-    [key in `container_${string}`]?: StandardProperties['container'] | $$FinalProps
+    [key in `container_${string}`]?: Properties['container'] | $$FinalProps
 } & {
     [key in `keyframes_${string}`]?: $$KeyframesProps
 }
@@ -314,7 +314,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "align-self",
    *     "alignSelf"
    *   ],
-   *   "syntax": "auto | normal | stretch | <baseline-position> | <overflow-position>? <self-position> | anchor-center",
+   *   "syntax": "auto | <overflow-position>? [ normal | <self-position> ]| stretch | <baseline-position> | anchor-center",
    *   "extended": [
    *     "https://drafts.csswg.org/css-anchor-position-1/#propdef-align-self"
    *   ]
@@ -360,7 +360,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "alignment-baseline",
    *     "alignmentBaseline"
    *   ],
-   *   "syntax": "baseline | text-bottom | alphabetic | ideographic | middle | central | mathematical | text-top",
+   *   "syntax": "baseline | <baseline-metric>",
    *   "extended": []
    * }
    * ```
@@ -397,7 +397,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "anchor-name",
    *     "anchorName"
    *   ],
-   *   "syntax": "none | <dashed-ident>#",
+   *   "syntax": "none | <anchor-name>#",
    *   "extended": []
    * }
    * ```
@@ -431,7 +431,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "anchor-scope",
    *     "anchorScope"
    *   ],
-   *   "syntax": "none | all | <dashed-ident>#",
+   *   "syntax": "none | all | <anchor-name>#",
    *   "extended": []
    * }
    * ```
@@ -3098,6 +3098,13 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "box-shadow",
    *     "boxShadow"
    *   ],
+   *   "longhands": [
+   *     "box-shadow-color",
+   *     "box-shadow-offset",
+   *     "box-shadow-blur",
+   *     "box-shadow-spread",
+   *     "box-shadow-position"
+   *   ],
    *   "syntax": "<spread-shadow>#",
    *   "extended": []
    * }
@@ -3553,6 +3560,9 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "color-adjust",
    *     "colorAdjust"
    *   ],
+   *   "longhands": [
+   *     "print-color-adjust"
+   *   ],
    *   "syntax": "<'print-color-adjust'>",
    *   "extended": []
    * }
@@ -3741,7 +3751,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "column-gap",
    *     "columnGap"
    *   ],
-   *   "syntax": "normal | <length-percentage [0,∞]>",
+   *   "syntax": "normal | <length-percentage [0,∞]> | <line-width>",
    *   "extended": []
    * }
    * ```
@@ -3774,7 +3784,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *   "percentages": "n/a",
    *   "computedValue": "as specified",
    *   "canonicalOrder": "per grammar",
-   *   "animationType": "repeatable list, see § 3.4.1 Interpolation behavior.",
+   *   "animationType": "repeatable list, see § 4.7 Interpolation of list values.",
    *   "styleDeclaration": [
    *     "column-rule-color",
    *     "columnRuleColor"
@@ -3850,7 +3860,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *   "percentages": "n/a",
    *   "computedValue": "list of absolute lengths, snapped as a border width",
    *   "canonicalOrder": "per grammar",
-   *   "animationType": "repeatable list, see § 3.4.1 Interpolation behavior.",
+   *   "animationType": "repeatable list, see § 4.7 Interpolation of list values.",
    *   "styleDeclaration": [
    *     "column-rule-width",
    *     "columnRuleWidth"
@@ -3969,10 +3979,8 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *   "styleDeclaration": [
    *     "contain"
    *   ],
-   *   "syntax": "none | strict | content | [ [size | inline-size] || layout || style || paint ] | view-transition",
-   *   "extended": [
-   *     "https://drafts.csswg.org/css-view-transitions-2/"
-   *   ]
+   *   "syntax": "none | strict | content | [ [size | inline-size] || layout || style || paint ]",
+   *   "extended": []
    * }
    * ```
   */
@@ -4640,7 +4648,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "dominant-baseline",
    *     "dominantBaseline"
    *   ],
-   *   "syntax": "auto | text-bottom | alphabetic | ideographic | middle | central | mathematical | hanging | text-top",
+   *   "syntax": "auto | <baseline-metric>",
    *   "extended": []
    * }
    * ```
@@ -5569,6 +5577,11 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "font-synthesis",
    *     "fontSynthesis"
    *   ],
+   *   "longhands": [
+   *     "font-synthesis-weight",
+   *     "font-synthesis-style",
+   *     "font-synthesis-small-caps"
+   *   ],
    *   "syntax": "none | [ weight || style || small-caps || position]",
    *   "extended": []
    * }
@@ -5755,6 +5768,15 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *   "styleDeclaration": [
    *     "font-variant",
    *     "fontVariant"
+   *   ],
+   *   "longhands": [
+   *     "font-variant-ligatures",
+   *     "font-variant-caps",
+   *     "font-variant-alternates",
+   *     "font-variant-numeric",
+   *     "font-variant-east-asian",
+   *     "font-variant-position",
+   *     "font-variant-emoji"
    *   ],
    *   "syntax": "normal | none | [ [ <common-lig-values> || <discretionary-lig-values> || <historical-lig-values> || <contextual-alt-values> ] || [ small-caps | all-small-caps | petite-caps | all-petite-caps | unicase | titling-caps ] || [ stylistic(<feature-value-name>) || historical-forms || styleset(<feature-value-name>#) || character-variant(<feature-value-name>#) || swash(<feature-value-name>) || ornaments(<feature-value-name>) || annotation(<feature-value-name>) ] || [ <numeric-figure-values> || <numeric-spacing-values> || <numeric-fraction-values> || ordinal || slashed-zero ] || [ <east-asian-variant-values> || <east-asian-width-values> || ruby ] || [ sub | super ] || [ text | emoji | unicode ] ]",
    *   "extended": []
@@ -7273,7 +7295,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "justify-self",
    *     "justifySelf"
    *   ],
-   *   "syntax": "auto | normal | stretch | <baseline-position> | <overflow-position>? [ <self-position> | left | right ] | anchor-center",
+   *   "syntax": "auto | <overflow-position>? [ normal | <self-position> | left | right ] | stretch | <baseline-position> | anchor-center",
    *   "extended": [
    *     "https://drafts.csswg.org/css-anchor-position-1/#propdef-justify-self"
    *   ]
@@ -7998,6 +8020,11 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *   "animationType": "discrete",
    *   "styleDeclaration": [
    *     "marker"
+   *   ],
+   *   "longhands": [
+   *     "marker-start",
+   *     "marker-mid",
+   *     "marker-end"
    *   ],
    *   "syntax": "none | <marker-ref>",
    *   "extended": []
@@ -9937,6 +9964,12 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "overflow-clip-margin",
    *     "overflowClipMargin"
    *   ],
+   *   "longhands": [
+   *     "overflow-clip-margin-top",
+   *     "overflow-clip-margin-right",
+   *     "overflow-clip-margin-bottom",
+   *     "overflow-clip-margin-left"
+   *   ],
    *   "syntax": "<visual-box> || <length [0,∞]>",
    *   "extended": []
    * }
@@ -10836,7 +10869,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    * {
    *   "name": "position-anchor",
    *   "href": "https://drafts.csswg.org/css-anchor-position-1/#propdef-position-anchor",
-   *   "initial": "none",
+   *   "initial": "normal",
    *   "appliesTo": "absolutely positioned boxes",
    *   "inherited": "no",
    *   "percentages": "n/a",
@@ -10847,7 +10880,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "position-anchor",
    *     "positionAnchor"
    *   ],
-   *   "syntax": "none | auto | <anchor-name>",
+   *   "syntax": "normal | none | auto | <anchor-name>",
    *   "extended": []
    * }
    * ```
@@ -11253,7 +11286,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "row-gap",
    *     "rowGap"
    *   ],
-   *   "syntax": "normal | <length-percentage [0,∞]>",
+   *   "syntax": "normal | <length-percentage [0,∞]> | <line-width>",
    *   "extended": []
    * }
    * ```
@@ -11565,7 +11598,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *   "appliesTo": "all elements",
    *   "inherited": "no",
    *   "percentages": "N/A",
-   *   "computedValue": "see individual properties",
+   *   "computedValue": "specified keyword",
    *   "canonicalOrder": "per grammar",
    *   "animationType": "none",
    *   "styleDeclaration": [
@@ -13236,6 +13269,10 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "text-align",
    *     "textAlign"
    *   ],
+   *   "longhands": [
+   *     "text-align-all",
+   *     "text-align-last"
+   *   ],
    *   "syntax": "start | end | left | right | center | <string> | justify | match-parent | justify-all",
    *   "extended": []
    * }
@@ -13609,6 +13646,12 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "text-decoration-skip",
    *     "textDecorationSkip"
    *   ],
+   *   "longhands": [
+   *     "text-decoration-skip-self",
+   *     "text-decoration-skip-box",
+   *     "text-decoration-skip-spaces",
+   *     "text-decoration-skip-ink"
+   *   ],
    *   "syntax": "none | auto",
    *   "extended": []
    * }
@@ -13721,7 +13764,7 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "text-decoration-thickness",
    *     "textDecorationThickness"
    *   ],
-   *   "syntax": "auto | from-font | <length-percentage>",
+   *   "syntax": "auto | from-font | <length-percentage> | <line-width>",
    *   "extended": []
    * }
    * ```
@@ -14963,6 +15006,11 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *     "vertical-align",
    *     "verticalAlign"
    *   ],
+   *   "longhands": [
+   *     "alignment-baseline",
+   *     "baseline-shift",
+   *     "baseline-source"
+   *   ],
    *   "syntax": "[ first | last] || <'alignment-baseline'> || <'baseline-shift'>",
    *   "extended": []
    * }
@@ -15219,6 +15267,10 @@ export interface StandardLonghandProperties<TLength = (string & {}) | 0, TTime =
    *   "styleDeclaration": [
    *     "white-space",
    *     "whiteSpace"
+   *   ],
+   *   "longhands": [
+   *     "white-space-collapse",
+   *     "text-wrap-mode"
    *   ],
    *   "syntax": "normal | pre | pre-wrap | pre-line | <'white-space-collapse'> || <'text-wrap-mode'> || <'white-space-trim'>",
    *   "extended": []
@@ -15735,6 +15787,17 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "animation"
    *   ],
+   *   "longhands": [
+   *     "animation-name",
+   *     "animation-duration",
+   *     "animation-timing-function",
+   *     "animation-delay",
+   *     "animation-iteration-count",
+   *     "animation-direction",
+   *     "animation-fill-mode",
+   *     "animation-play-state",
+   *     "animation-timeline"
+   *   ],
    *   "syntax": "<single-animation>#",
    *   "extended": []
    * }
@@ -15769,6 +15832,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "animation-range",
    *     "animationRange"
+   *   ],
+   *   "longhands": [
+   *     "animation-range-start",
+   *     "animation-range-end"
    *   ],
    *   "syntax": "[ <'animation-range-start'> <'animation-range-end'>? ]#",
    *   "extended": []
@@ -15809,6 +15876,16 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "background"
    *   ],
+   *   "longhands": [
+   *     "background-image",
+   *     "background-position",
+   *     "background-size",
+   *     "background-repeat",
+   *     "background-attachment",
+   *     "background-origin",
+   *     "background-clip",
+   *     "background-color"
+   *   ],
    *   "syntax": "<bg-layer>#? , <final-bg-layer>",
    *   "extended": []
    * }
@@ -15846,6 +15923,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "background-position",
    *     "backgroundPosition"
    *   ],
+   *   "longhands": [
+   *     "background-position-x",
+   *     "background-position-y"
+   *   ],
    *   "syntax": "<bg-position>#",
    *   "extended": []
    * }
@@ -15879,6 +15960,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "border"
+   *   ],
+   *   "longhands": [
+   *     "border-width",
+   *     "border-style",
+   *     "border-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -15914,6 +16000,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "border-block",
    *     "borderBlock"
+   *   ],
+   *   "longhands": [
+   *     "border-block-start",
+   *     "border-block-end"
    *   ],
    *   "syntax": "<'border-block-start'>",
    *   "extended": []
@@ -15952,6 +16042,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-block-color",
    *     "borderBlockColor"
    *   ],
+   *   "longhands": [
+   *     "border-block-start-color",
+   *     "border-block-end-color"
+   *   ],
    *   "syntax": "<'border-top-color'>{1,2}",
    *   "extended": []
    * }
@@ -15987,6 +16081,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-block-end",
    *     "borderBlockEnd"
    *   ],
+   *   "longhands": [
+   *     "border-block-end-width",
+   *     "border-block-end-style",
+   *     "border-block-end-color"
+   *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
    * }
@@ -16021,6 +16120,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "border-block-start",
    *     "borderBlockStart"
+   *   ],
+   *   "longhands": [
+   *     "border-block-start-width",
+   *     "border-block-start-style",
+   *     "border-block-start-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -16059,6 +16163,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-block-style",
    *     "borderBlockStyle"
    *   ],
+   *   "longhands": [
+   *     "border-block-start-style",
+   *     "border-block-end-style"
+   *   ],
    *   "syntax": "<'border-top-style'>{1,2}",
    *   "extended": []
    * }
@@ -16096,6 +16204,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-block-width",
    *     "borderBlockWidth"
    *   ],
+   *   "longhands": [
+   *     "border-block-start-width",
+   *     "border-block-end-width"
+   *   ],
    *   "syntax": "<'border-top-width'>{1,2}",
    *   "extended": []
    * }
@@ -16130,6 +16242,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "border-bottom",
    *     "borderBottom"
+   *   ],
+   *   "longhands": [
+   *     "border-bottom-width",
+   *     "border-bottom-style",
+   *     "border-bottom-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -16171,6 +16288,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-color",
    *     "borderColor"
    *   ],
+   *   "longhands": [
+   *     "border-top-color",
+   *     "border-right-color",
+   *     "border-bottom-color",
+   *     "border-left-color"
+   *   ],
    *   "syntax": "[ <color> | <image-1D> ]{1,4}",
    *   "extended": []
    * }
@@ -16207,6 +16330,13 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-image",
    *     "borderImage"
    *   ],
+   *   "longhands": [
+   *     "border-image-source",
+   *     "border-image-slice",
+   *     "border-image-width",
+   *     "border-image-outset",
+   *     "border-image-repeat"
+   *   ],
    *   "syntax": "<'border-image-source'> || <'border-image-slice'> [ / <'border-image-width'> | / <'border-image-width'>? / <'border-image-outset'> ]? || <'border-image-repeat'>",
    *   "extended": []
    * }
@@ -16241,6 +16371,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "border-inline",
    *     "borderInline"
+   *   ],
+   *   "longhands": [
+   *     "border-inline-start",
+   *     "border-inline-end"
    *   ],
    *   "syntax": "<'border-block-start'>",
    *   "extended": []
@@ -16279,6 +16413,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-inline-color",
    *     "borderInlineColor"
    *   ],
+   *   "longhands": [
+   *     "border-inline-start-color",
+   *     "border-inline-end-color"
+   *   ],
    *   "syntax": "<'border-top-color'>{1,2}",
    *   "extended": []
    * }
@@ -16314,6 +16452,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-inline-end",
    *     "borderInlineEnd"
    *   ],
+   *   "longhands": [
+   *     "border-inline-end-width",
+   *     "border-inline-end-style",
+   *     "border-inline-end-color"
+   *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
    * }
@@ -16348,6 +16491,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "border-inline-start",
    *     "borderInlineStart"
+   *   ],
+   *   "longhands": [
+   *     "border-inline-start-width",
+   *     "border-inline-start-style",
+   *     "border-inline-start-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -16386,6 +16534,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-inline-style",
    *     "borderInlineStyle"
    *   ],
+   *   "longhands": [
+   *     "border-inline-start-style",
+   *     "border-inline-end-style"
+   *   ],
    *   "syntax": "<'border-top-style'>{1,2}",
    *   "extended": []
    * }
@@ -16423,6 +16575,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-inline-width",
    *     "borderInlineWidth"
    *   ],
+   *   "longhands": [
+   *     "border-inline-start-width",
+   *     "border-inline-end-width"
+   *   ],
    *   "syntax": "<'border-top-width'>{1,2}",
    *   "extended": []
    * }
@@ -16457,6 +16613,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "border-left",
    *     "borderLeft"
+   *   ],
+   *   "longhands": [
+   *     "border-left-width",
+   *     "border-left-style",
+   *     "border-left-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -16494,6 +16655,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-radius",
    *     "borderRadius"
    *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "border-top-right-radius",
+   *     "border-bottom-right-radius",
+   *     "border-bottom-left-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,4} [ / <length-percentage [0,∞]>{1,4} ]?",
    *   "extended": []
    * }
@@ -16528,6 +16695,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "border-right",
    *     "borderRight"
+   *   ],
+   *   "longhands": [
+   *     "border-right-width",
+   *     "border-right-style",
+   *     "border-right-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -16564,6 +16736,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-style",
    *     "borderStyle"
    *   ],
+   *   "longhands": [
+   *     "border-top-style",
+   *     "border-right-style",
+   *     "border-bottom-style",
+   *     "border-left-style"
+   *   ],
    *   "syntax": "<'border-top-style'>{1,4}",
    *   "extended": []
    * }
@@ -16598,6 +16776,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "border-top",
    *     "borderTop"
+   *   ],
+   *   "longhands": [
+   *     "border-top-width",
+   *     "border-top-style",
+   *     "border-top-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -16634,6 +16817,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "border-width",
    *     "borderWidth"
    *   ],
+   *   "longhands": [
+   *     "border-top-width",
+   *     "border-right-width",
+   *     "border-bottom-width",
+   *     "border-left-width"
+   *   ],
    *   "syntax": "<'border-top-width'>{1,4}",
    *   "extended": []
    * }
@@ -16659,6 +16848,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "caret"
+   *   ],
+   *   "longhands": [
+   *     "caret-color",
+   *     "caret-animation",
+   *     "caret-shape"
    *   ],
    *   "syntax": "<'caret-color'> || <'caret-animation'> || <'caret-shape'>",
    *   "extended": []
@@ -16696,6 +16890,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "column-rule",
    *     "columnRule"
    *   ],
+   *   "longhands": [
+   *     "column-rule-width",
+   *     "column-rule-style",
+   *     "column-rule-color"
+   *   ],
    *   "syntax": "<gap-rule-list> | <gap-auto-rule-list>",
    *   "extended": []
    * }
@@ -16730,6 +16929,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "columns"
+   *   ],
+   *   "longhands": [
+   *     "column-width",
+   *     "column-count",
+   *     "column-height"
    *   ],
    *   "syntax": "[ <'column-width'> || <'column-count'> ] [ / <'column-height'> ]?",
    *   "extended": []
@@ -16766,6 +16970,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "contain-intrinsic-size",
    *     "containIntrinsicSize"
    *   ],
+   *   "longhands": [
+   *     "contain-intrinsic-width",
+   *     "contain-intrinsic-height"
+   *   ],
    *   "syntax": "[ [ auto | from-element ]? [ none | <length [0,∞]> ] ]{1,2}",
    *   "extended": []
    * }
@@ -16799,6 +17007,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "container"
+   *   ],
+   *   "longhands": [
+   *     "container-name",
+   *     "container-type"
    *   ],
    *   "syntax": "<'container-name'> [ / <'container-type'> ]?",
    *   "extended": []
@@ -16834,6 +17046,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "flex"
+   *   ],
+   *   "longhands": [
+   *     "flex-grow",
+   *     "flex-shrink",
+   *     "flex-basis"
    *   ],
    *   "syntax": "none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]",
    *   "extended": []
@@ -16871,6 +17088,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "flex-flow",
    *     "flexFlow"
    *   ],
+   *   "longhands": [
+   *     "flex-direction",
+   *     "flex-wrap"
+   *   ],
    *   "syntax": "<'flex-direction'> || <'flex-wrap'>",
    *   "extended": []
    * }
@@ -16904,6 +17125,15 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "animationType": "see individual properties",
    *   "styleDeclaration": [
    *     "font"
+   *   ],
+   *   "longhands": [
+   *     "font-style",
+   *     "font-variant",
+   *     "font-weight",
+   *     "font-stretch",
+   *     "font-size",
+   *     "line-height",
+   *     "font-family"
    *   ],
    *   "syntax": "[ [ <'font-style'> || <font-variant-css2> || <'font-weight'> || <font-width-css3> ]? <'font-size'> [ / <'line-height'> ]? <'font-family'># ] | <system-family-name>",
    *   "extended": []
@@ -16939,6 +17169,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "gap"
    *   ],
+   *   "longhands": [
+   *     "row-gap",
+   *     "column-gap"
+   *   ],
    *   "syntax": "<'row-gap'> <'column-gap'>?",
    *   "extended": []
    * }
@@ -16972,6 +17206,14 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "grid"
+   *   ],
+   *   "longhands": [
+   *     "grid-template-rows",
+   *     "grid-template-columns",
+   *     "grid-template-areas",
+   *     "grid-auto-rows",
+   *     "grid-auto-columns",
+   *     "grid-auto-flow"
    *   ],
    *   "syntax": "<'grid-template'> | <'grid-template-rows'> / [ auto-flow && dense? ] <'grid-auto-columns'>? | [ auto-flow && dense? ] <'grid-auto-rows'>? / <'grid-template-columns'>",
    *   "extended": []
@@ -17008,6 +17250,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "grid-area",
    *     "gridArea"
    *   ],
+   *   "longhands": [
+   *     "grid-row-start",
+   *     "grid-column-start",
+   *     "grid-row-end",
+   *     "grid-column-end"
+   *   ],
    *   "syntax": "<grid-line> [ / <grid-line> ]{0,3}",
    *   "extended": []
    * }
@@ -17042,6 +17290,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "grid-column",
    *     "gridColumn"
+   *   ],
+   *   "longhands": [
+   *     "grid-column-start",
+   *     "grid-column-end"
    *   ],
    *   "syntax": "<grid-line> [ / <grid-line> ]?",
    *   "extended": []
@@ -17078,6 +17330,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "grid-row",
    *     "gridRow"
    *   ],
+   *   "longhands": [
+   *     "grid-row-start",
+   *     "grid-row-end"
+   *   ],
    *   "syntax": "<grid-line> [ / <grid-line> ]?",
    *   "extended": []
    * }
@@ -17113,6 +17369,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "grid-template",
    *     "gridTemplate"
    *   ],
+   *   "longhands": [
+   *     "grid-template-rows",
+   *     "grid-template-columns",
+   *     "grid-template-areas"
+   *   ],
    *   "syntax": "none | [ <'grid-template-rows'> / <'grid-template-columns'> ] | [ <line-names>? <string> <track-size>? <line-names>? ]+ [ / <explicit-track-list> ]?",
    *   "extended": []
    * }
@@ -17146,6 +17407,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "animationType": "by computed value type",
    *   "styleDeclaration": [
    *     "inset"
+   *   ],
+   *   "longhands": [
+   *     "top",
+   *     "right",
+   *     "bottom",
+   *     "left"
    *   ],
    *   "syntax": "<'top'>{1,4}",
    *   "extended": []
@@ -17182,6 +17449,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "inset-block",
    *     "insetBlock"
    *   ],
+   *   "longhands": [
+   *     "inset-block-start",
+   *     "inset-block-end"
+   *   ],
    *   "syntax": "<'top'>{1,2}",
    *   "extended": []
    * }
@@ -17216,6 +17487,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "inset-inline",
    *     "insetInline"
+   *   ],
+   *   "longhands": [
+   *     "inset-inline-start",
+   *     "inset-inline-end"
    *   ],
    *   "syntax": "<'top'>{1,2}",
    *   "extended": []
@@ -17255,6 +17530,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "line-clamp",
    *     "lineClamp"
    *   ],
+   *   "longhands": [
+   *     "max-lines",
+   *     "block-ellipsis",
+   *     "continue"
+   *   ],
    *   "syntax": "none | [<integer [1,∞]> || <'block-ellipsis'>] -webkit-legacy?",
    *   "extended": []
    * }
@@ -17290,6 +17570,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "list-style",
    *     "listStyle"
    *   ],
+   *   "longhands": [
+   *     "list-style-type",
+   *     "list-style-position",
+   *     "list-style-image"
+   *   ],
    *   "syntax": "<'list-style-position'> || <'list-style-image'> || <'list-style-type'>",
    *   "extended": []
    * }
@@ -17323,6 +17608,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "animationType": "by computed value type",
    *   "styleDeclaration": [
    *     "margin"
+   *   ],
+   *   "longhands": [
+   *     "margin-top",
+   *     "margin-right",
+   *     "margin-bottom",
+   *     "margin-left"
    *   ],
    *   "syntax": "<'margin-top'>{1,4}",
    *   "extended": []
@@ -17359,6 +17650,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "margin-block",
    *     "marginBlock"
    *   ],
+   *   "longhands": [
+   *     "margin-block-start",
+   *     "margin-block-end"
+   *   ],
    *   "syntax": "<'margin-top'>{1,2}",
    *   "extended": []
    * }
@@ -17393,6 +17688,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "margin-inline",
    *     "marginInline"
+   *   ],
+   *   "longhands": [
+   *     "margin-inline-start",
+   *     "margin-inline-end"
    *   ],
    *   "syntax": "<'margin-top'>{1,2}",
    *   "extended": []
@@ -17430,6 +17729,16 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "mask"
    *   ],
+   *   "longhands": [
+   *     "mask-image",
+   *     "mask-position",
+   *     "mask-size",
+   *     "mask-repeat",
+   *     "mask-origin",
+   *     "mask-clip",
+   *     "mask-composite",
+   *     "mask-mode"
+   *   ],
    *   "syntax": "<mask-layer>#",
    *   "extended": []
    * }
@@ -17466,6 +17775,14 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "mask-border",
    *     "maskBorder"
+   *   ],
+   *   "longhands": [
+   *     "mask-border-source",
+   *     "mask-border-slice",
+   *     "mask-border-width",
+   *     "mask-border-outset",
+   *     "mask-border-repeat",
+   *     "mask-border-mode"
    *   ],
    *   "syntax": "<'mask-border-source'> || <'mask-border-slice'> [ / <'mask-border-width'>? [ / <'mask-border-outset'> ]? ]? || <'mask-border-repeat'> || <'mask-border-mode'>",
    *   "extended": []
@@ -17515,6 +17832,13 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "offset"
    *   ],
+   *   "longhands": [
+   *     "offset-path",
+   *     "offset-distance",
+   *     "offset-rotate",
+   *     "offset-anchor",
+   *     "offset-position"
+   *   ],
    *   "syntax": "[ <'offset-position'>? [ <'offset-path'> [ <'offset-distance'> || <'offset-rotate'> ]? ]? ]! [ / <'offset-anchor'> ]?",
    *   "extended": []
    * }
@@ -17548,6 +17872,11 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "outline"
+   *   ],
+   *   "longhands": [
+   *     "outline-width",
+   *     "outline-style",
+   *     "outline-color"
    *   ],
    *   "syntax": "<'outline-width'> || <'outline-style'> || <'outline-color'>",
    *   "extended": []
@@ -17584,6 +17913,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "overflow"
+   *   ],
+   *   "longhands": [
+   *     "overflow-x",
+   *     "overflow-y"
    *   ],
    *   "syntax": "<'overflow-block'>{1,2}",
    *   "extended": []
@@ -17623,6 +17956,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "overscroll-behavior",
    *     "overscrollBehavior"
    *   ],
+   *   "longhands": [
+   *     "overscroll-behavior-x",
+   *     "overscroll-behavior-y"
+   *   ],
    *   "syntax": "[ contain | none | auto ]{1,2}",
    *   "extended": []
    * }
@@ -17656,6 +17993,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "animationType": "by computed value type",
    *   "styleDeclaration": [
    *     "padding"
+   *   ],
+   *   "longhands": [
+   *     "padding-top",
+   *     "padding-right",
+   *     "padding-bottom",
+   *     "padding-left"
    *   ],
    *   "syntax": "<'padding-top'>{1,4}",
    *   "extended": []
@@ -17692,6 +18035,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "padding-block",
    *     "paddingBlock"
    *   ],
+   *   "longhands": [
+   *     "padding-block-start",
+   *     "padding-block-end"
+   *   ],
    *   "syntax": "<'padding-top'>{1,2}",
    *   "extended": []
    * }
@@ -17726,6 +18073,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "padding-inline",
    *     "paddingInline"
+   *   ],
+   *   "longhands": [
+   *     "padding-inline-start",
+   *     "padding-inline-end"
    *   ],
    *   "syntax": "<'padding-top'>{1,2}",
    *   "extended": []
@@ -17762,6 +18113,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "place-content",
    *     "placeContent"
    *   ],
+   *   "longhands": [
+   *     "align-content",
+   *     "justify-content"
+   *   ],
    *   "syntax": "<'align-content'> <'justify-content'>?",
    *   "extended": []
    * }
@@ -17796,6 +18151,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "place-items",
    *     "placeItems"
+   *   ],
+   *   "longhands": [
+   *     "align-items",
+   *     "justify-items"
    *   ],
    *   "syntax": "<'align-items'> <'justify-items'>?",
    *   "extended": []
@@ -17832,6 +18191,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "place-self",
    *     "placeSelf"
    *   ],
+   *   "longhands": [
+   *     "align-self",
+   *     "justify-self"
+   *   ],
    *   "syntax": "<'align-self'> <'justify-self'>?",
    *   "extended": []
    * }
@@ -17866,6 +18229,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "position-try",
    *     "positionTry"
+   *   ],
+   *   "longhands": [
+   *     "position-try-order",
+   *     "position-try-fallbacks"
    *   ],
    *   "syntax": "<'position-try-order'>? <'position-try-fallbacks'>",
    *   "extended": []
@@ -17903,6 +18270,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "scroll-margin",
    *     "scrollMargin"
    *   ],
+   *   "longhands": [
+   *     "scroll-margin-top",
+   *     "scroll-margin-right",
+   *     "scroll-margin-bottom",
+   *     "scroll-margin-left"
+   *   ],
    *   "syntax": "<length>{1,4}",
    *   "extended": []
    * }
@@ -17937,6 +18310,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "scroll-margin-block",
    *     "scrollMarginBlock"
+   *   ],
+   *   "longhands": [
+   *     "scroll-margin-block-start",
+   *     "scroll-margin-block-end"
    *   ],
    *   "syntax": "<length>{1,2}",
    *   "extended": []
@@ -17973,6 +18350,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "scroll-margin-inline",
    *     "scrollMarginInline"
    *   ],
+   *   "longhands": [
+   *     "scroll-margin-inline-start",
+   *     "scroll-margin-inline-end"
+   *   ],
    *   "syntax": "<length>{1,2}",
    *   "extended": []
    * }
@@ -18007,6 +18388,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "scroll-padding",
    *     "scrollPadding"
+   *   ],
+   *   "longhands": [
+   *     "scroll-padding-top",
+   *     "scroll-padding-right",
+   *     "scroll-padding-bottom",
+   *     "scroll-padding-left"
    *   ],
    *   "syntax": "[ auto | <length-percentage [0,∞]> ]{1,4}",
    *   "extended": []
@@ -18043,6 +18430,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "scroll-padding-block",
    *     "scrollPaddingBlock"
    *   ],
+   *   "longhands": [
+   *     "scroll-padding-block-start",
+   *     "scroll-padding-block-end"
+   *   ],
    *   "syntax": "[ auto | <length-percentage [0,∞]> ]{1,2}",
    *   "extended": []
    * }
@@ -18077,6 +18468,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "scroll-padding-inline",
    *     "scrollPaddingInline"
+   *   ],
+   *   "longhands": [
+   *     "scroll-padding-inline-start",
+   *     "scroll-padding-inline-end"
    *   ],
    *   "syntax": "[ auto | <length-percentage [0,∞]> ]{1,2}",
    *   "extended": []
@@ -18126,6 +18521,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "scroll-timeline",
    *     "scrollTimeline"
    *   ],
+   *   "longhands": [
+   *     "scroll-timeline-name",
+   *     "scroll-timeline-axis"
+   *   ],
    *   "syntax": "[ <'scroll-timeline-name'> <'scroll-timeline-axis'>? ]#",
    *   "extended": []
    * }
@@ -18160,6 +18559,12 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "text-decoration",
    *     "textDecoration"
+   *   ],
+   *   "longhands": [
+   *     "text-decoration-line",
+   *     "text-decoration-thickness",
+   *     "text-decoration-style",
+   *     "text-decoration-color"
    *   ],
    *   "syntax": "<'text-decoration-line'> || <'text-decoration-thickness'> || <'text-decoration-style'> || <'text-decoration-color'>",
    *   "extended": []
@@ -18196,6 +18601,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "styleDeclaration": [
    *     "text-emphasis",
    *     "textEmphasis"
+   *   ],
+   *   "longhands": [
+   *     "text-emphasis-style",
+   *     "text-emphasis-color"
    *   ],
    *   "syntax": "<'text-emphasis-style'> || <'text-emphasis-color'>",
    *   "extended": []
@@ -18234,6 +18643,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "text-wrap",
    *     "textWrap"
    *   ],
+   *   "longhands": [
+   *     "text-wrap-mode",
+   *     "text-wrap-style"
+   *   ],
    *   "syntax": "<'text-wrap-mode'> || <'text-wrap-style'>",
    *   "extended": []
    * }
@@ -18268,6 +18681,13 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "transition"
+   *   ],
+   *   "longhands": [
+   *     "transition-property",
+   *     "transition-duration",
+   *     "transition-timing-function",
+   *     "transition-delay",
+   *     "transition-behavior"
    *   ],
    *   "syntax": "<single-transition>#",
    *   "extended": []
@@ -18304,6 +18724,10 @@ export interface StandardShorthandProperties<TLength = (string & {}) | 0, TTime 
    *     "view-timeline",
    *     "viewTimeline"
    *   ],
+   *   "longhands": [
+   *     "view-timeline-name",
+   *     "view-timeline-axis"
+   *   ],
    *   "syntax": "[ <'view-timeline-name'> [ <'view-timeline-axis'> || <'view-timeline-inset'> ]? ]#",
    *   "extended": []
    * }
@@ -18325,7 +18749,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0s`
   */
-  MozAnimationDelay?: $$PropValues | Property.AnimationDelay<TTime> | undefined
+  mozAnimationDelay?: $$PropValues | Property.AnimationDelay<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18334,7 +18758,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `normal`
   */
-  MozAnimationDirection?: $$PropValues | Property.AnimationDirection | undefined
+  mozAnimationDirection?: $$PropValues | Property.AnimationDirection | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18343,7 +18767,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0s`
   */
-  MozAnimationDuration?: $$PropValues | Property.AnimationDuration<TTime> | undefined
+  mozAnimationDuration?: $$PropValues | Property.AnimationDuration<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18352,7 +18776,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  MozAnimationFillMode?: $$PropValues | Property.AnimationFillMode | undefined
+  mozAnimationFillMode?: $$PropValues | Property.AnimationFillMode | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18361,7 +18785,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `1`
   */
-  MozAnimationIterationCount?: $$PropValues | Property.AnimationIterationCount | undefined
+  mozAnimationIterationCount?: $$PropValues | Property.AnimationIterationCount | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18370,7 +18794,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  MozAnimationName?: $$PropValues | Property.AnimationName | undefined
+  mozAnimationName?: $$PropValues | Property.AnimationName | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18379,7 +18803,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `running`
   */
-  MozAnimationPlayState?: $$PropValues | Property.AnimationPlayState | undefined
+  mozAnimationPlayState?: $$PropValues | Property.AnimationPlayState | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18388,7 +18812,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `ease`
   */
-  MozAnimationTimingFunction?: $$PropValues | Property.AnimationTimingFunction | undefined
+  mozAnimationTimingFunction?: $$PropValues | Property.AnimationTimingFunction | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
@@ -18397,7 +18821,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none` (but this value is overridden in the user agent CSS)
   */
-  MozAppearance?: $$PropValues | Property.MozAppearance | undefined
+  mozAppearance?: $$PropValues | Property.MozAppearance | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
@@ -18406,21 +18830,21 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `visible`
   */
-  MozBackfaceVisibility?: $$PropValues | Property.BackfaceVisibility | undefined
+  mozBackfaceVisibility?: $$PropValues | Property.BackfaceVisibility | undefined
   /**
    * 
    *  **Syntax**: `<url> | none`
    * 
    *  **Initial value**: `none`
   */
-  MozBinding?: $$PropValues | Property.MozBinding | undefined
+  mozBinding?: $$PropValues | Property.MozBinding | undefined
   /**
    * 
    *  **Syntax**: `<color>+ | none`
    * 
    *  **Initial value**: `none`
   */
-  MozBorderBottomColors?: $$PropValues | Property.MozBorderBottomColors | undefined
+  mozBorderBottomColors?: $$PropValues | Property.MozBorderBottomColors | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -18429,7 +18853,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `currentcolor`
   */
-  MozBorderEndColor?: $$PropValues | Property.BorderInlineEndColor | undefined
+  mozBorderEndColor?: $$PropValues | Property.BorderInlineEndColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -18438,7 +18862,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  MozBorderEndStyle?: $$PropValues | Property.BorderInlineEndStyle | undefined
+  mozBorderEndStyle?: $$PropValues | Property.BorderInlineEndStyle | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -18447,21 +18871,21 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `medium`
   */
-  MozBorderEndWidth?: $$PropValues | Property.BorderInlineEndWidth<TLength> | undefined
+  mozBorderEndWidth?: $$PropValues | Property.BorderInlineEndWidth<TLength> | undefined
   /**
    * 
    *  **Syntax**: `<color>+ | none`
    * 
    *  **Initial value**: `none`
   */
-  MozBorderLeftColors?: $$PropValues | Property.MozBorderLeftColors | undefined
+  mozBorderLeftColors?: $$PropValues | Property.MozBorderLeftColors | undefined
   /**
    * 
    *  **Syntax**: `<color>+ | none`
    * 
    *  **Initial value**: `none`
   */
-  MozBorderRightColors?: $$PropValues | Property.MozBorderRightColors | undefined
+  mozBorderRightColors?: $$PropValues | Property.MozBorderRightColors | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -18470,7 +18894,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `currentcolor`
   */
-  MozBorderStartColor?: $$PropValues | Property.BorderInlineStartColor | undefined
+  mozBorderStartColor?: $$PropValues | Property.BorderInlineStartColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -18479,14 +18903,14 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  MozBorderStartStyle?: $$PropValues | Property.BorderInlineStartStyle | undefined
+  mozBorderStartStyle?: $$PropValues | Property.BorderInlineStartStyle | undefined
   /**
    * 
    *  **Syntax**: `<color>+ | none`
    * 
    *  **Initial value**: `none`
   */
-  MozBorderTopColors?: $$PropValues | Property.MozBorderTopColors | undefined
+  mozBorderTopColors?: $$PropValues | Property.MozBorderTopColors | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -18495,7 +18919,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `content-box`
   */
-  MozBoxSizing?: $$PropValues | Property.BoxSizing | undefined
+  mozBoxSizing?: $$PropValues | Property.BoxSizing | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -18504,7 +18928,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `currentcolor`
   */
-  MozColumnRuleColor?: $$PropValues | Property.ColumnRuleColor | undefined
+  mozColumnRuleColor?: $$PropValues | Property.ColumnRuleColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -18513,7 +18937,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  MozColumnRuleStyle?: $$PropValues | Property.ColumnRuleStyle | undefined
+  mozColumnRuleStyle?: $$PropValues | Property.ColumnRuleStyle | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -18522,7 +18946,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `medium`
   */
-  MozColumnRuleWidth?: $$PropValues | Property.ColumnRuleWidth<TLength> | undefined
+  mozColumnRuleWidth?: $$PropValues | Property.ColumnRuleWidth<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since November 2016.
@@ -18531,14 +18955,14 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  MozColumnWidth?: $$PropValues | Property.ColumnWidth<TLength> | undefined
+  mozColumnWidth?: $$PropValues | Property.ColumnWidth<TLength> | undefined
   /**
    * 
    *  **Syntax**: `none | [ fill | fill-opacity | stroke | stroke-opacity ]#`
    * 
    *  **Initial value**: `none`
   */
-  MozContextProperties?: $$PropValues | Property.MozContextProperties | undefined
+  mozContextProperties?: $$PropValues | Property.MozContextProperties | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
@@ -18547,7 +18971,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `normal`
   */
-  MozFontFeatureSettings?: $$PropValues | Property.FontFeatureSettings | undefined
+  mozFontFeatureSettings?: $$PropValues | Property.FontFeatureSettings | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -18556,7 +18980,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `normal`
   */
-  MozFontLanguageOverride?: $$PropValues | Property.FontLanguageOverride | undefined
+  mozFontLanguageOverride?: $$PropValues | Property.FontLanguageOverride | undefined
   /**
    * 
    *  Since September 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -18565,7 +18989,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `manual`
   */
-  MozHyphens?: $$PropValues | Property.Hyphens | undefined
+  mozHyphens?: $$PropValues | Property.Hyphens | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -18574,7 +18998,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0`
   */
-  MozMarginEnd?: $$PropValues | Property.MarginInlineEnd<TLength> | undefined
+  mozMarginEnd?: $$PropValues | Property.MarginInlineEnd<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -18583,7 +19007,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0`
   */
-  MozMarginStart?: $$PropValues | Property.MarginInlineStart<TLength> | undefined
+  mozMarginStart?: $$PropValues | Property.MarginInlineStart<TLength> | undefined
   /**
    * 
    *  The **`-moz-orient`** CSS property specifies the orientation of the element to which it's applied.
@@ -18592,7 +19016,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `inline`
   */
-  MozOrient?: $$PropValues | Property.MozOrient | undefined
+  mozOrient?: $$PropValues | Property.MozOrient | undefined
   /**
    * 
    *  The **`font-smooth`** CSS property controls the application of anti-aliasing when fonts are rendered.
@@ -18601,35 +19025,35 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  MozOsxFontSmoothing?: $$PropValues | Property.FontSmooth<TLength> | undefined
+  mozOsxFontSmoothing?: $$PropValues | Property.FontSmooth<TLength> | undefined
   /**
    * 
    *  **Syntax**: `<outline-radius>`
    * 
    *  **Initial value**: `0`
   */
-  MozOutlineRadiusBottomleft?: $$PropValues | Property.MozOutlineRadiusBottomleft<TLength> | undefined
+  mozOutlineRadiusBottomleft?: $$PropValues | Property.MozOutlineRadiusBottomleft<TLength> | undefined
   /**
    * 
    *  **Syntax**: `<outline-radius>`
    * 
    *  **Initial value**: `0`
   */
-  MozOutlineRadiusBottomright?: $$PropValues | Property.MozOutlineRadiusBottomright<TLength> | undefined
+  mozOutlineRadiusBottomright?: $$PropValues | Property.MozOutlineRadiusBottomright<TLength> | undefined
   /**
    * 
    *  **Syntax**: `<outline-radius>`
    * 
    *  **Initial value**: `0`
   */
-  MozOutlineRadiusTopleft?: $$PropValues | Property.MozOutlineRadiusTopleft<TLength> | undefined
+  mozOutlineRadiusTopleft?: $$PropValues | Property.MozOutlineRadiusTopleft<TLength> | undefined
   /**
    * 
    *  **Syntax**: `<outline-radius>`
    * 
    *  **Initial value**: `0`
   */
-  MozOutlineRadiusTopright?: $$PropValues | Property.MozOutlineRadiusTopright<TLength> | undefined
+  mozOutlineRadiusTopright?: $$PropValues | Property.MozOutlineRadiusTopright<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -18638,7 +19062,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0`
   */
-  MozPaddingEnd?: $$PropValues | Property.PaddingInlineEnd<TLength> | undefined
+  mozPaddingEnd?: $$PropValues | Property.PaddingInlineEnd<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -18647,7 +19071,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0`
   */
-  MozPaddingStart?: $$PropValues | Property.PaddingInlineStart<TLength> | undefined
+  mozPaddingStart?: $$PropValues | Property.PaddingInlineStart<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18656,7 +19080,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  MozPerspective?: $$PropValues | Property.Perspective<TLength> | undefined
+  mozPerspective?: $$PropValues | Property.Perspective<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18665,14 +19089,14 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `50% 50%`
   */
-  MozPerspectiveOrigin?: $$PropValues | Property.PerspectiveOrigin<TLength> | undefined
+  mozPerspectiveOrigin?: $$PropValues | Property.PerspectiveOrigin<TLength> | undefined
   /**
    * 
    *  **Syntax**: `ignore | stretch-to-fit`
    * 
    *  **Initial value**: `stretch-to-fit`
   */
-  MozStackSizing?: $$PropValues | Property.MozStackSizing | undefined
+  mozStackSizing?: $$PropValues | Property.MozStackSizing | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since August 2021.
@@ -18681,14 +19105,14 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `8`
   */
-  MozTabSize?: $$PropValues | Property.TabSize<TLength> | undefined
+  mozTabSize?: $$PropValues | Property.TabSize<TLength> | undefined
   /**
    * 
    *  **Syntax**: `none | blink`
    * 
    *  **Initial value**: `none`
   */
-  MozTextBlink?: $$PropValues | Property.MozTextBlink | undefined
+  mozTextBlink?: $$PropValues | Property.MozTextBlink | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -18697,7 +19121,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto` for smartphone browsers supporting inflation, `none` in other cases (and then not modifiable).
   */
-  MozTextSizeAdjust?: $$PropValues | Property.TextSizeAdjust | undefined
+  mozTextSizeAdjust?: $$PropValues | Property.TextSizeAdjust | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18706,7 +19130,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  MozTransform?: $$PropValues | Property.Transform | undefined
+  mozTransform?: $$PropValues | Property.Transform | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18715,7 +19139,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `50% 50% 0`
   */
-  MozTransformOrigin?: $$PropValues | Property.TransformOrigin<TLength> | undefined
+  mozTransformOrigin?: $$PropValues | Property.TransformOrigin<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -18724,7 +19148,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `flat`
   */
-  MozTransformStyle?: $$PropValues | Property.TransformStyle | undefined
+  mozTransformStyle?: $$PropValues | Property.TransformStyle | undefined
   /**
    * 
    *  The **`user-modify`** property has no effect in Firefox. It was originally planned to determine whether or not the content of an element can be edited by a user.
@@ -18733,7 +19157,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `read-only`
   */
-  MozUserModify?: $$PropValues | Property.MozUserModify | undefined
+  mozUserModify?: $$PropValues | Property.MozUserModify | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -18742,21 +19166,21 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  MozUserSelect?: $$PropValues | Property.UserSelect | undefined
+  mozUserSelect?: $$PropValues | Property.UserSelect | undefined
   /**
    * 
    *  **Syntax**: `drag | no-drag`
    * 
    *  **Initial value**: `drag`
   */
-  MozWindowDragging?: $$PropValues | Property.MozWindowDragging | undefined
+  mozWindowDragging?: $$PropValues | Property.MozWindowDragging | undefined
   /**
    * 
    *  **Syntax**: `default | menu | tooltip | sheet | none`
    * 
    *  **Initial value**: `default`
   */
-  MozWindowShadow?: $$PropValues | Property.MozWindowShadow | undefined
+  mozWindowShadow?: $$PropValues | Property.MozWindowShadow | undefined
   /**
    * 
    *  **Syntax**: `false | true`
@@ -19029,7 +19453,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: depends on user agent
   */
-  msScrollbar3dlightColor?: $$PropValues | Property.MsScrollbar3dlightColor | undefined
+  msScrollbar3dlightColor?: $$PropValues | Property.MsScrollbar
   /**
    * 
    *  **Syntax**: `<color>`
@@ -19246,7 +19670,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAlignContent?: $$PropValues | Property.AlignContent | undefined
+  webkitAlignContent?: $$PropValues | Property.AlignContent | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19273,7 +19697,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAlignItems?: $$PropValues | Property.AlignItems | undefined
+  webkitAlignItems?: $$PropValues | Property.AlignItems | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19295,12 +19719,12 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    *     "WebkitAlignSelf",
    *     "webkitAlignSelf"
    *   ],
-   *   "syntax": "auto | normal | stretch | <baseline-position> | <overflow-position>? <self-position>",
+   *   "syntax": "auto | <overflow-position>? [ normal | <self-position> ]| stretch | <baseline-position>",
    *   "extended": []
    * }
    * ```
   */
-  WebkitAlignSelf?: $$PropValues | Property.AlignSelf | undefined
+  webkitAlignSelf?: $$PropValues | Property.AlignSelf | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19327,7 +19751,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAnimationDelay?: $$PropValues | Property.AnimationDelay<TTime> | undefined
+  webkitAnimationDelay?: $$PropValues | Property.AnimationDelay<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19354,7 +19778,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAnimationDirection?: $$PropValues | Property.AnimationDirection | undefined
+  webkitAnimationDirection?: $$PropValues | Property.AnimationDirection | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19381,7 +19805,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAnimationDuration?: $$PropValues | Property.AnimationDuration<TTime> | undefined
+  webkitAnimationDuration?: $$PropValues | Property.AnimationDuration<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19408,7 +19832,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAnimationFillMode?: $$PropValues | Property.AnimationFillMode | undefined
+  webkitAnimationFillMode?: $$PropValues | Property.AnimationFillMode | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19435,7 +19859,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAnimationIterationCount?: $$PropValues | Property.AnimationIterationCount | undefined
+  webkitAnimationIterationCount?: $$PropValues | Property.AnimationIterationCount | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19462,7 +19886,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAnimationName?: $$PropValues | Property.AnimationName | undefined
+  webkitAnimationName?: $$PropValues | Property.AnimationName | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19489,7 +19913,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAnimationPlayState?: $$PropValues | Property.AnimationPlayState | undefined
+  webkitAnimationPlayState?: $$PropValues | Property.AnimationPlayState | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19516,7 +19940,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAnimationTimingFunction?: $$PropValues | Property.AnimationTimingFunction | undefined
+  webkitAnimationTimingFunction?: $$PropValues | Property.AnimationTimingFunction | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
@@ -19543,7 +19967,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitAppearance?: $$PropValues | Property.WebkitAppearance | undefined
+  webkitAppearance?: $$PropValues | Property.WebkitAppearance | undefined
   /**
    * 
    *  Since September 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -19552,7 +19976,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  WebkitBackdropFilter?: $$PropValues | Property.BackdropFilter | undefined
+  webkitBackdropFilter?: $$PropValues | Property.BackdropFilter | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
@@ -19579,7 +20003,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitBackfaceVisibility?: $$PropValues | Property.BackfaceVisibility | undefined
+  webkitBackfaceVisibility?: $$PropValues | Property.BackfaceVisibility | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -19606,7 +20030,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitBackgroundClip?: $$PropValues | Property.BackgroundClip | undefined
+  webkitBackgroundClip?: $$PropValues | Property.BackgroundClip | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -19633,7 +20057,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitBackgroundOrigin?: $$PropValues | Property.BackgroundOrigin | undefined
+  webkitBackgroundOrigin?: $$PropValues | Property.BackgroundOrigin | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -19660,28 +20084,28 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitBackgroundSize?: $$PropValues | Property.BackgroundSize<TLength> | undefined
+  webkitBackgroundSize?: $$PropValues | Property.BackgroundSize<TLength> | undefined
   /**
    * 
    *  **Syntax**: `<color>`
    * 
    *  **Initial value**: `currentcolor`
   */
-  WebkitBorderBeforeColor?: $$PropValues | Property.WebkitBorderBeforeColor | undefined
+  webkitBorderBeforeColor?: $$PropValues | Property.WebkitBorderBeforeColor | undefined
   /**
    * 
    *  **Syntax**: `<'border-style'>`
    * 
    *  **Initial value**: `none`
   */
-  WebkitBorderBeforeStyle?: $$PropValues | Property.WebkitBorderBeforeStyle | undefined
+  webkitBorderBeforeStyle?: $$PropValues | Property.WebkitBorderBeforeStyle | undefined
   /**
    * 
    *  **Syntax**: `<'border-width'>`
    * 
    *  **Initial value**: `medium`
   */
-  WebkitBorderBeforeWidth?: $$PropValues | Property.WebkitBorderBeforeWidth<TLength> | undefined
+  webkitBorderBeforeWidth?: $$PropValues | Property.WebkitBorderBeforeWidth<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -19708,7 +20132,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitBorderBottomLeftRadius?: $$PropValues | Property.BorderBottomLeftRadius<TLength> | undefined
+  webkitBorderBottomLeftRadius?: $$PropValues | Property.BorderBottomLeftRadius<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -19735,7 +20159,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitBorderBottomRightRadius?: $$PropValues | Property.BorderBottomRightRadius<TLength> | undefined
+  webkitBorderBottomRightRadius?: $$PropValues | Property.BorderBottomRightRadius<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -19744,7 +20168,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `100%`
   */
-  WebkitBorderImageSlice?: $$PropValues | Property.BorderImageSlice | undefined
+  webkitBorderImageSlice?: $$PropValues | Property.BorderImageSlice | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -19771,7 +20195,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitBorderTopLeftRadius?: $$PropValues | Property.BorderTopLeftRadius<TLength> | undefined
+  webkitBorderTopLeftRadius?: $$PropValues | Property.BorderTopLeftRadius<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -19798,7 +20222,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitBorderTopRightRadius?: $$PropValues | Property.BorderTopRightRadius<TLength> | undefined
+  webkitBorderTopRightRadius?: $$PropValues | Property.BorderTopRightRadius<TLength> | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -19807,7 +20231,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `slice`
   */
-  WebkitBoxDecorationBreak?: $$PropValues | Property.BoxDecorationBreak | undefined
+  webkitBoxDecorationBreak?: $$PropValues | Property.BoxDecorationBreak | undefined
   /**
    * 
    *  The **`-webkit-box-reflect`** CSS property lets you reflect the content of an element in one specific direction.
@@ -19816,7 +20240,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  WebkitBoxReflect?: $$PropValues | Property.WebkitBoxReflect<TLength> | undefined
+  webkitBoxReflect?: $$PropValues | Property.WebkitBoxReflect<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -19838,12 +20262,19 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    *     "WebkitBoxShadow",
    *     "webkitBoxShadow"
    *   ],
+   *   "longhands": [
+   *     "box-shadow-color",
+   *     "box-shadow-offset",
+   *     "box-shadow-blur",
+   *     "box-shadow-spread",
+   *     "box-shadow-position"
+   *   ],
    *   "syntax": "<spread-shadow>#",
    *   "extended": []
    * }
    * ```
   */
-  WebkitBoxShadow?: $$PropValues | Property.BoxShadow | undefined
+  webkitBoxShadow?: $$PropValues | Property.BoxShadow | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -19870,7 +20301,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitBoxSizing?: $$PropValues | Property.BoxSizing | undefined
+  webkitBoxSizing?: $$PropValues | Property.BoxSizing | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -19879,7 +20310,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  WebkitClipPath?: $$PropValues | Property.ClipPath | undefined
+  webkitClipPath?: $$PropValues | Property.ClipPath | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -19888,7 +20319,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  WebkitColumnCount?: $$PropValues | Property.ColumnCount | undefined
+  webkitColumnCount?: $$PropValues | Property.ColumnCount | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -19897,7 +20328,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `balance`
   */
-  WebkitColumnFill?: $$PropValues | Property.ColumnFill | undefined
+  webkitColumnFill?: $$PropValues | Property.ColumnFill | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -19906,7 +20337,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `currentcolor`
   */
-  WebkitColumnRuleColor?: $$PropValues | Property.ColumnRuleColor | undefined
+  webkitColumnRuleColor?: $$PropValues | Property.ColumnRuleColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -19915,7 +20346,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  WebkitColumnRuleStyle?: $$PropValues | Property.ColumnRuleStyle | undefined
+  webkitColumnRuleStyle?: $$PropValues | Property.ColumnRuleStyle | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -19924,7 +20355,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `medium`
   */
-  WebkitColumnRuleWidth?: $$PropValues | Property.ColumnRuleWidth<TLength> | undefined
+  webkitColumnRuleWidth?: $$PropValues | Property.ColumnRuleWidth<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
@@ -19933,7 +20364,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  WebkitColumnSpan?: $$PropValues | Property.ColumnSpan | undefined
+  webkitColumnSpan?: $$PropValues | Property.ColumnSpan | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since November 2016.
@@ -19942,7 +20373,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  WebkitColumnWidth?: $$PropValues | Property.ColumnWidth<TLength> | undefined
+  webkitColumnWidth?: $$PropValues | Property.ColumnWidth<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2016.
@@ -19969,7 +20400,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitFilter?: $$PropValues | Property.Filter | undefined
+  webkitFilter?: $$PropValues | Property.Filter | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -19996,7 +20427,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitFlexBasis?: $$PropValues | Property.FlexBasis<TLength> | undefined
+  webkitFlexBasis?: $$PropValues | Property.FlexBasis<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -20023,7 +20454,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitFlexDirection?: $$PropValues | Property.FlexDirection | undefined
+  webkitFlexDirection?: $$PropValues | Property.FlexDirection | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -20050,7 +20481,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitFlexGrow?: $$PropValues | Property.FlexGrow | undefined
+  webkitFlexGrow?: $$PropValues | Property.FlexGrow | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -20077,7 +20508,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitFlexShrink?: $$PropValues | Property.FlexShrink | undefined
+  webkitFlexShrink?: $$PropValues | Property.FlexShrink | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -20104,7 +20535,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitFlexWrap?: $$PropValues | Property.FlexWrap | undefined
+  webkitFlexWrap?: $$PropValues | Property.FlexWrap | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
@@ -20113,7 +20544,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `normal`
   */
-  WebkitFontFeatureSettings?: $$PropValues | Property.FontFeatureSettings | undefined
+  webkitFontFeatureSettings?: $$PropValues | Property.FontFeatureSettings | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20122,7 +20553,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  WebkitFontKerning?: $$PropValues | Property.FontKerning | undefined
+  webkitFontKerning?: $$PropValues | Property.FontKerning | undefined
   /**
    * 
    *  The **`font-smooth`** CSS property controls the application of anti-aliasing when fonts are rendered.
@@ -20131,7 +20562,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  WebkitFontSmoothing?: $$PropValues | Property.FontSmooth<TLength> | undefined
+  webkitFontSmoothing?: $$PropValues | Property.FontSmooth<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20140,7 +20571,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `normal`
   */
-  WebkitFontVariantLigatures?: $$PropValues | Property.FontVariantLigatures | undefined
+  webkitFontVariantLigatures?: $$PropValues | Property.FontVariantLigatures | undefined
   /**
    * 
    *  Since September 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -20149,7 +20580,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  WebkitHyphenateCharacter?: $$PropValues | Property.HyphenateCharacter | undefined
+  webkitHyphenateCharacter?: $$PropValues | Property.HyphenateCharacter | undefined
   /**
    * 
    *  Since September 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -20158,7 +20589,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `manual`
   */
-  WebkitHyphens?: $$PropValues | Property.Hyphens | undefined
+  webkitHyphens?: $$PropValues | Property.Hyphens | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -20167,7 +20598,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `normal`
   */
-  WebkitInitialLetter?: $$PropValues | Property.InitialLetter | undefined
+  webkitInitialLetter?: $$PropValues | Property.InitialLetter | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -20194,7 +20625,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitJustifyContent?: $$PropValues | Property.JustifyContent | undefined
+  webkitJustifyContent?: $$PropValues | Property.JustifyContent | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
@@ -20203,7 +20634,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  WebkitLineBreak?: $$PropValues | Property.LineBreak | undefined
+  webkitLineBreak?: $$PropValues | Property.LineBreak | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -20231,12 +20662,17 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    *     "WebkitLineClamp",
    *     "webkitLineClamp"
    *   ],
+   *   "longhands": [
+   *     "max-lines",
+   *     "block-ellipsis",
+   *     "continue"
+   *   ],
    *   "syntax": "none | <integer [1,∞]>",
    *   "extended": []
    * }
    * ```
   */
-  WebkitLineClamp?: $$PropValues | Property.WebkitLineClamp | undefined
+  webkitLineClamp?: $$PropValues | Property.WebkitLineClamp | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20245,7 +20681,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  WebkitLogicalHeight?: $$PropValues | Property.BlockSize<TLength> | undefined
+  webkitLogicalHeight?: $$PropValues | Property.BlockSize<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20254,7 +20690,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  WebkitLogicalWidth?: $$PropValues | Property.InlineSize<TLength> | undefined
+  webkitLogicalWidth?: $$PropValues | Property.InlineSize<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20263,7 +20699,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0`
   */
-  WebkitMarginEnd?: $$PropValues | Property.MarginInlineEnd<TLength> | undefined
+  webkitMarginEnd?: $$PropValues | Property.MarginInlineEnd<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20272,14 +20708,14 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0`
   */
-  WebkitMarginStart?: $$PropValues | Property.MarginInlineStart<TLength> | undefined
+  webkitMarginStart?: $$PropValues | Property.MarginInlineStart<TLength> | undefined
   /**
    * 
    *  **Syntax**: `<attachment>#`
    * 
    *  **Initial value**: `scroll`
   */
-  WebkitMaskAttachment?: $$PropValues | Property.WebkitMaskAttachment | undefined
+  webkitMaskAttachment?: $$PropValues | Property.WebkitMaskAttachment | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -20306,7 +20742,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskBoxImageOutset?: $$PropValues | Property.MaskBorderOutset<TLength> | undefined
+  webkitMaskBoxImageOutset?: $$PropValues | Property.MaskBorderOutset<TLength> | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -20333,7 +20769,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskBoxImageRepeat?: $$PropValues | Property.MaskBorderRepeat | undefined
+  webkitMaskBoxImageRepeat?: $$PropValues | Property.MaskBorderRepeat | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -20360,7 +20796,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskBoxImageSlice?: $$PropValues | Property.MaskBorderSlice | undefined
+  webkitMaskBoxImageSlice?: $$PropValues | Property.MaskBorderSlice | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -20387,7 +20823,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskBoxImageSource?: $$PropValues | Property.MaskBorderSource | undefined
+  webkitMaskBoxImageSource?: $$PropValues | Property.MaskBorderSource | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -20414,7 +20850,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskBoxImageWidth?: $$PropValues | Property.MaskBorderWidth<TLength> | undefined
+  webkitMaskBoxImageWidth?: $$PropValues | Property.MaskBorderWidth<TLength> | undefined
   /**
    * 
    *  Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -20441,7 +20877,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskClip?: $$PropValues | Property.WebkitMaskClip | undefined
+  webkitMaskClip?: $$PropValues | Property.WebkitMaskClip | undefined
   /**
    * 
    *  The **`-webkit-mask-composite`** property specifies the manner in which multiple mask images applied to the same element are composited with one another. Mask images are composited in the opposite order that they are declared with the `-webkit-mask-image` property.
@@ -20468,7 +20904,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskComposite?: $$PropValues | Property.WebkitMaskComposite | undefined
+  webkitMaskComposite?: $$PropValues | Property.WebkitMaskComposite | undefined
   /**
    * 
    *  Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -20495,7 +20931,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskImage?: $$PropValues | Property.WebkitMaskImage | undefined
+  webkitMaskImage?: $$PropValues | Property.WebkitMaskImage | undefined
   /**
    * 
    *  Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -20522,7 +20958,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskOrigin?: $$PropValues | Property.WebkitMaskOrigin | undefined
+  webkitMaskOrigin?: $$PropValues | Property.WebkitMaskOrigin | undefined
   /**
    * 
    *  Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -20549,7 +20985,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskPosition?: $$PropValues | Property.WebkitMaskPosition<TLength> | undefined
+  webkitMaskPosition?: $$PropValues | Property.WebkitMaskPosition<TLength> | undefined
   /**
    * 
    *  The `-webkit-mask-position-x` CSS property sets the initial horizontal position of a mask image.
@@ -20558,7 +20994,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0%`
   */
-  WebkitMaskPositionX?: $$PropValues | Property.WebkitMaskPositionX<TLength> | undefined
+  webkitMaskPositionX?: $$PropValues | Property.WebkitMaskPositionX<TLength> | undefined
   /**
    * 
    *  The `-webkit-mask-position-y` CSS property sets the initial vertical position of a mask image.
@@ -20567,7 +21003,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0%`
   */
-  WebkitMaskPositionY?: $$PropValues | Property.WebkitMaskPositionY<TLength> | undefined
+  webkitMaskPositionY?: $$PropValues | Property.WebkitMaskPositionY<TLength> | undefined
   /**
    * 
    *  Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -20594,7 +21030,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskRepeat?: $$PropValues | Property.WebkitMaskRepeat | undefined
+  webkitMaskRepeat?: $$PropValues | Property.WebkitMaskRepeat | undefined
   /**
    * 
    *  The `-webkit-mask-repeat-x` property specifies whether and how a mask image is repeated (tiled) horizontally.
@@ -20603,7 +21039,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `repeat`
   */
-  WebkitMaskRepeatX?: $$PropValues | Property.WebkitMaskRepeatX | undefined
+  webkitMaskRepeatX?: $$PropValues | Property.WebkitMaskRepeatX | undefined
   /**
    * 
    *  The `-webkit-mask-repeat-y` property sets whether and how a mask image is repeated (tiled) vertically.
@@ -20612,7 +21048,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `repeat`
   */
-  WebkitMaskRepeatY?: $$PropValues | Property.WebkitMaskRepeatY | undefined
+  webkitMaskRepeatY?: $$PropValues | Property.WebkitMaskRepeatY | undefined
   /**
    * 
    *  Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -20639,7 +21075,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitMaskSize?: $$PropValues | Property.WebkitMaskSize<TLength> | undefined
+  webkitMaskSize?: $$PropValues | Property.WebkitMaskSize<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20648,7 +21084,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  WebkitMaxInlineSize?: $$PropValues | Property.MaxInlineSize<TLength> | undefined
+  webkitMaxInlineSize?: $$PropValues | Property.MaxInlineSize<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -20675,14 +21111,14 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitOrder?: $$PropValues | Property.Order | undefined
+  webkitOrder?: $$PropValues | Property.Order | undefined
   /**
    * 
    *  **Syntax**: `auto | touch`
    * 
    *  **Initial value**: `auto`
   */
-  WebkitOverflowScrolling?: $$PropValues | Property.WebkitOverflowScrolling | undefined
+  webkitOverflowScrolling?: $$PropValues | Property.WebkitOverflowScrolling | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20691,7 +21127,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0`
   */
-  WebkitPaddingEnd?: $$PropValues | Property.PaddingInlineEnd<TLength> | undefined
+  webkitPaddingEnd?: $$PropValues | Property.PaddingInlineEnd<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20700,7 +21136,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0`
   */
-  WebkitPaddingStart?: $$PropValues | Property.PaddingInlineStart<TLength> | undefined
+  webkitPaddingStart?: $$PropValues | Property.PaddingInlineStart<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -20727,7 +21163,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitPerspective?: $$PropValues | Property.Perspective<TLength> | undefined
+  webkitPerspective?: $$PropValues | Property.Perspective<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -20754,7 +21190,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitPerspectiveOrigin?: $$PropValues | Property.PerspectiveOrigin<TLength> | undefined
+  webkitPerspectiveOrigin?: $$PropValues | Property.PerspectiveOrigin<TLength> | undefined
   /**
    * 
    *  Since May 2025, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -20763,7 +21199,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `economy`
   */
-  WebkitPrintColorAdjust?: $$PropValues | Property.PrintColorAdjust | undefined
+  webkitPrintColorAdjust?: $$PropValues | Property.PrintColorAdjust | undefined
   /**
    * 
    *  Since December 2024, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -20772,7 +21208,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `alternate`
   */
-  WebkitRubyPosition?: $$PropValues | Property.RubyPosition | undefined
+  webkitRubyPosition?: $$PropValues | Property.RubyPosition | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2022.
@@ -20781,7 +21217,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  WebkitScrollSnapType?: $$PropValues | Property.ScrollSnapType | undefined
+  webkitScrollSnapType?: $$PropValues | Property.ScrollSnapType | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20790,7 +21226,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `0`
   */
-  WebkitShapeMargin?: $$PropValues | Property.ShapeMargin<TLength> | undefined
+  webkitShapeMargin?: $$PropValues | Property.ShapeMargin<TLength> | undefined
   /**
    * 
    *  **`-webkit-tap-highlight-color`** is a non-standard CSS property that sets the color of the highlight that appears over a link while it's being tapped. The highlighting indicates to the user that their tap is being successfully recognized, and indicates which element they're tapping on.
@@ -20799,7 +21235,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `black`
   */
-  WebkitTapHighlightColor?: $$PropValues | Property.WebkitTapHighlightColor | undefined
+  webkitTapHighlightColor?: $$PropValues | Property.WebkitTapHighlightColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
@@ -20808,7 +21244,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  WebkitTextCombine?: $$PropValues | Property.TextCombineUpright | undefined
+  webkitTextCombine?: $$PropValues | Property.TextCombineUpright | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20817,7 +21253,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `currentcolor`
   */
-  WebkitTextDecorationColor?: $$PropValues | Property.TextDecorationColor | undefined
+  webkitTextDecorationColor?: $$PropValues | Property.TextDecorationColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20826,7 +21262,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  WebkitTextDecorationLine?: $$PropValues | Property.TextDecorationLine | undefined
+  webkitTextDecorationLine?: $$PropValues | Property.TextDecorationLine | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -20835,7 +21271,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `objects`
   */
-  WebkitTextDecorationSkip?: $$PropValues | Property.TextDecorationSkip | undefined
+  webkitTextDecorationSkip?: $$PropValues | Property.TextDecorationSkip | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -20844,7 +21280,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `solid`
   */
-  WebkitTextDecorationStyle?: $$PropValues | Property.TextDecorationStyle | undefined
+  webkitTextDecorationStyle?: $$PropValues | Property.TextDecorationStyle | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
@@ -20853,7 +21289,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `currentcolor`
   */
-  WebkitTextEmphasisColor?: $$PropValues | Property.TextEmphasisColor | undefined
+  webkitTextEmphasisColor?: $$PropValues | Property.TextEmphasisColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
@@ -20862,7 +21298,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  WebkitTextEmphasisPosition?: $$PropValues | Property.TextEmphasisPosition | undefined
+  webkitTextEmphasisPosition?: $$PropValues | Property.TextEmphasisPosition | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
@@ -20871,7 +21307,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `none`
   */
-  WebkitTextEmphasisStyle?: $$PropValues | Property.TextEmphasisStyle | undefined
+  webkitTextEmphasisStyle?: $$PropValues | Property.TextEmphasisStyle | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2016.
@@ -20905,7 +21341,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTextFillColor?: $$PropValues | Property.WebkitTextFillColor | undefined
+  webkitTextFillColor?: $$PropValues | Property.WebkitTextFillColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2020.
@@ -20914,7 +21350,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `mixed`
   */
-  WebkitTextOrientation?: $$PropValues | Property.TextOrientation | undefined
+  webkitTextOrientation?: $$PropValues | Property.TextOrientation | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -20941,7 +21377,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTextSizeAdjust?: $$PropValues | Property.TextSizeAdjust | undefined
+  webkitTextSizeAdjust?: $$PropValues | Property.TextSizeAdjust | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
@@ -20975,7 +21411,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTextStrokeColor?: $$PropValues | Property.WebkitTextStrokeColor | undefined
+  webkitTextStrokeColor?: $$PropValues | Property.WebkitTextStrokeColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
@@ -21009,7 +21445,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTextStrokeWidth?: $$PropValues | Property.WebkitTextStrokeWidth<TLength> | undefined
+  webkitTextStrokeWidth?: $$PropValues | Property.WebkitTextStrokeWidth<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
@@ -21018,7 +21454,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `auto`
   */
-  WebkitTextUnderlinePosition?: $$PropValues | Property.TextUnderlinePosition | undefined
+  webkitTextUnderlinePosition?: $$PropValues | Property.TextUnderlinePosition | undefined
   /**
    * 
    *  The `-webkit-touch-callout` CSS property controls the display of the default callout shown when you touch and hold a touch target.
@@ -21027,7 +21463,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `default`
   */
-  WebkitTouchCallout?: $$PropValues | Property.WebkitTouchCallout | undefined
+  webkitTouchCallout?: $$PropValues | Property.WebkitTouchCallout | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -21054,7 +21490,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTransform?: $$PropValues | Property.Transform | undefined
+  webkitTransform?: $$PropValues | Property.Transform | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -21081,7 +21517,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTransformOrigin?: $$PropValues | Property.TransformOrigin<TLength> | undefined
+  webkitTransformOrigin?: $$PropValues | Property.TransformOrigin<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -21108,7 +21544,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTransformStyle?: $$PropValues | Property.TransformStyle | undefined
+  webkitTransformStyle?: $$PropValues | Property.TransformStyle | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -21135,7 +21571,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTransitionDelay?: $$PropValues | Property.TransitionDelay<TTime> | undefined
+  webkitTransitionDelay?: $$PropValues | Property.TransitionDelay<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -21162,7 +21598,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTransitionDuration?: $$PropValues | Property.TransitionDuration<TTime> | undefined
+  webkitTransitionDuration?: $$PropValues | Property.TransitionDuration<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -21189,7 +21625,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTransitionProperty?: $$PropValues | Property.TransitionProperty | undefined
+  webkitTransitionProperty?: $$PropValues | Property.TransitionProperty | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -21216,14 +21652,14 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitTransitionTimingFunction?: $$PropValues | Property.TransitionTimingFunction | undefined
+  webkitTransitionTimingFunction?: $$PropValues | Property.TransitionTimingFunction | undefined
   /**
    * 
    *  **Syntax**: `read-only | read-write | read-write-plaintext-only`
    * 
    *  **Initial value**: `read-only`
   */
-  WebkitUserModify?: $$PropValues | Property.WebkitUserModify | undefined
+  webkitUserModify?: $$PropValues | Property.WebkitUserModify | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -21249,7 +21685,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * }
    * ```
   */
-  WebkitUserSelect?: $$PropValues | Property.WebkitUserSelect | undefined
+  webkitUserSelect?: $$PropValues | Property.WebkitUserSelect | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -21258,7 +21694,7 @@ export interface VendorLonghandProperties<TLength = (string & {}) | 0, TTime = s
    * 
    *  **Initial value**: `horizontal-tb`
   */
-  WebkitWritingMode?: $$PropValues | Property.WritingMode | undefined
+  webkitWritingMode?: $$PropValues | Property.WritingMode | undefined
 }
 
 export interface VendorShorthandProperties<TLength = (string & {}) | 0, TTime = string & {}> {
@@ -21268,38 +21704,38 @@ export interface VendorShorthandProperties<TLength = (string & {}) | 0, TTime = 
    * 
    *  **Syntax**: `<single-animation>#`
   */
-  MozAnimation?: $$PropValues | Property.Animation<TTime> | undefined
+  mozAnimation?: $$PropValues | Property.Animation<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    * 
    *  **Syntax**: `<'border-image-source'> || <'border-image-slice'> [ / <'border-image-width'> | / <'border-image-width'>? / <'border-image-outset'> ]? || <'border-image-repeat'>`
   */
-  MozBorderImage?: $$PropValues | Property.BorderImage | undefined
+  mozBorderImage?: $$PropValues | Property.BorderImage | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    * 
    *  **Syntax**: `<'column-rule-width'> || <'column-rule-style'> || <'column-rule-color'>`
   */
-  MozColumnRule?: $$PropValues | Property.ColumnRule<TLength> | undefined
+  mozColumnRule?: $$PropValues | Property.ColumnRule<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    * 
    *  **Syntax**: `<'column-width'> || <'column-count'>`
   */
-  MozColumns?: $$PropValues | Property.Columns<TLength> | undefined
+  mozColumns?: $$PropValues | Property.Columns<TLength> | undefined
   /** **Syntax**: `<outline-radius>{1,4} [ / <outline-radius>{1,4} ]?` */
 
-  MozOutlineRadius?: $$PropValues | Property.MozOutlineRadius<TLength> | undefined
+  mozOutlineRadius?: $$PropValues | Property.MozOutlineRadius<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
    * 
    *  **Syntax**: `<single-transition>#`
   */
-  MozTransition?: $$PropValues | Property.Transition<TTime> | undefined
+  mozTransition?: $$PropValues | Property.Transition<TTime> | undefined
   /** **Syntax**: `<'-ms-content-zoom-limit-min'> <'-ms-content-zoom-limit-max'>` */
 
   msContentZoomLimit?: $$PropValues | Property.MsContentZoomLimit | undefined
@@ -21348,26 +21784,37 @@ export interface VendorShorthandProperties<TLength = (string & {}) | 0, TTime = 
    *     "WebkitAnimation",
    *     "webkitAnimation"
    *   ],
+   *   "longhands": [
+   *     "animation-name",
+   *     "animation-duration",
+   *     "animation-timing-function",
+   *     "animation-delay",
+   *     "animation-iteration-count",
+   *     "animation-direction",
+   *     "animation-fill-mode",
+   *     "animation-play-state",
+   *     "animation-timeline"
+   *   ],
    *   "syntax": "<single-animation>#",
    *   "extended": []
    * }
    * ```
   */
-  WebkitAnimation?: $$PropValues | Property.Animation<TTime> | undefined
+  webkitAnimation?: $$PropValues | Property.Animation<TTime> | undefined
   /**
    * 
    *  The **`-webkit-border-before`** CSS property is a shorthand property for setting the individual logical block start border property values in a single place in the style sheet.
    * 
    *  **Syntax**: `<'border-width'> || <'border-style'> || <color>`
   */
-  WebkitBorderBefore?: $$PropValues | Property.WebkitBorderBefore<TLength> | undefined
+  webkitBorderBefore?: $$PropValues | Property.WebkitBorderBefore<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
    * 
    *  **Syntax**: `<'border-image-source'> || <'border-image-slice'> [ / <'border-image-width'> | / <'border-image-width'>? / <'border-image-outset'> ]? || <'border-image-repeat'>`
   */
-  WebkitBorderImage?: $$PropValues | Property.BorderImage | undefined
+  webkitBorderImage?: $$PropValues | Property.BorderImage | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -21387,26 +21834,32 @@ export interface VendorShorthandProperties<TLength = (string & {}) | 0, TTime = 
    *     "WebkitBorderRadius",
    *     "webkitBorderRadius"
    *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "border-top-right-radius",
+   *     "border-bottom-right-radius",
+   *     "border-bottom-left-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,4} [ / <length-percentage [0,∞]>{1,4} ]?",
    *   "extended": []
    * }
    * ```
   */
-  WebkitBorderRadius?: $$PropValues | Property.BorderRadius<TLength> | undefined
+  webkitBorderRadius?: $$PropValues | Property.BorderRadius<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    * 
    *  **Syntax**: `<'column-rule-width'> || <'column-rule-style'> || <'column-rule-color'>`
   */
-  WebkitColumnRule?: $$PropValues | Property.ColumnRule<TLength> | undefined
+  webkitColumnRule?: $$PropValues | Property.ColumnRule<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
    * 
    *  **Syntax**: `<'column-width'> || <'column-count'>`
   */
-  WebkitColumns?: $$PropValues | Property.Columns<TLength> | undefined
+  webkitColumns?: $$PropValues | Property.Columns<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -21426,12 +21879,17 @@ export interface VendorShorthandProperties<TLength = (string & {}) | 0, TTime = 
    *     "WebkitFlex",
    *     "webkitFlex"
    *   ],
+   *   "longhands": [
+   *     "flex-grow",
+   *     "flex-shrink",
+   *     "flex-basis"
+   *   ],
    *   "syntax": "none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]",
    *   "extended": []
    * }
    * ```
   */
-  WebkitFlex?: $$PropValues | Property.Flex<TLength> | undefined
+  webkitFlex?: $$PropValues | Property.Flex<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -21451,12 +21909,16 @@ export interface VendorShorthandProperties<TLength = (string & {}) | 0, TTime = 
    *     "WebkitFlexFlow",
    *     "webkitFlexFlow"
    *   ],
+   *   "longhands": [
+   *     "flex-direction",
+   *     "flex-wrap"
+   *   ],
    *   "syntax": "<'flex-direction'> || <'flex-wrap'>",
    *   "extended": []
    * }
    * ```
   */
-  WebkitFlexFlow?: $$PropValues | Property.FlexFlow | undefined
+  webkitFlexFlow?: $$PropValues | Property.FlexFlow | undefined
   /**
    * 
    *  Since December 2023, this feature works across the latest devices and browser versions. This feature might not work in older devices or browsers.
@@ -21476,12 +21938,22 @@ export interface VendorShorthandProperties<TLength = (string & {}) | 0, TTime = 
    *     "WebkitMask",
    *     "webkitMask"
    *   ],
+   *   "longhands": [
+   *     "mask-image",
+   *     "mask-position",
+   *     "mask-size",
+   *     "mask-repeat",
+   *     "mask-origin",
+   *     "mask-clip",
+   *     "mask-composite",
+   *     "mask-mode"
+   *   ],
    *   "syntax": "<mask-layer>#",
    *   "extended": []
    * }
    * ```
   */
-  WebkitMask?: $$PropValues | Property.WebkitMask<TLength> | undefined
+  webkitMask?: $$PropValues | Property.WebkitMask<TLength> | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -21501,19 +21973,27 @@ export interface VendorShorthandProperties<TLength = (string & {}) | 0, TTime = 
    *     "WebkitMaskBoxImage",
    *     "webkitMaskBoxImage"
    *   ],
+   *   "longhands": [
+   *     "mask-border-source",
+   *     "mask-border-slice",
+   *     "mask-border-width",
+   *     "mask-border-outset",
+   *     "mask-border-repeat",
+   *     "mask-border-mode"
+   *   ],
    *   "syntax": "<'mask-border-source'> || <'mask-border-slice'> [ / <'mask-border-width'>? [ / <'mask-border-outset'> ]? ]? || <'mask-border-repeat'> || <'mask-border-mode'>",
    *   "extended": []
    * }
    * ```
   */
-  WebkitMaskBoxImage?: $$PropValues | Property.MaskBorder | undefined
+  webkitMaskBoxImage?: $$PropValues | Property.MaskBorder | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2022.
    * 
    *  **Syntax**: `<'text-emphasis-style'> || <'text-emphasis-color'>`
   */
-  WebkitTextEmphasis?: $$PropValues | Property.TextEmphasis | undefined
+  webkitTextEmphasis?: $$PropValues | Property.TextEmphasis | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since April 2017.
@@ -21540,12 +22020,16 @@ export interface VendorShorthandProperties<TLength = (string & {}) | 0, TTime = 
    *     "WebkitTextStroke",
    *     "webkitTextStroke"
    *   ],
+   *   "longhands": [
+   *     "-webkit-text-stroke-width",
+   *     "-webkit-text-stroke-color"
+   *   ],
    *   "syntax": "<line-width> || <color>",
    *   "extended": []
    * }
    * ```
   */
-  WebkitTextStroke?: $$PropValues | Property.WebkitTextStroke<TLength> | undefined
+  webkitTextStroke?: $$PropValues | Property.WebkitTextStroke<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -21565,12 +22049,19 @@ export interface VendorShorthandProperties<TLength = (string & {}) | 0, TTime = 
    *     "WebkitTransition",
    *     "webkitTransition"
    *   ],
+   *   "longhands": [
+   *     "transition-property",
+   *     "transition-duration",
+   *     "transition-timing-function",
+   *     "transition-delay",
+   *     "transition-behavior"
+   *   ],
    *   "syntax": "<single-transition>#",
    *   "extended": []
    * }
    * ```
   */
-  WebkitTransition?: $$PropValues | Property.Transition<TTime> | undefined
+  webkitTransition?: $$PropValues | Property.Transition<TTime> | undefined
 }
 
 export interface VendorProperties<TLength = (string & {}) | 0, TTime = string & {}> extends VendorLonghandProperties<TLength, TTime>, VendorShorthandProperties<TLength, TTime> {}
@@ -21748,7 +22239,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    *     "grid-column-gap",
    *     "gridColumnGap"
    *   ],
-   *   "syntax": "normal | <length-percentage [0,∞]>",
+   *   "syntax": "normal | <length-percentage [0,∞]> | <line-width>",
    *   "extended": []
    * }
    * ```
@@ -21773,6 +22264,10 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    *   "styleDeclaration": [
    *     "grid-gap",
    *     "gridGap"
+   *   ],
+   *   "longhands": [
+   *     "row-gap",
+   *     "column-gap"
    *   ],
    *   "syntax": "<'row-gap'> <'column-gap'>?",
    *   "extended": []
@@ -21802,7 +22297,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    *     "grid-row-gap",
    *     "gridRowGap"
    *   ],
-   *   "syntax": "normal | <length-percentage [0,∞]>",
+   *   "syntax": "normal | <length-percentage [0,∞]> | <line-width>",
    *   "extended": []
    * }
    * ```
@@ -22070,7 +22565,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlBoxAlign?: $$PropValues | Property.BoxAlign | undefined
+  khtmlBoxAlign?: $$PropValues | Property.BoxAlign | undefined
   /**
    * 
    *  The **`box-direction`** CSS property specifies whether a box lays out its contents normally (from the top or left edge), or in reverse (from the bottom or right edge).
@@ -22081,7 +22576,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlBoxDirection?: $$PropValues | Property.BoxDirection | undefined
+  khtmlBoxDirection?: $$PropValues | Property.BoxDirection | undefined
   /**
    * 
    *  The **`-moz-box-flex`** and **`-webkit-box-flex`** CSS properties specify how a `-moz-box` or `-webkit-box` grows to fill the box that contains it, in the direction of the containing box's layout.
@@ -22092,7 +22587,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlBoxFlex?: $$PropValues | Property.BoxFlex | undefined
+  khtmlBoxFlex?: $$PropValues | Property.BoxFlex | undefined
   /**
    * 
    *  The **`box-flex-group`** CSS property assigns the flexbox's child elements to a flex group.
@@ -22103,7 +22598,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlBoxFlexGroup?: $$PropValues | Property.BoxFlexGroup | undefined
+  khtmlBoxFlexGroup?: $$PropValues | Property.BoxFlexGroup | undefined
   /**
    * 
    *  The **`box-lines`** CSS property determines whether the box may have a single or multiple lines (rows for horizontally oriented boxes, columns for vertically oriented boxes).
@@ -22114,7 +22609,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlBoxLines?: $$PropValues | Property.BoxLines | undefined
+  khtmlBoxLines?: $$PropValues | Property.BoxLines | undefined
   /**
    * 
    *  The **`box-ordinal-group`** CSS property assigns the flexbox's child elements to an ordinal group.
@@ -22125,7 +22620,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlBoxOrdinalGroup?: $$PropValues | Property.BoxOrdinalGroup | undefined
+  khtmlBoxOrdinalGroup?: $$PropValues | Property.BoxOrdinalGroup | undefined
   /**
    * 
    *  The **`box-orient`** CSS property sets whether an element lays out its contents horizontally or vertically.
@@ -22136,7 +22631,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlBoxOrient?: $$PropValues | Property.BoxOrient | undefined
+  khtmlBoxOrient?: $$PropValues | Property.BoxOrient | undefined
   /**
    * 
    *  The **`-moz-box-pack`** and **`-webkit-box-pack`** CSS properties specify how a `-moz-box` or `-webkit-box` packs its contents in the direction of its layout. The effect of this is only visible if there is extra space in the box.
@@ -22147,7 +22642,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlBoxPack?: $$PropValues | Property.BoxPack | undefined
+  khtmlBoxPack?: $$PropValues | Property.BoxPack | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2020.
@@ -22158,7 +22653,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlLineBreak?: $$PropValues | Property.LineBreak | undefined
+  khtmlLineBreak?: $$PropValues | Property.LineBreak | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22169,7 +22664,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlOpacity?: $$PropValues | Property.Opacity | undefined
+  khtmlOpacity?: $$PropValues | Property.Opacity | undefined
   /**
    * 
    *  This feature is not Baseline because it does not work in some of the most widely-used browsers.
@@ -22180,7 +22675,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  KhtmlUserSelect?: $$PropValues | Property.UserSelect | undefined
+  khtmlUserSelect?: $$PropValues | Property.UserSelect | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22191,7 +22686,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBackgroundClip?: $$PropValues | Property.BackgroundClip | undefined
+  mozBackgroundClip?: $$PropValues | Property.BackgroundClip | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22202,7 +22697,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBackgroundOrigin?: $$PropValues | Property.BackgroundOrigin | undefined
+  mozBackgroundOrigin?: $$PropValues | Property.BackgroundOrigin | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22213,7 +22708,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBackgroundSize?: $$PropValues | Property.BackgroundSize<TLength> | undefined
+  mozBackgroundSize?: $$PropValues | Property.BackgroundSize<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22222,7 +22717,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBorderRadius?: $$PropValues | Property.BorderRadius<TLength> | undefined
+  mozBorderRadius?: $$PropValues | Property.BorderRadius<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22233,7 +22728,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBorderRadiusBottomleft?: $$PropValues | Property.BorderBottomLeftRadius<TLength> | undefined
+  mozBorderRadiusBottomleft?: $$PropValues | Property.BorderBottomLeftRadius<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22244,7 +22739,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBorderRadiusBottomright?: $$PropValues | Property.BorderBottomRightRadius<TLength> | undefined
+  mozBorderRadiusBottomright?: $$PropValues | Property.BorderBottomRightRadius<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22255,7 +22750,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBorderRadiusTopleft?: $$PropValues | Property.BorderTopLeftRadius<TLength> | undefined
+  mozBorderRadiusTopleft?: $$PropValues | Property.BorderTopLeftRadius<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22266,7 +22761,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBorderRadiusTopright?: $$PropValues | Property.BorderTopRightRadius<TLength> | undefined
+  mozBorderRadiusTopright?: $$PropValues | Property.BorderTopRightRadius<TLength> | undefined
   /**
    * 
    *  The **`box-align`** CSS property specifies how an element aligns its contents across its layout in a perpendicular direction. The effect of the property is only visible if there is extra space in the box.
@@ -22277,7 +22772,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBoxAlign?: $$PropValues | Property.BoxAlign | undefined
+  mozBoxAlign?: $$PropValues | Property.BoxAlign | undefined
   /**
    * 
    *  The **`box-direction`** CSS property specifies whether a box lays out its contents normally (from the top or left edge), or in reverse (from the bottom or right edge).
@@ -22288,7 +22783,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBoxDirection?: $$PropValues | Property.BoxDirection | undefined
+  mozBoxDirection?: $$PropValues | Property.BoxDirection | undefined
   /**
    * 
    *  The **`-moz-box-flex`** and **`-webkit-box-flex`** CSS properties specify how a `-moz-box` or `-webkit-box` grows to fill the box that contains it, in the direction of the containing box's layout.
@@ -22299,7 +22794,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBoxFlex?: $$PropValues | Property.BoxFlex | undefined
+  mozBoxFlex?: $$PropValues | Property.BoxFlex | undefined
   /**
    * 
    *  The **`box-ordinal-group`** CSS property assigns the flexbox's child elements to an ordinal group.
@@ -22310,7 +22805,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBoxOrdinalGroup?: $$PropValues | Property.BoxOrdinalGroup | undefined
+  mozBoxOrdinalGroup?: $$PropValues | Property.BoxOrdinalGroup | undefined
   /**
    * 
    *  The **`box-orient`** CSS property sets whether an element lays out its contents horizontally or vertically.
@@ -22321,7 +22816,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBoxOrient?: $$PropValues | Property.BoxOrient | undefined
+  mozBoxOrient?: $$PropValues | Property.BoxOrient | undefined
   /**
    * 
    *  The **`-moz-box-pack`** and **`-webkit-box-pack`** CSS properties specify how a `-moz-box` or `-webkit-box` packs its contents in the direction of its layout. The effect of this is only visible if there is extra space in the box.
@@ -22332,7 +22827,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBoxPack?: $$PropValues | Property.BoxPack | undefined
+  mozBoxPack?: $$PropValues | Property.BoxPack | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22343,7 +22838,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozBoxShadow?: $$PropValues | Property.BoxShadow | undefined
+  mozBoxShadow?: $$PropValues | Property.BoxShadow | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -22354,7 +22849,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozColumnCount?: $$PropValues | Property.ColumnCount | undefined
+  mozColumnCount?: $$PropValues | Property.ColumnCount | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2017.
@@ -22365,7 +22860,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozColumnFill?: $$PropValues | Property.ColumnFill | undefined
+  mozColumnFill?: $$PropValues | Property.ColumnFill | undefined
   /**
    * 
    *  The non-standard **`-moz-float-edge`** CSS property specifies whether the height and width properties of the element include the margin, border, or padding thickness.
@@ -22376,7 +22871,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozFloatEdge?: $$PropValues | Property.MozFloatEdge | undefined
+  mozFloatEdge?: $$PropValues | Property.MozFloatEdge | undefined
   /**
    * 
    *  The **`-moz-force-broken-image-icon`** extended CSS property can be used to force the broken image icon to be shown even when a broken image has an `alt` attribute.
@@ -22387,7 +22882,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozForceBrokenImageIcon?: $$PropValues | Property.MozForceBrokenImageIcon | undefined
+  mozForceBrokenImageIcon?: $$PropValues | Property.MozForceBrokenImageIcon | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22398,7 +22893,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozOpacity?: $$PropValues | Property.Opacity | undefined
+  mozOpacity?: $$PropValues | Property.Opacity | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since March 2023.
@@ -22407,7 +22902,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozOutline?: $$PropValues | Property.Outline<TLength> | undefined
+  mozOutline?: $$PropValues | Property.Outline<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22418,7 +22913,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozOutlineColor?: $$PropValues | Property.OutlineColor | undefined
+  mozOutlineColor?: $$PropValues | Property.OutlineColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22429,7 +22924,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozOutlineStyle?: $$PropValues | Property.OutlineStyle | undefined
+  mozOutlineStyle?: $$PropValues | Property.OutlineStyle | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22440,7 +22935,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozOutlineWidth?: $$PropValues | Property.OutlineWidth<TLength> | undefined
+  mozOutlineWidth?: $$PropValues | Property.OutlineWidth<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2022.
@@ -22451,7 +22946,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozTextAlignLast?: $$PropValues | Property.TextAlignLast | undefined
+  mozTextAlignLast?: $$PropValues | Property.TextAlignLast | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -22462,7 +22957,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozTextDecorationColor?: $$PropValues | Property.TextDecorationColor | undefined
+  mozTextDecorationColor?: $$PropValues | Property.TextDecorationColor | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -22473,7 +22968,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozTextDecorationLine?: $$PropValues | Property.TextDecorationLine | undefined
+  mozTextDecorationLine?: $$PropValues | Property.TextDecorationLine | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -22484,7 +22979,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozTextDecorationStyle?: $$PropValues | Property.TextDecorationStyle | undefined
+  mozTextDecorationStyle?: $$PropValues | Property.TextDecorationStyle | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22495,7 +22990,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozTransitionDelay?: $$PropValues | Property.TransitionDelay<TTime> | undefined
+  mozTransitionDelay?: $$PropValues | Property.TransitionDelay<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22506,7 +23001,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozTransitionDuration?: $$PropValues | Property.TransitionDuration<TTime> | undefined
+  mozTransitionDuration?: $$PropValues | Property.TransitionDuration<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22517,7 +23012,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozTransitionProperty?: $$PropValues | Property.TransitionProperty | undefined
+  mozTransitionProperty?: $$PropValues | Property.TransitionProperty | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22528,7 +23023,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozTransitionTimingFunction?: $$PropValues | Property.TransitionTimingFunction | undefined
+  mozTransitionTimingFunction?: $$PropValues | Property.TransitionTimingFunction | undefined
   /**
    * 
    *  The **`-moz-user-focus`** CSS property is used to indicate whether an element can have the focus.
@@ -22539,7 +23034,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozUserFocus?: $$PropValues | Property.MozUserFocus | undefined
+  mozUserFocus?: $$PropValues | Property.MozUserFocus | undefined
   /**
    * 
    *  In Mozilla applications, **`-moz-user-input`** determines if an element will accept user input.
@@ -22550,7 +23045,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  MozUserInput?: $$PropValues | Property.MozUserInput | undefined
+  mozUserInput?: $$PropValues | Property.MozUserInput | undefined
   /**
    * 
    *  **Syntax**: `auto | normal | active | inactive | disabled`
@@ -22568,7 +23063,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OAnimation?: $$PropValues | Property.Animation<TTime> | undefined
+  oAnimation?: $$PropValues | Property.Animation<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22579,7 +23074,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OAnimationDelay?: $$PropValues | Property.AnimationDelay<TTime> | undefined
+  oAnimationDelay?: $$PropValues | Property.AnimationDelay<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22590,7 +23085,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OAnimationDirection?: $$PropValues | Property.AnimationDirection | undefined
+  oAnimationDirection?: $$PropValues | Property.AnimationDirection | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22601,7 +23096,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OAnimationDuration?: $$PropValues | Property.AnimationDuration<TTime> | undefined
+  oAnimationDuration?: $$PropValues | Property.AnimationDuration<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22612,7 +23107,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OAnimationFillMode?: $$PropValues | Property.AnimationFillMode | undefined
+  oAnimationFillMode?: $$PropValues | Property.AnimationFillMode | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22623,7 +23118,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OAnimationIterationCount?: $$PropValues | Property.AnimationIterationCount | undefined
+  oAnimationIterationCount?: $$PropValues | Property.AnimationIterationCount | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22634,7 +23129,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OAnimationName?: $$PropValues | Property.AnimationName | undefined
+  oAnimationName?: $$PropValues | Property.AnimationName | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22645,7 +23140,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OAnimationPlayState?: $$PropValues | Property.AnimationPlayState | undefined
+  oAnimationPlayState?: $$PropValues | Property.AnimationPlayState | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22656,7 +23151,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OAnimationTimingFunction?: $$PropValues | Property.AnimationTimingFunction | undefined
+  oAnimationTimingFunction?: $$PropValues | Property.AnimationTimingFunction | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22667,7 +23162,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OBackgroundSize?: $$PropValues | Property.BackgroundSize<TLength> | undefined
+  oBackgroundSize?: $$PropValues | Property.BackgroundSize<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22676,7 +23171,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OBorderImage?: $$PropValues | Property.BorderImage | undefined
+  oBorderImage?: $$PropValues | Property.BorderImage | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -22687,7 +23182,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OObjectFit?: $$PropValues | Property.ObjectFit | undefined
+  oObjectFit?: $$PropValues | Property.ObjectFit | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.
@@ -22698,7 +23193,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OObjectPosition?: $$PropValues | Property.ObjectPosition<TLength> | undefined
+  oObjectPosition?: $$PropValues | Property.ObjectPosition<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since August 2021.
@@ -22709,7 +23204,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OTabSize?: $$PropValues | Property.TabSize<TLength> | undefined
+  oTabSize?: $$PropValues | Property.TabSize<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.
@@ -22720,7 +23215,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OTextOverflow?: $$PropValues | Property.TextOverflow | undefined
+  oTextOverflow?: $$PropValues | Property.TextOverflow | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22731,7 +23226,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OTransform?: $$PropValues | Property.Transform | undefined
+  oTransform?: $$PropValues | Property.Transform | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22742,7 +23237,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OTransformOrigin?: $$PropValues | Property.TransformOrigin<TLength> | undefined
+  oTransformOrigin?: $$PropValues | Property.TransformOrigin<TLength> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22751,7 +23246,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OTransition?: $$PropValues | Property.Transition<TTime> | undefined
+  oTransition?: $$PropValues | Property.Transition<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22762,7 +23257,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OTransitionDelay?: $$PropValues | Property.TransitionDelay<TTime> | undefined
+  oTransitionDelay?: $$PropValues | Property.TransitionDelay<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22773,7 +23268,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OTransitionDuration?: $$PropValues | Property.TransitionDuration<TTime> | undefined
+  oTransitionDuration?: $$PropValues | Property.TransitionDuration<TTime> | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22784,7 +23279,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OTransitionProperty?: $$PropValues | Property.TransitionProperty | undefined
+  oTransitionProperty?: $$PropValues | Property.TransitionProperty | undefined
   /**
    * 
    *  This feature is well established and works across many devices and browser versions. It’s been available across browsers since September 2015.
@@ -22795,7 +23290,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  OTransitionTimingFunction?: $$PropValues | Property.TransitionTimingFunction | undefined
+  oTransitionTimingFunction?: $$PropValues | Property.TransitionTimingFunction | undefined
   /**
    * 
    *  The **`box-align`** CSS property specifies how an element aligns its contents across its layout in a perpendicular direction. The effect of the property is only visible if there is extra space in the box.
@@ -22822,7 +23317,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * }
    * ```
   */
-  WebkitBoxAlign?: $$PropValues | Property.BoxAlign | undefined
+  webkitBoxAlign?: $$PropValues | Property.BoxAlign | undefined
   /**
    * 
    *  The **`box-direction`** CSS property specifies whether a box lays out its contents normally (from the top or left edge), or in reverse (from the bottom or right edge).
@@ -22833,7 +23328,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  WebkitBoxDirection?: $$PropValues | Property.BoxDirection | undefined
+  webkitBoxDirection?: $$PropValues | Property.BoxDirection | undefined
   /**
    * 
    *  The **`-moz-box-flex`** and **`-webkit-box-flex`** CSS properties specify how a `-moz-box` or `-webkit-box` grows to fill the box that contains it, in the direction of the containing box's layout.
@@ -22860,7 +23355,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * }
    * ```
   */
-  WebkitBoxFlex?: $$PropValues | Property.BoxFlex | undefined
+  webkitBoxFlex?: $$PropValues | Property.BoxFlex | undefined
   /**
    * 
    *  The **`box-flex-group`** CSS property assigns the flexbox's child elements to a flex group.
@@ -22871,7 +23366,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  WebkitBoxFlexGroup?: $$PropValues | Property.BoxFlexGroup | undefined
+  webkitBoxFlexGroup?: $$PropValues | Property.BoxFlexGroup | undefined
   /**
    * 
    *  The **`box-lines`** CSS property determines whether the box may have a single or multiple lines (rows for horizontally oriented boxes, columns for vertically oriented boxes).
@@ -22882,7 +23377,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * 
    *  @deprecated
   */
-  WebkitBoxLines?: $$PropValues | Property.BoxLines | undefined
+  webkitBoxLines?: $$PropValues | Property.BoxLines | undefined
   /**
    * 
    *  The **`box-ordinal-group`** CSS property assigns the flexbox's child elements to an ordinal group.
@@ -22909,7 +23404,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * }
    * ```
   */
-  WebkitBoxOrdinalGroup?: $$PropValues | Property.BoxOrdinalGroup | undefined
+  webkitBoxOrdinalGroup?: $$PropValues | Property.BoxOrdinalGroup | undefined
   /**
    * 
    *  The **`box-orient`** CSS property sets whether an element lays out its contents horizontally or vertically.
@@ -22936,7 +23431,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * }
    * ```
   */
-  WebkitBoxOrient?: $$PropValues | Property.BoxOrient | undefined
+  webkitBoxOrient?: $$PropValues | Property.BoxOrient | undefined
   /**
    * 
    *  The **`-moz-box-pack`** and **`-webkit-box-pack`** CSS properties specify how a `-moz-box` or `-webkit-box` packs its contents in the direction of its layout. The effect of this is only visible if there is extra space in the box.
@@ -22963,7 +23458,7 @@ export interface ObsoleteProperties<TLength = (string & {}) | 0, TTime = string 
    * }
    * ```
   */
-  WebkitBoxPack?: $$PropValues | Property.BoxPack | undefined
+  webkitBoxPack?: $$PropValues | Property.BoxPack | undefined
 }
 
 export interface SvgProperties<TLength = (string & {}) | 0, TTime = string & {}> {
@@ -23182,7 +23677,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "align-self",
    *     "alignSelf"
    *   ],
-   *   "syntax": "auto | normal | stretch | <baseline-position> | <overflow-position>? <self-position> | anchor-center",
+   *   "syntax": "auto | <overflow-position>? [ normal | <self-position> ]| stretch | <baseline-position> | anchor-center",
    *   "extended": [
    *     "https://drafts.csswg.org/css-anchor-position-1/#propdef-align-self"
    *   ]
@@ -23228,7 +23723,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "alignment-baseline",
    *     "alignmentBaseline"
    *   ],
-   *   "syntax": "baseline | text-bottom | alphabetic | ideographic | middle | central | mathematical | text-top",
+   *   "syntax": "baseline | <baseline-metric>",
    *   "extended": []
    * }
    * ```
@@ -23265,7 +23760,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "anchor-name",
    *     "anchorName"
    *   ],
-   *   "syntax": "none | <dashed-ident>#",
+   *   "syntax": "none | <anchor-name>#",
    *   "extended": []
    * }
    * ```
@@ -23299,7 +23794,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "anchor-scope",
    *     "anchorScope"
    *   ],
-   *   "syntax": "none | all | <dashed-ident>#",
+   *   "syntax": "none | all | <anchor-name>#",
    *   "extended": []
    * }
    * ```
@@ -25888,6 +26383,13 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "box-shadow",
    *     "boxShadow"
    *   ],
+   *   "longhands": [
+   *     "box-shadow-color",
+   *     "box-shadow-offset",
+   *     "box-shadow-blur",
+   *     "box-shadow-spread",
+   *     "box-shadow-position"
+   *   ],
    *   "syntax": "<spread-shadow>#",
    *   "extended": []
    * }
@@ -26266,6 +26768,9 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "color-adjust",
    *     "colorAdjust"
    *   ],
+   *   "longhands": [
+   *     "print-color-adjust"
+   *   ],
    *   "syntax": "<'print-color-adjust'>",
    *   "extended": []
    * }
@@ -26454,7 +26959,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "column-gap",
    *     "columnGap"
    *   ],
-   *   "syntax": "normal | <length-percentage [0,∞]>",
+   *   "syntax": "normal | <length-percentage [0,∞]> | <line-width>",
    *   "extended": []
    * }
    * ```
@@ -26487,7 +26992,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *   "percentages": "n/a",
    *   "computedValue": "as specified",
    *   "canonicalOrder": "per grammar",
-   *   "animationType": "repeatable list, see § 3.4.1 Interpolation behavior.",
+   *   "animationType": "repeatable list, see § 4.7 Interpolation of list values.",
    *   "styleDeclaration": [
    *     "column-rule-color",
    *     "columnRuleColor"
@@ -26563,7 +27068,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *   "percentages": "n/a",
    *   "computedValue": "list of absolute lengths, snapped as a border width",
    *   "canonicalOrder": "per grammar",
-   *   "animationType": "repeatable list, see § 3.4.1 Interpolation behavior.",
+   *   "animationType": "repeatable list, see § 4.7 Interpolation of list values.",
    *   "styleDeclaration": [
    *     "column-rule-width",
    *     "columnRuleWidth"
@@ -27057,7 +27562,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "dominant-baseline",
    *     "dominantBaseline"
    *   ],
-   *   "syntax": "auto | text-bottom | alphabetic | ideographic | middle | central | mathematical | hanging | text-top",
+   *   "syntax": "auto | <baseline-metric>",
    *   "extended": []
    * }
    * ```
@@ -27864,6 +28369,11 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "font-synthesis",
    *     "fontSynthesis"
    *   ],
+   *   "longhands": [
+   *     "font-synthesis-weight",
+   *     "font-synthesis-style",
+   *     "font-synthesis-small-caps"
+   *   ],
    *   "syntax": "none | [ weight || style || small-caps || position]",
    *   "extended": []
    * }
@@ -28050,6 +28560,15 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *   "styleDeclaration": [
    *     "font-variant",
    *     "fontVariant"
+   *   ],
+   *   "longhands": [
+   *     "font-variant-ligatures",
+   *     "font-variant-caps",
+   *     "font-variant-alternates",
+   *     "font-variant-numeric",
+   *     "font-variant-east-asian",
+   *     "font-variant-position",
+   *     "font-variant-emoji"
    *   ],
    *   "syntax": "normal | none | [ [ <common-lig-values> || <discretionary-lig-values> || <historical-lig-values> || <contextual-alt-values> ] || [ small-caps | all-small-caps | petite-caps | all-petite-caps | unicase | titling-caps ] || [ stylistic(<feature-value-name>) || historical-forms || styleset(<feature-value-name>#) || character-variant(<feature-value-name>#) || swash(<feature-value-name>) || ornaments(<feature-value-name>) || annotation(<feature-value-name>) ] || [ <numeric-figure-values> || <numeric-spacing-values> || <numeric-fraction-values> || ordinal || slashed-zero ] || [ <east-asian-variant-values> || <east-asian-width-values> || ruby ] || [ sub | super ] || [ text | emoji | unicode ] ]",
    *   "extended": []
@@ -29454,7 +29973,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "justify-self",
    *     "justifySelf"
    *   ],
-   *   "syntax": "auto | normal | stretch | <baseline-position> | <overflow-position>? [ <self-position> | left | right ] | anchor-center",
+   *   "syntax": "auto | <overflow-position>? [ normal | <self-position> | left | right ] | stretch | <baseline-position> | anchor-center",
    *   "extended": [
    *     "https://drafts.csswg.org/css-anchor-position-1/#propdef-justify-self"
    *   ]
@@ -31936,6 +32455,12 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "overflow-clip-margin",
    *     "overflowClipMargin"
    *   ],
+   *   "longhands": [
+   *     "overflow-clip-margin-top",
+   *     "overflow-clip-margin-right",
+   *     "overflow-clip-margin-bottom",
+   *     "overflow-clip-margin-left"
+   *   ],
    *   "syntax": "<visual-box> || <length [0,∞]>",
    *   "extended": []
    * }
@@ -32688,7 +33213,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    * {
    *   "name": "position-anchor",
    *   "href": "https://drafts.csswg.org/css-anchor-position-1/#propdef-position-anchor",
-   *   "initial": "none",
+   *   "initial": "normal",
    *   "appliesTo": "absolutely positioned boxes",
    *   "inherited": "no",
    *   "percentages": "n/a",
@@ -32699,7 +33224,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "position-anchor",
    *     "positionAnchor"
    *   ],
-   *   "syntax": "none | auto | <anchor-name>",
+   *   "syntax": "normal | none | auto | <anchor-name>",
    *   "extended": []
    * }
    * ```
@@ -32922,7 +33447,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "row-gap",
    *     "rowGap"
    *   ],
-   *   "syntax": "normal | <length-percentage [0,∞]>",
+   *   "syntax": "normal | <length-percentage [0,∞]> | <line-width>",
    *   "extended": []
    * }
    * ```
@@ -33126,7 +33651,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *   "appliesTo": "all elements",
    *   "inherited": "no",
    *   "percentages": "N/A",
-   *   "computedValue": "see individual properties",
+   *   "computedValue": "specified keyword",
    *   "canonicalOrder": "per grammar",
    *   "animationType": "none",
    *   "styleDeclaration": [
@@ -34758,6 +35283,10 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "text-align",
    *     "textAlign"
    *   ],
+   *   "longhands": [
+   *     "text-align-all",
+   *     "text-align-last"
+   *   ],
    *   "syntax": "start | end | left | right | center | <string> | justify | match-parent | justify-all",
    *   "extended": []
    * }
@@ -35131,6 +35660,12 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "text-decoration-skip",
    *     "textDecorationSkip"
    *   ],
+   *   "longhands": [
+   *     "text-decoration-skip-self",
+   *     "text-decoration-skip-box",
+   *     "text-decoration-skip-spaces",
+   *     "text-decoration-skip-ink"
+   *   ],
    *   "syntax": "none | auto",
    *   "extended": []
    * }
@@ -35243,7 +35778,7 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "text-decoration-thickness",
    *     "textDecorationThickness"
    *   ],
-   *   "syntax": "auto | from-font | <length-percentage>",
+   *   "syntax": "auto | from-font | <length-percentage> | <line-width>",
    *   "extended": []
    * }
    * ```
@@ -36373,6 +36908,11 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *     "vertical-align",
    *     "verticalAlign"
    *   ],
+   *   "longhands": [
+   *     "alignment-baseline",
+   *     "baseline-shift",
+   *     "baseline-source"
+   *   ],
    *   "syntax": "[ first | last] || <'alignment-baseline'> || <'baseline-shift'>",
    *   "extended": []
    * }
@@ -36592,6 +37132,10 @@ export interface StandardLonghandPropertiesHyphen<TLength = (string & {}) | 0, T
    *   "styleDeclaration": [
    *     "white-space",
    *     "whiteSpace"
+   *   ],
+   *   "longhands": [
+   *     "white-space-collapse",
+   *     "text-wrap-mode"
    *   ],
    *   "syntax": "normal | pre | pre-wrap | pre-line | <'white-space-collapse'> || <'text-wrap-mode'> || <'white-space-trim'>",
    *   "extended": []
@@ -36887,6 +37431,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "animation-range",
    *     "animationRange"
    *   ],
+   *   "longhands": [
+   *     "animation-range-start",
+   *     "animation-range-end"
+   *   ],
    *   "syntax": "[ <'animation-range-start'> <'animation-range-end'>? ]#",
    *   "extended": []
    * }
@@ -36924,6 +37472,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "background-position",
    *     "backgroundPosition"
    *   ],
+   *   "longhands": [
+   *     "background-position-x",
+   *     "background-position-y"
+   *   ],
    *   "syntax": "<bg-position>#",
    *   "extended": []
    * }
@@ -36958,6 +37510,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "border-block",
    *     "borderBlock"
+   *   ],
+   *   "longhands": [
+   *     "border-block-start",
+   *     "border-block-end"
    *   ],
    *   "syntax": "<'border-block-start'>",
    *   "extended": []
@@ -36996,6 +37552,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-block-color",
    *     "borderBlockColor"
    *   ],
+   *   "longhands": [
+   *     "border-block-start-color",
+   *     "border-block-end-color"
+   *   ],
    *   "syntax": "<'border-top-color'>{1,2}",
    *   "extended": []
    * }
@@ -37031,6 +37591,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-block-end",
    *     "borderBlockEnd"
    *   ],
+   *   "longhands": [
+   *     "border-block-end-width",
+   *     "border-block-end-style",
+   *     "border-block-end-color"
+   *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
    * }
@@ -37065,6 +37630,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "border-block-start",
    *     "borderBlockStart"
+   *   ],
+   *   "longhands": [
+   *     "border-block-start-width",
+   *     "border-block-start-style",
+   *     "border-block-start-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -37103,6 +37673,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-block-style",
    *     "borderBlockStyle"
    *   ],
+   *   "longhands": [
+   *     "border-block-start-style",
+   *     "border-block-end-style"
+   *   ],
    *   "syntax": "<'border-top-style'>{1,2}",
    *   "extended": []
    * }
@@ -37140,6 +37714,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-block-width",
    *     "borderBlockWidth"
    *   ],
+   *   "longhands": [
+   *     "border-block-start-width",
+   *     "border-block-end-width"
+   *   ],
    *   "syntax": "<'border-top-width'>{1,2}",
    *   "extended": []
    * }
@@ -37174,6 +37752,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "border-bottom",
    *     "borderBottom"
+   *   ],
+   *   "longhands": [
+   *     "border-bottom-width",
+   *     "border-bottom-style",
+   *     "border-bottom-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -37215,6 +37798,12 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-color",
    *     "borderColor"
    *   ],
+   *   "longhands": [
+   *     "border-top-color",
+   *     "border-right-color",
+   *     "border-bottom-color",
+   *     "border-left-color"
+   *   ],
    *   "syntax": "[ <color> | <image-1D> ]{1,4}",
    *   "extended": []
    * }
@@ -37251,6 +37840,13 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-image",
    *     "borderImage"
    *   ],
+   *   "longhands": [
+   *     "border-image-source",
+   *     "border-image-slice",
+   *     "border-image-width",
+   *     "border-image-outset",
+   *     "border-image-repeat"
+   *   ],
    *   "syntax": "<'border-image-source'> || <'border-image-slice'> [ / <'border-image-width'> | / <'border-image-width'>? / <'border-image-outset'> ]? || <'border-image-repeat'>",
    *   "extended": []
    * }
@@ -37285,6 +37881,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "border-inline",
    *     "borderInline"
+   *   ],
+   *   "longhands": [
+   *     "border-inline-start",
+   *     "border-inline-end"
    *   ],
    *   "syntax": "<'border-block-start'>",
    *   "extended": []
@@ -37323,6 +37923,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-inline-color",
    *     "borderInlineColor"
    *   ],
+   *   "longhands": [
+   *     "border-inline-start-color",
+   *     "border-inline-end-color"
+   *   ],
    *   "syntax": "<'border-top-color'>{1,2}",
    *   "extended": []
    * }
@@ -37358,6 +37962,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-inline-end",
    *     "borderInlineEnd"
    *   ],
+   *   "longhands": [
+   *     "border-inline-end-width",
+   *     "border-inline-end-style",
+   *     "border-inline-end-color"
+   *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
    * }
@@ -37392,6 +38001,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "border-inline-start",
    *     "borderInlineStart"
+   *   ],
+   *   "longhands": [
+   *     "border-inline-start-width",
+   *     "border-inline-start-style",
+   *     "border-inline-start-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -37430,6 +38044,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-inline-style",
    *     "borderInlineStyle"
    *   ],
+   *   "longhands": [
+   *     "border-inline-start-style",
+   *     "border-inline-end-style"
+   *   ],
    *   "syntax": "<'border-top-style'>{1,2}",
    *   "extended": []
    * }
@@ -37467,6 +38085,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-inline-width",
    *     "borderInlineWidth"
    *   ],
+   *   "longhands": [
+   *     "border-inline-start-width",
+   *     "border-inline-end-width"
+   *   ],
    *   "syntax": "<'border-top-width'>{1,2}",
    *   "extended": []
    * }
@@ -37501,6 +38123,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "border-left",
    *     "borderLeft"
+   *   ],
+   *   "longhands": [
+   *     "border-left-width",
+   *     "border-left-style",
+   *     "border-left-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -37538,6 +38165,12 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-radius",
    *     "borderRadius"
    *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "border-top-right-radius",
+   *     "border-bottom-right-radius",
+   *     "border-bottom-left-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,4} [ / <length-percentage [0,∞]>{1,4} ]?",
    *   "extended": []
    * }
@@ -37572,6 +38205,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "border-right",
    *     "borderRight"
+   *   ],
+   *   "longhands": [
+   *     "border-right-width",
+   *     "border-right-style",
+   *     "border-right-color"
    *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
@@ -37608,6 +38246,12 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-style",
    *     "borderStyle"
    *   ],
+   *   "longhands": [
+   *     "border-top-style",
+   *     "border-right-style",
+   *     "border-bottom-style",
+   *     "border-left-style"
+   *   ],
    *   "syntax": "<'border-top-style'>{1,4}",
    *   "extended": []
    * }
@@ -37643,6 +38287,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "border-top",
    *     "borderTop"
    *   ],
+   *   "longhands": [
+   *     "border-top-width",
+   *     "border-top-style",
+   *     "border-top-color"
+   *   ],
    *   "syntax": "<line-width> || <line-style> || <color>",
    *   "extended": []
    * }
@@ -37677,6 +38326,12 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "border-width",
    *     "borderWidth"
+   *   ],
+   *   "longhands": [
+   *     "border-top-width",
+   *     "border-right-width",
+   *     "border-bottom-width",
+   *     "border-left-width"
    *   ],
    *   "syntax": "<'border-top-width'>{1,4}",
    *   "extended": []
@@ -37715,6 +38370,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "column-rule",
    *     "columnRule"
    *   ],
+   *   "longhands": [
+   *     "column-rule-width",
+   *     "column-rule-style",
+   *     "column-rule-color"
+   *   ],
    *   "syntax": "<gap-rule-list> | <gap-auto-rule-list>",
    *   "extended": []
    * }
@@ -37749,6 +38409,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "contain-intrinsic-size",
    *     "containIntrinsicSize"
+   *   ],
+   *   "longhands": [
+   *     "contain-intrinsic-width",
+   *     "contain-intrinsic-height"
    *   ],
    *   "syntax": "[ [ auto | from-element ]? [ none | <length [0,∞]> ] ]{1,2}",
    *   "extended": []
@@ -37786,6 +38450,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "flex-flow",
    *     "flexFlow"
    *   ],
+   *   "longhands": [
+   *     "flex-direction",
+   *     "flex-wrap"
+   *   ],
    *   "syntax": "<'flex-direction'> || <'flex-wrap'>",
    *   "extended": []
    * }
@@ -37820,6 +38488,12 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "grid-area",
    *     "gridArea"
+   *   ],
+   *   "longhands": [
+   *     "grid-row-start",
+   *     "grid-column-start",
+   *     "grid-row-end",
+   *     "grid-column-end"
    *   ],
    *   "syntax": "<grid-line> [ / <grid-line> ]{0,3}",
    *   "extended": []
@@ -37856,6 +38530,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "grid-column",
    *     "gridColumn"
    *   ],
+   *   "longhands": [
+   *     "grid-column-start",
+   *     "grid-column-end"
+   *   ],
    *   "syntax": "<grid-line> [ / <grid-line> ]?",
    *   "extended": []
    * }
@@ -37890,6 +38568,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "grid-row",
    *     "gridRow"
+   *   ],
+   *   "longhands": [
+   *     "grid-row-start",
+   *     "grid-row-end"
    *   ],
    *   "syntax": "<grid-line> [ / <grid-line> ]?",
    *   "extended": []
@@ -37926,6 +38608,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "grid-template",
    *     "gridTemplate"
    *   ],
+   *   "longhands": [
+   *     "grid-template-rows",
+   *     "grid-template-columns",
+   *     "grid-template-areas"
+   *   ],
    *   "syntax": "none | [ <'grid-template-rows'> / <'grid-template-columns'> ] | [ <line-names>? <string> <track-size>? <line-names>? ]+ [ / <explicit-track-list> ]?",
    *   "extended": []
    * }
@@ -37961,6 +38648,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "inset-block",
    *     "insetBlock"
    *   ],
+   *   "longhands": [
+   *     "inset-block-start",
+   *     "inset-block-end"
+   *   ],
    *   "syntax": "<'top'>{1,2}",
    *   "extended": []
    * }
@@ -37995,6 +38686,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "inset-inline",
    *     "insetInline"
+   *   ],
+   *   "longhands": [
+   *     "inset-inline-start",
+   *     "inset-inline-end"
    *   ],
    *   "syntax": "<'top'>{1,2}",
    *   "extended": []
@@ -38034,6 +38729,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "line-clamp",
    *     "lineClamp"
    *   ],
+   *   "longhands": [
+   *     "max-lines",
+   *     "block-ellipsis",
+   *     "continue"
+   *   ],
    *   "syntax": "none | [<integer [1,∞]> || <'block-ellipsis'>] -webkit-legacy?",
    *   "extended": []
    * }
@@ -38068,6 +38768,11 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "list-style",
    *     "listStyle"
+   *   ],
+   *   "longhands": [
+   *     "list-style-type",
+   *     "list-style-position",
+   *     "list-style-image"
    *   ],
    *   "syntax": "<'list-style-position'> || <'list-style-image'> || <'list-style-type'>",
    *   "extended": []
@@ -38104,6 +38809,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "margin-block",
    *     "marginBlock"
    *   ],
+   *   "longhands": [
+   *     "margin-block-start",
+   *     "margin-block-end"
+   *   ],
    *   "syntax": "<'margin-top'>{1,2}",
    *   "extended": []
    * }
@@ -38138,6 +38847,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "margin-inline",
    *     "marginInline"
+   *   ],
+   *   "longhands": [
+   *     "margin-inline-start",
+   *     "margin-inline-end"
    *   ],
    *   "syntax": "<'margin-top'>{1,2}",
    *   "extended": []
@@ -38175,6 +38888,14 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "mask-border",
    *     "maskBorder"
+   *   ],
+   *   "longhands": [
+   *     "mask-border-source",
+   *     "mask-border-slice",
+   *     "mask-border-width",
+   *     "mask-border-outset",
+   *     "mask-border-repeat",
+   *     "mask-border-mode"
    *   ],
    *   "syntax": "<'mask-border-source'> || <'mask-border-slice'> [ / <'mask-border-width'>? [ / <'mask-border-outset'> ]? ]? || <'mask-border-repeat'> || <'mask-border-mode'>",
    *   "extended": []
@@ -38214,6 +38935,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "overscroll-behavior",
    *     "overscrollBehavior"
    *   ],
+   *   "longhands": [
+   *     "overscroll-behavior-x",
+   *     "overscroll-behavior-y"
+   *   ],
    *   "syntax": "[ contain | none | auto ]{1,2}",
    *   "extended": []
    * }
@@ -38248,6 +38973,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "padding-block",
    *     "paddingBlock"
+   *   ],
+   *   "longhands": [
+   *     "padding-block-start",
+   *     "padding-block-end"
    *   ],
    *   "syntax": "<'padding-top'>{1,2}",
    *   "extended": []
@@ -38284,6 +39013,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "padding-inline",
    *     "paddingInline"
    *   ],
+   *   "longhands": [
+   *     "padding-inline-start",
+   *     "padding-inline-end"
+   *   ],
    *   "syntax": "<'padding-top'>{1,2}",
    *   "extended": []
    * }
@@ -38318,6 +39051,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "place-content",
    *     "placeContent"
+   *   ],
+   *   "longhands": [
+   *     "align-content",
+   *     "justify-content"
    *   ],
    *   "syntax": "<'align-content'> <'justify-content'>?",
    *   "extended": []
@@ -38354,6 +39091,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "place-items",
    *     "placeItems"
    *   ],
+   *   "longhands": [
+   *     "align-items",
+   *     "justify-items"
+   *   ],
    *   "syntax": "<'align-items'> <'justify-items'>?",
    *   "extended": []
    * }
@@ -38389,6 +39130,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "place-self",
    *     "placeSelf"
    *   ],
+   *   "longhands": [
+   *     "align-self",
+   *     "justify-self"
+   *   ],
    *   "syntax": "<'align-self'> <'justify-self'>?",
    *   "extended": []
    * }
@@ -38423,6 +39168,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "position-try",
    *     "positionTry"
+   *   ],
+   *   "longhands": [
+   *     "position-try-order",
+   *     "position-try-fallbacks"
    *   ],
    *   "syntax": "<'position-try-order'>? <'position-try-fallbacks'>",
    *   "extended": []
@@ -38460,6 +39209,12 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "scroll-margin",
    *     "scrollMargin"
    *   ],
+   *   "longhands": [
+   *     "scroll-margin-top",
+   *     "scroll-margin-right",
+   *     "scroll-margin-bottom",
+   *     "scroll-margin-left"
+   *   ],
    *   "syntax": "<length>{1,4}",
    *   "extended": []
    * }
@@ -38494,6 +39249,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "scroll-margin-block",
    *     "scrollMarginBlock"
+   *   ],
+   *   "longhands": [
+   *     "scroll-margin-block-start",
+   *     "scroll-margin-block-end"
    *   ],
    *   "syntax": "<length>{1,2}",
    *   "extended": []
@@ -38530,6 +39289,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "scroll-margin-inline",
    *     "scrollMarginInline"
    *   ],
+   *   "longhands": [
+   *     "scroll-margin-inline-start",
+   *     "scroll-margin-inline-end"
+   *   ],
    *   "syntax": "<length>{1,2}",
    *   "extended": []
    * }
@@ -38564,6 +39327,12 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "scroll-padding",
    *     "scrollPadding"
+   *   ],
+   *   "longhands": [
+   *     "scroll-padding-top",
+   *     "scroll-padding-right",
+   *     "scroll-padding-bottom",
+   *     "scroll-padding-left"
    *   ],
    *   "syntax": "[ auto | <length-percentage [0,∞]> ]{1,4}",
    *   "extended": []
@@ -38600,6 +39369,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "scroll-padding-block",
    *     "scrollPaddingBlock"
    *   ],
+   *   "longhands": [
+   *     "scroll-padding-block-start",
+   *     "scroll-padding-block-end"
+   *   ],
    *   "syntax": "[ auto | <length-percentage [0,∞]> ]{1,2}",
    *   "extended": []
    * }
@@ -38634,6 +39407,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "scroll-padding-inline",
    *     "scrollPaddingInline"
+   *   ],
+   *   "longhands": [
+   *     "scroll-padding-inline-start",
+   *     "scroll-padding-inline-end"
    *   ],
    *   "syntax": "[ auto | <length-percentage [0,∞]> ]{1,2}",
    *   "extended": []
@@ -38683,6 +39460,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "scroll-timeline",
    *     "scrollTimeline"
    *   ],
+   *   "longhands": [
+   *     "scroll-timeline-name",
+   *     "scroll-timeline-axis"
+   *   ],
    *   "syntax": "[ <'scroll-timeline-name'> <'scroll-timeline-axis'>? ]#",
    *   "extended": []
    * }
@@ -38717,6 +39498,12 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "text-decoration",
    *     "textDecoration"
+   *   ],
+   *   "longhands": [
+   *     "text-decoration-line",
+   *     "text-decoration-thickness",
+   *     "text-decoration-style",
+   *     "text-decoration-color"
    *   ],
    *   "syntax": "<'text-decoration-line'> || <'text-decoration-thickness'> || <'text-decoration-style'> || <'text-decoration-color'>",
    *   "extended": []
@@ -38753,6 +39540,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "text-emphasis",
    *     "textEmphasis"
+   *   ],
+   *   "longhands": [
+   *     "text-emphasis-style",
+   *     "text-emphasis-color"
    *   ],
    *   "syntax": "<'text-emphasis-style'> || <'text-emphasis-color'>",
    *   "extended": []
@@ -38791,6 +39582,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *     "text-wrap",
    *     "textWrap"
    *   ],
+   *   "longhands": [
+   *     "text-wrap-mode",
+   *     "text-wrap-style"
+   *   ],
    *   "syntax": "<'text-wrap-mode'> || <'text-wrap-style'>",
    *   "extended": []
    * }
@@ -38825,6 +39620,10 @@ export interface StandardShorthandPropertiesHyphen<TLength = (string & {}) | 0, 
    *   "styleDeclaration": [
    *     "view-timeline",
    *     "viewTimeline"
+   *   ],
+   *   "longhands": [
+   *     "view-timeline-name",
+   *     "view-timeline-axis"
    *   ],
    *   "syntax": "[ <'view-timeline-name'> [ <'view-timeline-axis'> || <'view-timeline-inset'> ]? ]#",
    *   "extended": []
@@ -39551,7 +40350,7 @@ export interface VendorLonghandPropertiesHyphen<TLength = (string & {}) | 0, TTi
    * 
    *  **Initial value**: depends on user agent
   */
-  "-ms-scrollbar-3dlight-color"?: $$PropValues | Property.MsScrollbar3dlightColor | undefined
+  "-ms-scrollbar-3dlight-color"?: $$PropValues | Property.MsScrollbar
   /**
    * 
    *  **Syntax**: `<color>`
@@ -39817,7 +40616,7 @@ export interface VendorLonghandPropertiesHyphen<TLength = (string & {}) | 0, TTi
    *     "WebkitAlignSelf",
    *     "webkitAlignSelf"
    *   ],
-   *   "syntax": "auto | normal | stretch | <baseline-position> | <overflow-position>? <self-position>",
+   *   "syntax": "auto | <overflow-position>? [ normal | <self-position> ]| stretch | <baseline-position>",
    *   "extended": []
    * }
    * ```
@@ -40360,6 +41159,13 @@ export interface VendorLonghandPropertiesHyphen<TLength = (string & {}) | 0, TTi
    *     "WebkitBoxShadow",
    *     "webkitBoxShadow"
    *   ],
+   *   "longhands": [
+   *     "box-shadow-color",
+   *     "box-shadow-offset",
+   *     "box-shadow-blur",
+   *     "box-shadow-spread",
+   *     "box-shadow-position"
+   *   ],
    *   "syntax": "<spread-shadow>#",
    *   "extended": []
    * }
@@ -40752,6 +41558,11 @@ export interface VendorLonghandPropertiesHyphen<TLength = (string & {}) | 0, TTi
    *     "-webkit-line-clamp",
    *     "WebkitLineClamp",
    *     "webkitLineClamp"
+   *   ],
+   *   "longhands": [
+   *     "max-lines",
+   *     "block-ellipsis",
+   *     "continue"
    *   ],
    *   "syntax": "none | <integer [1,∞]>",
    *   "extended": []
@@ -41870,6 +42681,17 @@ export interface VendorShorthandPropertiesHyphen<TLength = (string & {}) | 0, TT
    *     "WebkitAnimation",
    *     "webkitAnimation"
    *   ],
+   *   "longhands": [
+   *     "animation-name",
+   *     "animation-duration",
+   *     "animation-timing-function",
+   *     "animation-delay",
+   *     "animation-iteration-count",
+   *     "animation-direction",
+   *     "animation-fill-mode",
+   *     "animation-play-state",
+   *     "animation-timeline"
+   *   ],
    *   "syntax": "<single-animation>#",
    *   "extended": []
    * }
@@ -41908,6 +42730,12 @@ export interface VendorShorthandPropertiesHyphen<TLength = (string & {}) | 0, TT
    *     "-webkit-border-radius",
    *     "WebkitBorderRadius",
    *     "webkitBorderRadius"
+   *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "border-top-right-radius",
+   *     "border-bottom-right-radius",
+   *     "border-bottom-left-radius"
    *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,4} [ / <length-percentage [0,∞]>{1,4} ]?",
    *   "extended": []
@@ -41948,6 +42776,11 @@ export interface VendorShorthandPropertiesHyphen<TLength = (string & {}) | 0, TT
    *     "WebkitFlex",
    *     "webkitFlex"
    *   ],
+   *   "longhands": [
+   *     "flex-grow",
+   *     "flex-shrink",
+   *     "flex-basis"
+   *   ],
    *   "syntax": "none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]",
    *   "extended": []
    * }
@@ -41972,6 +42805,10 @@ export interface VendorShorthandPropertiesHyphen<TLength = (string & {}) | 0, TT
    *     "-webkit-flex-flow",
    *     "WebkitFlexFlow",
    *     "webkitFlexFlow"
+   *   ],
+   *   "longhands": [
+   *     "flex-direction",
+   *     "flex-wrap"
    *   ],
    *   "syntax": "<'flex-direction'> || <'flex-wrap'>",
    *   "extended": []
@@ -41998,6 +42835,16 @@ export interface VendorShorthandPropertiesHyphen<TLength = (string & {}) | 0, TT
    *     "WebkitMask",
    *     "webkitMask"
    *   ],
+   *   "longhands": [
+   *     "mask-image",
+   *     "mask-position",
+   *     "mask-size",
+   *     "mask-repeat",
+   *     "mask-origin",
+   *     "mask-clip",
+   *     "mask-composite",
+   *     "mask-mode"
+   *   ],
    *   "syntax": "<mask-layer>#",
    *   "extended": []
    * }
@@ -42022,6 +42869,14 @@ export interface VendorShorthandPropertiesHyphen<TLength = (string & {}) | 0, TT
    *     "-webkit-mask-box-image",
    *     "WebkitMaskBoxImage",
    *     "webkitMaskBoxImage"
+   *   ],
+   *   "longhands": [
+   *     "mask-border-source",
+   *     "mask-border-slice",
+   *     "mask-border-width",
+   *     "mask-border-outset",
+   *     "mask-border-repeat",
+   *     "mask-border-mode"
    *   ],
    *   "syntax": "<'mask-border-source'> || <'mask-border-slice'> [ / <'mask-border-width'>? [ / <'mask-border-outset'> ]? ]? || <'mask-border-repeat'> || <'mask-border-mode'>",
    *   "extended": []
@@ -42062,6 +42917,10 @@ export interface VendorShorthandPropertiesHyphen<TLength = (string & {}) | 0, TT
    *     "WebkitTextStroke",
    *     "webkitTextStroke"
    *   ],
+   *   "longhands": [
+   *     "-webkit-text-stroke-width",
+   *     "-webkit-text-stroke-color"
+   *   ],
    *   "syntax": "<line-width> || <color>",
    *   "extended": []
    * }
@@ -42086,6 +42945,13 @@ export interface VendorShorthandPropertiesHyphen<TLength = (string & {}) | 0, TT
    *     "-webkit-transition",
    *     "WebkitTransition",
    *     "webkitTransition"
+   *   ],
+   *   "longhands": [
+   *     "transition-property",
+   *     "transition-duration",
+   *     "transition-timing-function",
+   *     "transition-delay",
+   *     "transition-behavior"
    *   ],
    *   "syntax": "<single-transition>#",
    *   "extended": []
@@ -42238,7 +43104,7 @@ export interface ObsoletePropertiesHyphen<TLength = (string & {}) | 0, TTime = s
    *     "grid-column-gap",
    *     "gridColumnGap"
    *   ],
-   *   "syntax": "normal | <length-percentage [0,∞]>",
+   *   "syntax": "normal | <length-percentage [0,∞]> | <line-width>",
    *   "extended": []
    * }
    * ```
@@ -42263,6 +43129,10 @@ export interface ObsoletePropertiesHyphen<TLength = (string & {}) | 0, TTime = s
    *   "styleDeclaration": [
    *     "grid-gap",
    *     "gridGap"
+   *   ],
+   *   "longhands": [
+   *     "row-gap",
+   *     "column-gap"
    *   ],
    *   "syntax": "<'row-gap'> <'column-gap'>?",
    *   "extended": []
@@ -42292,7 +43162,7 @@ export interface ObsoletePropertiesHyphen<TLength = (string & {}) | 0, TTime = s
    *     "grid-row-gap",
    *     "gridRowGap"
    *   ],
-   *   "syntax": "normal | <length-percentage [0,∞]>",
+   *   "syntax": "normal | <length-percentage [0,∞]> | <line-width>",
    *   "extended": []
    * }
    * ```
@@ -46644,7 +47514,7 @@ export interface $$CSSMissingProps {
    *     "WebkitAlignSelf",
    *     "webkitAlignSelf"
    *   ],
-   *   "syntax": "auto | normal | stretch | <baseline-position> | <overflow-position>? <self-position>",
+   *   "syntax": "auto | <overflow-position>? [ normal | <self-position> ]| stretch | <baseline-position>",
    *   "extended": []
    * }
    * ```
@@ -46669,6 +47539,17 @@ export interface $$CSSMissingProps {
    *     "-webkit-animation",
    *     "WebkitAnimation",
    *     "webkitAnimation"
+   *   ],
+   *   "longhands": [
+   *     "animation-name",
+   *     "animation-duration",
+   *     "animation-timing-function",
+   *     "animation-delay",
+   *     "animation-iteration-count",
+   *     "animation-direction",
+   *     "animation-fill-mode",
+   *     "animation-play-state",
+   *     "animation-timeline"
    *   ],
    *   "syntax": "<single-animation>#",
    *   "extended": []
@@ -47116,6 +47997,12 @@ export interface $$CSSMissingProps {
    *     "WebkitBorderRadius",
    *     "webkitBorderRadius"
    *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "border-top-right-radius",
+   *     "border-bottom-right-radius",
+   *     "border-bottom-left-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,4} [ / <length-percentage [0,∞]>{1,4} ]?",
    *   "extended": []
    * }
@@ -47340,6 +48227,13 @@ export interface $$CSSMissingProps {
    *     "WebkitBoxShadow",
    *     "webkitBoxShadow"
    *   ],
+   *   "longhands": [
+   *     "box-shadow-color",
+   *     "box-shadow-offset",
+   *     "box-shadow-blur",
+   *     "box-shadow-spread",
+   *     "box-shadow-position"
+   *   ],
    *   "syntax": "<spread-shadow>#",
    *   "extended": []
    * }
@@ -47422,6 +48316,11 @@ export interface $$CSSMissingProps {
    *     "WebkitFlex",
    *     "webkitFlex"
    *   ],
+   *   "longhands": [
+   *     "flex-grow",
+   *     "flex-shrink",
+   *     "flex-basis"
+   *   ],
    *   "syntax": "none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]",
    *   "extended": []
    * }
@@ -47503,6 +48402,10 @@ export interface $$CSSMissingProps {
    *     "-webkit-flex-flow",
    *     "WebkitFlexFlow",
    *     "webkitFlexFlow"
+   *   ],
+   *   "longhands": [
+   *     "flex-direction",
+   *     "flex-wrap"
    *   ],
    *   "syntax": "<'flex-direction'> || <'flex-wrap'>",
    *   "extended": []
@@ -47650,6 +48553,11 @@ export interface $$CSSMissingProps {
    *     "WebkitLineClamp",
    *     "webkitLineClamp"
    *   ],
+   *   "longhands": [
+   *     "max-lines",
+   *     "block-ellipsis",
+   *     "continue"
+   *   ],
    *   "syntax": "none | <integer [1,∞]>",
    *   "extended": []
    * }
@@ -47676,6 +48584,16 @@ export interface $$CSSMissingProps {
    *     "WebkitMask",
    *     "webkitMask"
    *   ],
+   *   "longhands": [
+   *     "mask-image",
+   *     "mask-position",
+   *     "mask-size",
+   *     "mask-repeat",
+   *     "mask-origin",
+   *     "mask-clip",
+   *     "mask-composite",
+   *     "mask-mode"
+   *   ],
    *   "syntax": "<mask-layer>#",
    *   "extended": []
    * }
@@ -47701,6 +48619,14 @@ export interface $$CSSMissingProps {
    *     "-webkit-mask-box-image",
    *     "WebkitMaskBoxImage",
    *     "webkitMaskBoxImage"
+   *   ],
+   *   "longhands": [
+   *     "mask-border-source",
+   *     "mask-border-slice",
+   *     "mask-border-width",
+   *     "mask-border-outset",
+   *     "mask-border-repeat",
+   *     "mask-border-mode"
    *   ],
    *   "syntax": "<'mask-border-source'> || <'mask-border-slice'> [ / <'mask-border-width'>? [ / <'mask-border-outset'> ]? ]? || <'mask-border-repeat'> || <'mask-border-mode'>",
    *   "extended": []
@@ -48218,6 +49144,10 @@ export interface $$CSSMissingProps {
    *     "WebkitTextStroke",
    *     "webkitTextStroke"
    *   ],
+   *   "longhands": [
+   *     "-webkit-text-stroke-width",
+   *     "-webkit-text-stroke-color"
+   *   ],
    *   "syntax": "<line-width> || <color>",
    *   "extended": []
    * }
@@ -48397,6 +49327,13 @@ export interface $$CSSMissingProps {
    *     "-webkit-transition",
    *     "WebkitTransition",
    *     "webkitTransition"
+   *   ],
+   *   "longhands": [
+   *     "transition-property",
+   *     "transition-duration",
+   *     "transition-timing-function",
+   *     "transition-delay",
+   *     "transition-behavior"
    *   ],
    *   "syntax": "<single-transition>#",
    *   "extended": []
@@ -48606,7 +49543,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "animation-trigger",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-animation-trigger",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-animation-trigger",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -48633,7 +49570,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "animation-trigger",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-animation-trigger",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-animation-trigger",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -49170,6 +50107,12 @@ export interface $$CSSMissingProps {
    *     "block-step",
    *     "blockStep"
    *   ],
+   *   "longhands": [
+   *     "block-step-size",
+   *     "block-step-insert",
+   *     "block-step-align",
+   *     "block-step-round"
+   *   ],
    *   "syntax": "<'block-step-size'> || <'block-step-insert'> || <'block-step-align'> || <'block-step-round'>",
    *   "extended": []
    * }
@@ -49196,6 +50139,12 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "block-step",
    *     "blockStep"
+   *   ],
+   *   "longhands": [
+   *     "block-step-size",
+   *     "block-step-insert",
+   *     "block-step-align",
+   *     "block-step-round"
    *   ],
    *   "syntax": "<'block-step-size'> || <'block-step-insert'> || <'block-step-align'> || <'block-step-round'>",
    *   "extended": []
@@ -49602,6 +50551,10 @@ export interface $$CSSMissingProps {
    *     "border-block-clip",
    *     "borderBlockClip"
    *   ],
+   *   "longhands": [
+   *     "border-block-start-clip",
+   *     "border-block-end-clip"
+   *   ],
    *   "syntax": "<'border-top-clip'>",
    *   "extended": []
    * }
@@ -49628,6 +50581,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-block-clip",
    *     "borderBlockClip"
+   *   ],
+   *   "longhands": [
+   *     "border-block-start-clip",
+   *     "border-block-end-clip"
    *   ],
    *   "syntax": "<'border-top-clip'>",
    *   "extended": []
@@ -49712,6 +50669,10 @@ export interface $$CSSMissingProps {
    *     "border-block-end-radius",
    *     "borderBlockEndRadius"
    *   ],
+   *   "longhands": [
+   *     "border-end-start-radius",
+   *     "border-end-end-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
    * }
@@ -49738,6 +50699,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-block-end-radius",
    *     "borderBlockEndRadius"
+   *   ],
+   *   "longhands": [
+   *     "border-end-start-radius",
+   *     "border-end-end-radius"
    *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
@@ -49822,6 +50787,10 @@ export interface $$CSSMissingProps {
    *     "border-block-start-radius",
    *     "borderBlockStartRadius"
    *   ],
+   *   "longhands": [
+   *     "border-start-start-radius",
+   *     "border-start-end-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
    * }
@@ -49848,6 +50817,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-block-start-radius",
    *     "borderBlockStartRadius"
+   *   ],
+   *   "longhands": [
+   *     "border-start-start-radius",
+   *     "border-start-end-radius"
    *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
@@ -49932,6 +50905,10 @@ export interface $$CSSMissingProps {
    *     "border-bottom-radius",
    *     "borderBottomRadius"
    *   ],
+   *   "longhands": [
+   *     "border-bottom-left-radius",
+   *     "border-bottom-right-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
    * }
@@ -49958,6 +50935,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-bottom-radius",
    *     "borderBottomRadius"
+   *   ],
+   *   "longhands": [
+   *     "border-bottom-left-radius",
+   *     "border-bottom-right-radius"
    *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
@@ -50040,6 +51021,12 @@ export interface $$CSSMissingProps {
    *     "border-clip",
    *     "borderClip"
    *   ],
+   *   "longhands": [
+   *     "border-top-clip",
+   *     "border-right-clip",
+   *     "border-bottom-clip",
+   *     "border-left-clip"
+   *   ],
    *   "syntax": "<'border-top-clip'>",
    *   "extended": []
    * }
@@ -50066,6 +51053,12 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-clip",
    *     "borderClip"
+   *   ],
+   *   "longhands": [
+   *     "border-top-clip",
+   *     "border-right-clip",
+   *     "border-bottom-clip",
+   *     "border-left-clip"
    *   ],
    *   "syntax": "<'border-top-clip'>",
    *   "extended": []
@@ -50094,6 +51087,10 @@ export interface $$CSSMissingProps {
    *     "border-inline-clip",
    *     "borderInlineClip"
    *   ],
+   *   "longhands": [
+   *     "border-inline-start-clip",
+   *     "border-inline-end-clip"
+   *   ],
    *   "syntax": "<'border-top-clip'>",
    *   "extended": []
    * }
@@ -50120,6 +51117,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-inline-clip",
    *     "borderInlineClip"
+   *   ],
+   *   "longhands": [
+   *     "border-inline-start-clip",
+   *     "border-inline-end-clip"
    *   ],
    *   "syntax": "<'border-top-clip'>",
    *   "extended": []
@@ -50204,6 +51205,10 @@ export interface $$CSSMissingProps {
    *     "border-inline-end-radius",
    *     "borderInlineEndRadius"
    *   ],
+   *   "longhands": [
+   *     "border-start-end-radius",
+   *     "border-end-end-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
    * }
@@ -50230,6 +51235,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-inline-end-radius",
    *     "borderInlineEndRadius"
+   *   ],
+   *   "longhands": [
+   *     "border-start-end-radius",
+   *     "border-end-end-radius"
    *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
@@ -50314,6 +51323,10 @@ export interface $$CSSMissingProps {
    *     "border-inline-start-radius",
    *     "borderInlineStartRadius"
    *   ],
+   *   "longhands": [
+   *     "border-start-start-radius",
+   *     "border-end-start-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
    * }
@@ -50340,6 +51353,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-inline-start-radius",
    *     "borderInlineStartRadius"
+   *   ],
+   *   "longhands": [
+   *     "border-start-start-radius",
+   *     "border-end-start-radius"
    *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
@@ -50424,6 +51441,10 @@ export interface $$CSSMissingProps {
    *     "border-left-radius",
    *     "borderLeftRadius"
    *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "border-bottom-left-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
    * }
@@ -50450,6 +51471,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-left-radius",
    *     "borderLeftRadius"
+   *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "border-bottom-left-radius"
    *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
@@ -50588,6 +51613,10 @@ export interface $$CSSMissingProps {
    *     "border-right-radius",
    *     "borderRightRadius"
    *   ],
+   *   "longhands": [
+   *     "border-top-right-radius",
+   *     "border-bottom-right-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
    * }
@@ -50614,6 +51643,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-right-radius",
    *     "borderRightRadius"
+   *   ],
+   *   "longhands": [
+   *     "border-top-right-radius",
+   *     "border-bottom-right-radius"
    *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
@@ -50752,6 +51785,10 @@ export interface $$CSSMissingProps {
    *     "border-top-radius",
    *     "borderTopRadius"
    *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "border-top-right-radius"
+   *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
    * }
@@ -50778,6 +51815,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "border-top-radius",
    *     "borderTopRadius"
+   *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "border-top-right-radius"
    *   ],
    *   "syntax": "<length-percentage [0,∞]>{1,2} [ / <length-percentage [0,∞]>{1,2} ]?",
    *   "extended": []
@@ -51227,7 +52268,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "column-rule-break",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-break",
-   *   "initial": "spanning-item",
+   *   "initial": "normal",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "n/a",
@@ -51238,7 +52279,7 @@ export interface $$CSSMissingProps {
    *     "column-rule-break",
    *     "columnRuleBreak"
    *   ],
-   *   "syntax": "none | spanning-item | intersection",
+   *   "syntax": "none | normal | intersection",
    *   "extended": []
    * }
    * ```
@@ -51254,7 +52295,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "column-rule-break",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-break",
-   *   "initial": "spanning-item",
+   *   "initial": "normal",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "n/a",
@@ -51265,7 +52306,7 @@ export interface $$CSSMissingProps {
    *     "column-rule-break",
    *     "columnRuleBreak"
    *   ],
-   *   "syntax": "none | spanning-item | intersection",
+   *   "syntax": "none | normal | intersection",
    *   "extended": []
    * }
    * ```
@@ -51282,7 +52323,7 @@ export interface $$CSSMissingProps {
    *   "name": "column-rule-edge-inset",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-edge-inset",
    *   "initial": "see individual properties",
-   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-start, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-edge-inset-end, row-rule-interior-inset-start, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -51291,6 +52332,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "column-rule-edge-inset",
    *     "columnRuleEdgeInset"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-edge-inset-start",
+   *     "column-rule-edge-inset-end"
    *   ],
    *   "syntax": "<length-percentage> [ <length-percentage> ]?",
    *   "extended": []
@@ -51309,7 +52354,7 @@ export interface $$CSSMissingProps {
    *   "name": "column-rule-edge-inset",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-edge-inset",
    *   "initial": "see individual properties",
-   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-start, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-edge-inset-end, row-rule-interior-inset-start, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -51318,6 +52363,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "column-rule-edge-inset",
    *     "columnRuleEdgeInset"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-edge-inset-start",
+   *     "column-rule-edge-inset-end"
    *   ],
    *   "syntax": "<length-percentage> [ <length-percentage> ]?",
    *   "extended": []
@@ -51335,7 +52384,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "column-rule-edge-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-edge-inset-end",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -51346,7 +52395,7 @@ export interface $$CSSMissingProps {
    *     "column-rule-edge-inset-end",
    *     "columnRuleEdgeInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51362,7 +52411,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "column-rule-edge-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-edge-inset-end",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -51373,7 +52422,7 @@ export interface $$CSSMissingProps {
    *     "column-rule-edge-inset-end",
    *     "columnRuleEdgeInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51389,7 +52438,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "column-rule-edge-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-edge-inset-start",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -51400,7 +52449,7 @@ export interface $$CSSMissingProps {
    *     "column-rule-edge-inset-start",
    *     "columnRuleEdgeInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51416,7 +52465,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "column-rule-edge-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-edge-inset-start",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -51427,7 +52476,7 @@ export interface $$CSSMissingProps {
    *     "column-rule-edge-inset-start",
    *     "columnRuleEdgeInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51454,7 +52503,13 @@ export interface $$CSSMissingProps {
    *     "column-rule-inset",
    *     "columnRuleInset"
    *   ],
-   *   "syntax": "<length-percentage> <length-percentage>? [/ <length-percentage> <length-percentage>?]?",
+   *   "longhands": [
+   *     "column-rule-edge-inset-start",
+   *     "column-rule-edge-inset-end",
+   *     "column-rule-interior-inset-start",
+   *     "column-rule-interior-inset-end"
+   *   ],
+   *   "syntax": "<'column-rule-edge-inset'> [ / <'column-rule-interior-inset'> ]?",
    *   "extended": []
    * }
    * ```
@@ -51481,7 +52536,13 @@ export interface $$CSSMissingProps {
    *     "column-rule-inset",
    *     "columnRuleInset"
    *   ],
-   *   "syntax": "<length-percentage> <length-percentage>? [/ <length-percentage> <length-percentage>?]?",
+   *   "longhands": [
+   *     "column-rule-edge-inset-start",
+   *     "column-rule-edge-inset-end",
+   *     "column-rule-interior-inset-start",
+   *     "column-rule-interior-inset-end"
+   *   ],
+   *   "syntax": "<'column-rule-edge-inset'> [ / <'column-rule-interior-inset'> ]?",
    *   "extended": []
    * }
    * ```
@@ -51498,7 +52559,7 @@ export interface $$CSSMissingProps {
    *   "name": "column-rule-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-inset-end",
    *   "initial": "see individual properties",
-   *   "appliesTo": "column-rule-edge-inset-end and column-rule-interior-inset-end for column-rule-inset-end, row-rule-edge-inset-end and row-rule-interior-inset-end for row-rule-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -51508,7 +52569,11 @@ export interface $$CSSMissingProps {
    *     "column-rule-inset-end",
    *     "columnRuleInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "longhands": [
+   *     "column-rule-edge-inset-end",
+   *     "column-rule-interior-inset-end"
+   *   ],
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51525,7 +52590,7 @@ export interface $$CSSMissingProps {
    *   "name": "column-rule-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-inset-end",
    *   "initial": "see individual properties",
-   *   "appliesTo": "column-rule-edge-inset-end and column-rule-interior-inset-end for column-rule-inset-end, row-rule-edge-inset-end and row-rule-interior-inset-end for row-rule-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -51535,7 +52600,11 @@ export interface $$CSSMissingProps {
    *     "column-rule-inset-end",
    *     "columnRuleInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "longhands": [
+   *     "column-rule-edge-inset-end",
+   *     "column-rule-interior-inset-end"
+   *   ],
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51552,7 +52621,7 @@ export interface $$CSSMissingProps {
    *   "name": "column-rule-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-inset-start",
    *   "initial": "see individual properties",
-   *   "appliesTo": "column-rule-edge-inset-start and column-rule-interior-inset-start for column-rule-inset-start, row-rule-edge-inset-start and row-rule-interior-inset-start for row-rule-inset-start",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -51562,7 +52631,11 @@ export interface $$CSSMissingProps {
    *     "column-rule-inset-start",
    *     "columnRuleInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "longhands": [
+   *     "column-rule-edge-inset-start",
+   *     "column-rule-interior-inset-start"
+   *   ],
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51579,7 +52652,7 @@ export interface $$CSSMissingProps {
    *   "name": "column-rule-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-inset-start",
    *   "initial": "see individual properties",
-   *   "appliesTo": "column-rule-edge-inset-start and column-rule-interior-inset-start for column-rule-inset-start, row-rule-edge-inset-start and row-rule-interior-inset-start for row-rule-inset-start",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -51589,7 +52662,11 @@ export interface $$CSSMissingProps {
    *     "column-rule-inset-start",
    *     "columnRuleInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "longhands": [
+   *     "column-rule-edge-inset-start",
+   *     "column-rule-interior-inset-start"
+   *   ],
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51606,7 +52683,7 @@ export interface $$CSSMissingProps {
    *   "name": "column-rule-interior-inset",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-interior-inset",
    *   "initial": "see individual properties",
-   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-start, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-edge-inset-end, row-rule-interior-inset-start, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -51615,6 +52692,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "column-rule-interior-inset",
    *     "columnRuleInteriorInset"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-interior-inset-start",
+   *     "column-rule-interior-inset-end"
    *   ],
    *   "syntax": "<length-percentage> [ <length-percentage> ]?",
    *   "extended": []
@@ -51633,7 +52714,7 @@ export interface $$CSSMissingProps {
    *   "name": "column-rule-interior-inset",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-interior-inset",
    *   "initial": "see individual properties",
-   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-start, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-edge-inset-end, row-rule-interior-inset-start, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -51642,6 +52723,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "column-rule-interior-inset",
    *     "columnRuleInteriorInset"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-interior-inset-start",
+   *     "column-rule-interior-inset-end"
    *   ],
    *   "syntax": "<length-percentage> [ <length-percentage> ]?",
    *   "extended": []
@@ -51659,7 +52744,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "column-rule-interior-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-interior-inset-end",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -51670,7 +52755,7 @@ export interface $$CSSMissingProps {
    *     "column-rule-interior-inset-end",
    *     "columnRuleInteriorInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51686,7 +52771,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "column-rule-interior-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-interior-inset-end",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -51697,7 +52782,7 @@ export interface $$CSSMissingProps {
    *     "column-rule-interior-inset-end",
    *     "columnRuleInteriorInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51713,7 +52798,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "column-rule-interior-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-interior-inset-start",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -51724,7 +52809,7 @@ export interface $$CSSMissingProps {
    *     "column-rule-interior-inset-start",
    *     "columnRuleInteriorInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -51740,7 +52825,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "column-rule-interior-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-interior-inset-start",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -51751,12 +52836,66 @@ export interface $$CSSMissingProps {
    *     "column-rule-interior-inset-start",
    *     "columnRuleInteriorInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
   */
   "columnRuleInteriorInsetStart"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "column-rule-visibility-items",
+   *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-visibility-items",
+   *   "initial": "all",
+   *   "appliesTo": "grid containers, and multicol containers",
+   *   "inherited": "no",
+   *   "percentages": "n/a",
+   *   "computedValue": "as specified",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "discrete",
+   *   "styleDeclaration": [
+   *     "column-rule-visibility-items",
+   *     "columnRuleVisibilityItems"
+   *   ],
+   *   "syntax": "all | around | between",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "column-rule-visibility-items"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "column-rule-visibility-items",
+   *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-column-rule-visibility-items",
+   *   "initial": "all",
+   *   "appliesTo": "grid containers, and multicol containers",
+   *   "inherited": "no",
+   *   "percentages": "n/a",
+   *   "computedValue": "as specified",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "discrete",
+   *   "styleDeclaration": [
+   *     "column-rule-visibility-items",
+   *     "columnRuleVisibilityItems"
+   *   ],
+   *   "syntax": "all | around | between",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "columnRuleVisibilityItems"?: $$PropValues | undefined
 
   /**
    * 
@@ -51913,6 +53052,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner"
    *   ],
+   *   "longhands": [
+   *     "border-radius",
+   *     "corner-shape"
+   *   ],
    *   "syntax": "<'border-radius'> || <'corner-shape'>",
    *   "extended": []
    * }
@@ -51939,6 +53082,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-block-end",
    *     "cornerBlockEnd"
+   *   ],
+   *   "longhands": [
+   *     "border-block-end-radius",
+   *     "corner-block-end-shape"
    *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
@@ -51967,6 +53114,10 @@ export interface $$CSSMissingProps {
    *     "corner-block-end",
    *     "cornerBlockEnd"
    *   ],
+   *   "longhands": [
+   *     "border-block-end-radius",
+   *     "corner-block-end-shape"
+   *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
    * }
@@ -51993,6 +53144,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-block-end-shape",
    *     "cornerBlockEndShape"
+   *   ],
+   *   "longhands": [
+   *     "corner-end-start-shape",
+   *     "corner-end-end-shape"
    *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
@@ -52021,6 +53176,10 @@ export interface $$CSSMissingProps {
    *     "corner-block-end-shape",
    *     "cornerBlockEndShape"
    *   ],
+   *   "longhands": [
+   *     "corner-end-start-shape",
+   *     "corner-end-end-shape"
+   *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
    * }
@@ -52047,6 +53206,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-block-start",
    *     "cornerBlockStart"
+   *   ],
+   *   "longhands": [
+   *     "border-block-start-radius",
+   *     "corner-block-start-shape"
    *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
@@ -52075,6 +53238,10 @@ export interface $$CSSMissingProps {
    *     "corner-block-start",
    *     "cornerBlockStart"
    *   ],
+   *   "longhands": [
+   *     "border-block-start-radius",
+   *     "corner-block-start-shape"
+   *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
    * }
@@ -52101,6 +53268,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-block-start-shape",
    *     "cornerBlockStartShape"
+   *   ],
+   *   "longhands": [
+   *     "corner-start-start-shape",
+   *     "corner-start-end-shape"
    *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
@@ -52129,6 +53300,10 @@ export interface $$CSSMissingProps {
    *     "corner-block-start-shape",
    *     "cornerBlockStartShape"
    *   ],
+   *   "longhands": [
+   *     "corner-start-start-shape",
+   *     "corner-start-end-shape"
+   *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
    * }
@@ -52155,6 +53330,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-bottom",
    *     "cornerBottom"
+   *   ],
+   *   "longhands": [
+   *     "border-bottom-radius",
+   *     "corner-bottom-shape"
    *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
@@ -52183,6 +53362,10 @@ export interface $$CSSMissingProps {
    *     "corner-bottom",
    *     "cornerBottom"
    *   ],
+   *   "longhands": [
+   *     "border-bottom-radius",
+   *     "corner-bottom-shape"
+   *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
    * }
@@ -52210,6 +53393,10 @@ export interface $$CSSMissingProps {
    *     "corner-bottom-left",
    *     "cornerBottomLeft"
    *   ],
+   *   "longhands": [
+   *     "border-bottom-left-radius",
+   *     "corner-bottom-left-shape"
+   *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
    * }
@@ -52236,6 +53423,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-bottom-left",
    *     "cornerBottomLeft"
+   *   ],
+   *   "longhands": [
+   *     "border-bottom-left-radius",
+   *     "corner-bottom-left-shape"
    *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
@@ -52320,6 +53511,10 @@ export interface $$CSSMissingProps {
    *     "corner-bottom-right",
    *     "cornerBottomRight"
    *   ],
+   *   "longhands": [
+   *     "border-bottom-right-radius",
+   *     "corner-bottom-right-shape"
+   *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
    * }
@@ -52346,6 +53541,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-bottom-right",
    *     "cornerBottomRight"
+   *   ],
+   *   "longhands": [
+   *     "border-bottom-right-radius",
+   *     "corner-bottom-right-shape"
    *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
@@ -52430,6 +53629,10 @@ export interface $$CSSMissingProps {
    *     "corner-bottom-shape",
    *     "cornerBottomShape"
    *   ],
+   *   "longhands": [
+   *     "corner-bottom-left-shape",
+   *     "corner-bottom-right-shape"
+   *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
    * }
@@ -52456,6 +53659,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-bottom-shape",
    *     "cornerBottomShape"
+   *   ],
+   *   "longhands": [
+   *     "corner-bottom-left-shape",
+   *     "corner-bottom-right-shape"
    *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
@@ -52484,6 +53691,10 @@ export interface $$CSSMissingProps {
    *     "corner-end-end",
    *     "cornerEndEnd"
    *   ],
+   *   "longhands": [
+   *     "border-end-end-radius",
+   *     "corner-end-end-shape"
+   *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
    * }
@@ -52510,6 +53721,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-end-end",
    *     "cornerEndEnd"
+   *   ],
+   *   "longhands": [
+   *     "border-end-end-radius",
+   *     "corner-end-end-shape"
    *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
@@ -52594,6 +53809,10 @@ export interface $$CSSMissingProps {
    *     "corner-end-start",
    *     "cornerEndStart"
    *   ],
+   *   "longhands": [
+   *     "border-end-start-radius",
+   *     "corner-end-start-shape"
+   *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
    * }
@@ -52620,6 +53839,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-end-start",
    *     "cornerEndStart"
+   *   ],
+   *   "longhands": [
+   *     "border-end-start-radius",
+   *     "corner-end-start-shape"
    *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
@@ -52704,6 +53927,10 @@ export interface $$CSSMissingProps {
    *     "corner-inline-end",
    *     "cornerInlineEnd"
    *   ],
+   *   "longhands": [
+   *     "border-inline-end-radius",
+   *     "corner-inline-end-shape"
+   *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
    * }
@@ -52730,6 +53957,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-inline-end",
    *     "cornerInlineEnd"
+   *   ],
+   *   "longhands": [
+   *     "border-inline-end-radius",
+   *     "corner-inline-end-shape"
    *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
@@ -52758,6 +53989,10 @@ export interface $$CSSMissingProps {
    *     "corner-inline-end-shape",
    *     "cornerInlineEndShape"
    *   ],
+   *   "longhands": [
+   *     "corner-start-end-shape",
+   *     "corner-end-end-shape"
+   *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
    * }
@@ -52784,6 +54019,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-inline-end-shape",
    *     "cornerInlineEndShape"
+   *   ],
+   *   "longhands": [
+   *     "corner-start-end-shape",
+   *     "corner-end-end-shape"
    *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
@@ -52812,6 +54051,10 @@ export interface $$CSSMissingProps {
    *     "corner-inline-start",
    *     "cornerInlineStart"
    *   ],
+   *   "longhands": [
+   *     "border-inline-start-radius",
+   *     "corner-inline-start-shape"
+   *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
    * }
@@ -52838,6 +54081,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-inline-start",
    *     "cornerInlineStart"
+   *   ],
+   *   "longhands": [
+   *     "border-inline-start-radius",
+   *     "corner-inline-start-shape"
    *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
@@ -52866,6 +54113,10 @@ export interface $$CSSMissingProps {
    *     "corner-inline-start-shape",
    *     "cornerInlineStartShape"
    *   ],
+   *   "longhands": [
+   *     "corner-start-start-shape",
+   *     "corner-end-start-shape"
+   *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
    * }
@@ -52892,6 +54143,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-inline-start-shape",
    *     "cornerInlineStartShape"
+   *   ],
+   *   "longhands": [
+   *     "corner-start-start-shape",
+   *     "corner-end-start-shape"
    *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
@@ -52920,6 +54175,10 @@ export interface $$CSSMissingProps {
    *     "corner-left",
    *     "cornerLeft"
    *   ],
+   *   "longhands": [
+   *     "border-left-radius",
+   *     "corner-left-shape"
+   *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
    * }
@@ -52946,6 +54205,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-left",
    *     "cornerLeft"
+   *   ],
+   *   "longhands": [
+   *     "border-left-radius",
+   *     "corner-left-shape"
    *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
@@ -52974,6 +54237,10 @@ export interface $$CSSMissingProps {
    *     "corner-left-shape",
    *     "cornerLeftShape"
    *   ],
+   *   "longhands": [
+   *     "corner-top-left-shape",
+   *     "corner-bottom-left-shape"
+   *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
    * }
@@ -53000,6 +54267,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-left-shape",
    *     "cornerLeftShape"
+   *   ],
+   *   "longhands": [
+   *     "corner-top-left-shape",
+   *     "corner-bottom-left-shape"
    *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
@@ -53028,6 +54299,10 @@ export interface $$CSSMissingProps {
    *     "corner-right",
    *     "cornerRight"
    *   ],
+   *   "longhands": [
+   *     "border-right-radius",
+   *     "corner-right-shape"
+   *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
    * }
@@ -53054,6 +54329,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-right",
    *     "cornerRight"
+   *   ],
+   *   "longhands": [
+   *     "border-right-radius",
+   *     "corner-right-shape"
    *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
@@ -53082,6 +54361,10 @@ export interface $$CSSMissingProps {
    *     "corner-right-shape",
    *     "cornerRightShape"
    *   ],
+   *   "longhands": [
+   *     "corner-top-right-shape",
+   *     "corner-bottom-right-shape"
+   *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
    * }
@@ -53108,6 +54391,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-right-shape",
    *     "cornerRightShape"
+   *   ],
+   *   "longhands": [
+   *     "corner-top-right-shape",
+   *     "corner-bottom-right-shape"
    *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
@@ -53136,6 +54423,12 @@ export interface $$CSSMissingProps {
    *     "corner-shape",
    *     "cornerShape"
    *   ],
+   *   "longhands": [
+   *     "corner-top-left-shape",
+   *     "corner-top-right-shape",
+   *     "corner-bottom-right-shape",
+   *     "corner-bottom-left-shape"
+   *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,4}",
    *   "extended": []
    * }
@@ -53162,6 +54455,12 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-shape",
    *     "cornerShape"
+   *   ],
+   *   "longhands": [
+   *     "corner-top-left-shape",
+   *     "corner-top-right-shape",
+   *     "corner-bottom-right-shape",
+   *     "corner-bottom-left-shape"
    *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,4}",
    *   "extended": []
@@ -53190,6 +54489,10 @@ export interface $$CSSMissingProps {
    *     "corner-start-end",
    *     "cornerStartEnd"
    *   ],
+   *   "longhands": [
+   *     "border-start-end-radius",
+   *     "corner-start-end-shape"
+   *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
    * }
@@ -53216,6 +54519,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-start-end",
    *     "cornerStartEnd"
+   *   ],
+   *   "longhands": [
+   *     "border-start-end-radius",
+   *     "corner-start-end-shape"
    *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
@@ -53300,6 +54607,10 @@ export interface $$CSSMissingProps {
    *     "corner-start-start",
    *     "cornerStartStart"
    *   ],
+   *   "longhands": [
+   *     "border-start-start-radius",
+   *     "corner-start-start-shape"
+   *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
    * }
@@ -53326,6 +54637,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-start-start",
    *     "cornerStartStart"
+   *   ],
+   *   "longhands": [
+   *     "border-start-start-radius",
+   *     "corner-start-start-shape"
    *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
@@ -53410,6 +54725,10 @@ export interface $$CSSMissingProps {
    *     "corner-top",
    *     "cornerTop"
    *   ],
+   *   "longhands": [
+   *     "border-top-radius",
+   *     "corner-top-shape"
+   *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
    * }
@@ -53436,6 +54755,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-top",
    *     "cornerTop"
+   *   ],
+   *   "longhands": [
+   *     "border-top-radius",
+   *     "corner-top-shape"
    *   ],
    *   "syntax": "<'border-top-radius'> || <'corner-top-shape'>",
    *   "extended": []
@@ -53464,6 +54787,10 @@ export interface $$CSSMissingProps {
    *     "corner-top-left",
    *     "cornerTopLeft"
    *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "corner-top-left-shape"
+   *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
    * }
@@ -53490,6 +54817,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-top-left",
    *     "cornerTopLeft"
+   *   ],
+   *   "longhands": [
+   *     "border-top-left-radius",
+   *     "corner-top-left-shape"
    *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
@@ -53574,6 +54905,10 @@ export interface $$CSSMissingProps {
    *     "corner-top-right",
    *     "cornerTopRight"
    *   ],
+   *   "longhands": [
+   *     "border-top-right-radius",
+   *     "corner-top-right-shape"
+   *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
    * }
@@ -53600,6 +54935,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "corner-top-right",
    *     "cornerTopRight"
+   *   ],
+   *   "longhands": [
+   *     "border-top-right-radius",
+   *     "corner-top-right-shape"
    *   ],
    *   "syntax": "<'border-top-left-radius'> || <'corner-top-left-shape'>",
    *   "extended": []
@@ -53684,6 +55023,10 @@ export interface $$CSSMissingProps {
    *     "corner-top-shape",
    *     "cornerTopShape"
    *   ],
+   *   "longhands": [
+   *     "corner-top-left-shape",
+   *     "corner-top-right-shape"
+   *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
    * }
@@ -53711,6 +55054,10 @@ export interface $$CSSMissingProps {
    *     "corner-top-shape",
    *     "cornerTopShape"
    *   ],
+   *   "longhands": [
+   *     "corner-top-left-shape",
+   *     "corner-top-right-shape"
+   *   ],
    *   "syntax": "<'corner-top-left-shape'>{1,2}",
    *   "extended": []
    * }
@@ -53736,6 +55083,10 @@ export interface $$CSSMissingProps {
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "cue"
+   *   ],
+   *   "longhands": [
+   *     "cue-before",
+   *     "cue-after"
    *   ],
    *   "syntax": "<'cue-before'> <'cue-after'>?",
    *   "extended": []
@@ -53914,14 +55265,14 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "event-trigger",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-event-trigger",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-event-trigger",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
    *   "percentages": "N/A",
    *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
    *   "animationType": "not animatable",
+   *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "event-trigger",
    *     "eventTrigger"
@@ -53941,14 +55292,14 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "event-trigger",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-event-trigger",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-event-trigger",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
    *   "percentages": "N/A",
    *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
    *   "animationType": "not animatable",
+   *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
    *     "event-trigger",
    *     "eventTrigger"
@@ -53968,7 +55319,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "event-trigger-name",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-event-trigger-name",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-event-trigger-name",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -53995,7 +55346,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "event-trigger-name",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-event-trigger-name",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-event-trigger-name",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -54022,7 +55373,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "event-trigger-source",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-event-trigger-source",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-event-trigger-source",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -54049,7 +55400,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "event-trigger-source",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-event-trigger-source",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-event-trigger-source",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -55061,6 +56412,60 @@ export interface $$CSSMissingProps {
    * 
    * ```json
    * {
+   *   "name": "image-animation",
+   *   "href": "https://drafts.csswg.org/css-image-animation-1/#propdef-image-animation",
+   *   "initial": "normal",
+   *   "appliesTo": "content images and elements with decorative images",
+   *   "inherited": "yes",
+   *   "percentages": "n/a",
+   *   "computedValue": "as specified",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "discrete",
+   *   "styleDeclaration": [
+   *     "image-animation",
+   *     "imageAnimation"
+   *   ],
+   *   "syntax": "normal | paused | running",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "image-animation"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "image-animation",
+   *   "href": "https://drafts.csswg.org/css-image-animation-1/#propdef-image-animation",
+   *   "initial": "normal",
+   *   "appliesTo": "content images and elements with decorative images",
+   *   "inherited": "yes",
+   *   "percentages": "n/a",
+   *   "computedValue": "as specified",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "discrete",
+   *   "styleDeclaration": [
+   *     "image-animation",
+   *     "imageAnimation"
+   *   ],
+   *   "syntax": "normal | paused | running",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "imageAnimation"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
    *   "name": "initial-letter-wrap",
    *   "href": "https://drafts.csswg.org/css-inline-3/#propdef-initial-letter-wrap",
    *   "initial": "none",
@@ -55262,6 +56667,10 @@ export interface $$CSSMissingProps {
    *     "interest-delay",
    *     "interestDelay"
    *   ],
+   *   "longhands": [
+   *     "interest-delay-start",
+   *     "interest-delay-end"
+   *   ],
    *   "syntax": "<'interest-delay-start'>{1,2}",
    *   "extended": []
    * }
@@ -55288,6 +56697,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "interest-delay",
    *     "interestDelay"
+   *   ],
+   *   "longhands": [
+   *     "interest-delay-start",
+   *     "interest-delay-end"
    *   ],
    *   "syntax": "<'interest-delay-start'>{1,2}",
    *   "extended": []
@@ -55403,330 +56816,6 @@ export interface $$CSSMissingProps {
    * ```
   */
   "interestDelayStart"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-cross",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-cross",
-   *   "initial": "auto",
-   *   "appliesTo": "flex containers, grid containers, grid lanes containers",
-   *   "inherited": "no",
-   *   "percentages": "N/A",
-   *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "discrete",
-   *   "styleDeclaration": [
-   *     "item-cross",
-   *     "itemCross"
-   *   ],
-   *   "syntax": "[ auto | nowrap | wrap ] || [ normal | reverse ] | wrap-reverse",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "item-cross"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-cross",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-cross",
-   *   "initial": "auto",
-   *   "appliesTo": "flex containers, grid containers, grid lanes containers",
-   *   "inherited": "no",
-   *   "percentages": "N/A",
-   *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "discrete",
-   *   "styleDeclaration": [
-   *     "item-cross",
-   *     "itemCross"
-   *   ],
-   *   "syntax": "[ auto | nowrap | wrap ] || [ normal | reverse ] | wrap-reverse",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "itemCross"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-direction",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-direction",
-   *   "initial": "auto",
-   *   "appliesTo": "flex containers, grid containers, grid lanes containers",
-   *   "inherited": "no",
-   *   "percentages": "N/A",
-   *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "discrete",
-   *   "styleDeclaration": [
-   *     "item-direction",
-   *     "itemDirection"
-   *   ],
-   *   "syntax": "auto | row | column | row-reverse | column-reverse",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "item-direction"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-direction",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-direction",
-   *   "initial": "auto",
-   *   "appliesTo": "flex containers, grid containers, grid lanes containers",
-   *   "inherited": "no",
-   *   "percentages": "N/A",
-   *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "discrete",
-   *   "styleDeclaration": [
-   *     "item-direction",
-   *     "itemDirection"
-   *   ],
-   *   "syntax": "auto | row | column | row-reverse | column-reverse",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "itemDirection"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-flow",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-flow",
-   *   "initial": "see individual properties",
-   *   "appliesTo": "see individual properties",
-   *   "inherited": "see individual properties",
-   *   "percentages": "see individual properties",
-   *   "computedValue": "see individual properties",
-   *   "animationType": "see individual properties",
-   *   "canonicalOrder": "per grammar",
-   *   "styleDeclaration": [
-   *     "item-flow",
-   *     "itemFlow"
-   *   ],
-   *   "syntax": "<'item-direction'> || <'item-wrap'> || <'item-pack'> || <'flow-tolerance'>",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "item-flow"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-flow",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-flow",
-   *   "initial": "see individual properties",
-   *   "appliesTo": "see individual properties",
-   *   "inherited": "see individual properties",
-   *   "percentages": "see individual properties",
-   *   "computedValue": "see individual properties",
-   *   "animationType": "see individual properties",
-   *   "canonicalOrder": "per grammar",
-   *   "styleDeclaration": [
-   *     "item-flow",
-   *     "itemFlow"
-   *   ],
-   *   "syntax": "<'item-direction'> || <'item-wrap'> || <'item-pack'> || <'flow-tolerance'>",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "itemFlow"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-pack",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-pack",
-   *   "initial": "normal",
-   *   "appliesTo": "flex containers, grid containers, grid lanes containers",
-   *   "inherited": "no",
-   *   "percentages": "N/A",
-   *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "discrete",
-   *   "styleDeclaration": [
-   *     "item-pack",
-   *     "itemPack"
-   *   ],
-   *   "syntax": "normal | dense || balance",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "item-pack"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-pack",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-pack",
-   *   "initial": "normal",
-   *   "appliesTo": "flex containers, grid containers, grid lanes containers",
-   *   "inherited": "no",
-   *   "percentages": "N/A",
-   *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "discrete",
-   *   "styleDeclaration": [
-   *     "item-pack",
-   *     "itemPack"
-   *   ],
-   *   "syntax": "normal | dense || balance",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "itemPack"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-track",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-track",
-   *   "initial": "auto",
-   *   "appliesTo": "flex containers, grid containers, grid lanes containers",
-   *   "inherited": "no",
-   *   "percentages": "N/A",
-   *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "discrete",
-   *   "styleDeclaration": [
-   *     "item-track",
-   *     "itemTrack"
-   *   ],
-   *   "syntax": "auto | row | column | row-reverse | column-reverse",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "item-track"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-track",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-track",
-   *   "initial": "auto",
-   *   "appliesTo": "flex containers, grid containers, grid lanes containers",
-   *   "inherited": "no",
-   *   "percentages": "N/A",
-   *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "discrete",
-   *   "styleDeclaration": [
-   *     "item-track",
-   *     "itemTrack"
-   *   ],
-   *   "syntax": "auto | row | column | row-reverse | column-reverse",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "itemTrack"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-wrap",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-wrap",
-   *   "initial": "auto",
-   *   "appliesTo": "flex containers, grid containers, grid lanes containers",
-   *   "inherited": "no",
-   *   "percentages": "N/A",
-   *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "discrete",
-   *   "styleDeclaration": [
-   *     "item-wrap",
-   *     "itemWrap"
-   *   ],
-   *   "syntax": "[ auto | nowrap | wrap ] || [ normal | reverse ] | wrap-reverse",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "item-wrap"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "item-wrap",
-   *   "href": "https://drafts.csswg.org/css-grid-3/#propdef-item-wrap",
-   *   "initial": "auto",
-   *   "appliesTo": "flex containers, grid containers, grid lanes containers",
-   *   "inherited": "no",
-   *   "percentages": "N/A",
-   *   "computedValue": "as specified",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "discrete",
-   *   "styleDeclaration": [
-   *     "item-wrap",
-   *     "itemWrap"
-   *   ],
-   *   "syntax": "[ auto | nowrap | wrap ] || [ normal | reverse ] | wrap-reverse",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "itemWrap"?: $$PropValues | undefined
 
   /**
    * 
@@ -56396,6 +57485,10 @@ export interface $$CSSMissingProps {
    *     "overflow-clip-margin-block",
    *     "overflowClipMarginBlock"
    *   ],
+   *   "longhands": [
+   *     "overflow-clip-margin-block-start",
+   *     "overflow-clip-margin-block-end"
+   *   ],
    *   "syntax": "<visual-box> || <length [0,∞]>",
    *   "extended": []
    * }
@@ -56422,6 +57515,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "overflow-clip-margin-block",
    *     "overflowClipMarginBlock"
+   *   ],
+   *   "longhands": [
+   *     "overflow-clip-margin-block-start",
+   *     "overflow-clip-margin-block-end"
    *   ],
    *   "syntax": "<visual-box> || <length [0,∞]>",
    *   "extended": []
@@ -56618,6 +57715,10 @@ export interface $$CSSMissingProps {
    *     "overflow-clip-margin-inline",
    *     "overflowClipMarginInline"
    *   ],
+   *   "longhands": [
+   *     "overflow-clip-margin-inline-start",
+   *     "overflow-clip-margin-inline-end"
+   *   ],
    *   "syntax": "<visual-box> || <length [0,∞]>",
    *   "extended": []
    * }
@@ -56644,6 +57745,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "overflow-clip-margin-inline",
    *     "overflowClipMarginInline"
+   *   ],
+   *   "longhands": [
+   *     "overflow-clip-margin-inline-start",
+   *     "overflow-clip-margin-inline-end"
    *   ],
    *   "syntax": "<visual-box> || <length [0,∞]>",
    *   "extended": []
@@ -56951,6 +58056,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "pause"
    *   ],
+   *   "longhands": [
+   *     "pause-before",
+   *     "pause-after"
+   *   ],
    *   "syntax": "<'pause-before'> <'pause-after'>?",
    *   "extended": []
    * }
@@ -57086,6 +58195,10 @@ export interface $$CSSMissingProps {
    *     "pointer-timeline",
    *     "pointerTimeline"
    *   ],
+   *   "longhands": [
+   *     "pointer-timeline-name",
+   *     "pointer-timeline-axis"
+   *   ],
    *   "syntax": "[ <'pointer-timeline-name'> <'pointer-timeline-axis'>? ]#",
    *   "extended": []
    * }
@@ -57112,6 +58225,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "pointer-timeline",
    *     "pointerTimeline"
+   *   ],
+   *   "longhands": [
+   *     "pointer-timeline-name",
+   *     "pointer-timeline-axis"
    *   ],
    *   "syntax": "[ <'pointer-timeline-name'> <'pointer-timeline-axis'>? ]#",
    *   "extended": []
@@ -57409,6 +58526,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rest"
    *   ],
+   *   "longhands": [
+   *     "rest-before",
+   *     "rest-after"
+   *   ],
    *   "syntax": "<'rest-before'> <'rest-after'>?",
    *   "extended": []
    * }
@@ -57544,6 +58665,11 @@ export interface $$CSSMissingProps {
    *     "row-rule",
    *     "rowRule"
    *   ],
+   *   "longhands": [
+   *     "row-rule-width",
+   *     "row-rule-style",
+   *     "row-rule-color"
+   *   ],
    *   "syntax": "<gap-rule-list> | <gap-auto-rule-list>",
    *   "extended": []
    * }
@@ -57571,6 +58697,11 @@ export interface $$CSSMissingProps {
    *     "row-rule",
    *     "rowRule"
    *   ],
+   *   "longhands": [
+   *     "row-rule-width",
+   *     "row-rule-style",
+   *     "row-rule-color"
+   *   ],
    *   "syntax": "<gap-rule-list> | <gap-auto-rule-list>",
    *   "extended": []
    * }
@@ -57587,7 +58718,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "row-rule-break",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-break",
-   *   "initial": "spanning-item",
+   *   "initial": "normal",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "n/a",
@@ -57598,7 +58729,7 @@ export interface $$CSSMissingProps {
    *     "row-rule-break",
    *     "rowRuleBreak"
    *   ],
-   *   "syntax": "none | spanning-item | intersection",
+   *   "syntax": "none | normal | intersection",
    *   "extended": []
    * }
    * ```
@@ -57614,7 +58745,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "row-rule-break",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-break",
-   *   "initial": "spanning-item",
+   *   "initial": "normal",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "n/a",
@@ -57625,7 +58756,7 @@ export interface $$CSSMissingProps {
    *     "row-rule-break",
    *     "rowRuleBreak"
    *   ],
-   *   "syntax": "none | spanning-item | intersection",
+   *   "syntax": "none | normal | intersection",
    *   "extended": []
    * }
    * ```
@@ -57647,7 +58778,7 @@ export interface $$CSSMissingProps {
    *   "percentages": "n/a",
    *   "computedValue": "as specified",
    *   "canonicalOrder": "per grammar",
-   *   "animationType": "repeatable list, see § 3.4.1 Interpolation behavior.",
+   *   "animationType": "repeatable list, see § 4.7 Interpolation of list values.",
    *   "styleDeclaration": [
    *     "row-rule-color",
    *     "rowRuleColor"
@@ -57674,7 +58805,7 @@ export interface $$CSSMissingProps {
    *   "percentages": "n/a",
    *   "computedValue": "as specified",
    *   "canonicalOrder": "per grammar",
-   *   "animationType": "repeatable list, see § 3.4.1 Interpolation behavior.",
+   *   "animationType": "repeatable list, see § 4.7 Interpolation of list values.",
    *   "styleDeclaration": [
    *     "row-rule-color",
    *     "rowRuleColor"
@@ -57696,7 +58827,7 @@ export interface $$CSSMissingProps {
    *   "name": "row-rule-edge-inset",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-edge-inset",
    *   "initial": "see individual properties",
-   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-start, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-edge-inset-end, row-rule-interior-inset-start, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -57705,6 +58836,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "row-rule-edge-inset",
    *     "rowRuleEdgeInset"
+   *   ],
+   *   "longhands": [
+   *     "row-rule-edge-inset-start",
+   *     "row-rule-edge-inset-end"
    *   ],
    *   "syntax": "<length-percentage> [ <length-percentage> ]?",
    *   "extended": []
@@ -57723,7 +58858,7 @@ export interface $$CSSMissingProps {
    *   "name": "row-rule-edge-inset",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-edge-inset",
    *   "initial": "see individual properties",
-   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-start, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-edge-inset-end, row-rule-interior-inset-start, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -57732,6 +58867,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "row-rule-edge-inset",
    *     "rowRuleEdgeInset"
+   *   ],
+   *   "longhands": [
+   *     "row-rule-edge-inset-start",
+   *     "row-rule-edge-inset-end"
    *   ],
    *   "syntax": "<length-percentage> [ <length-percentage> ]?",
    *   "extended": []
@@ -57749,7 +58888,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "row-rule-edge-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-edge-inset-end",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -57760,7 +58899,7 @@ export interface $$CSSMissingProps {
    *     "row-rule-edge-inset-end",
    *     "rowRuleEdgeInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -57776,7 +58915,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "row-rule-edge-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-edge-inset-end",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -57787,7 +58926,7 @@ export interface $$CSSMissingProps {
    *     "row-rule-edge-inset-end",
    *     "rowRuleEdgeInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -57803,7 +58942,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "row-rule-edge-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-edge-inset-start",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -57814,7 +58953,7 @@ export interface $$CSSMissingProps {
    *     "row-rule-edge-inset-start",
    *     "rowRuleEdgeInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -57830,7 +58969,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "row-rule-edge-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-edge-inset-start",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -57841,7 +58980,7 @@ export interface $$CSSMissingProps {
    *     "row-rule-edge-inset-start",
    *     "rowRuleEdgeInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -57868,7 +59007,13 @@ export interface $$CSSMissingProps {
    *     "row-rule-inset",
    *     "rowRuleInset"
    *   ],
-   *   "syntax": "<length-percentage> <length-percentage>? [/ <length-percentage> <length-percentage>?]?",
+   *   "longhands": [
+   *     "row-rule-edge-inset-start",
+   *     "row-rule-edge-inset-end",
+   *     "row-rule-interior-inset-start",
+   *     "row-rule-interior-inset-end"
+   *   ],
+   *   "syntax": "<'column-rule-edge-inset'> [ / <'column-rule-interior-inset'> ]?",
    *   "extended": []
    * }
    * ```
@@ -57895,7 +59040,13 @@ export interface $$CSSMissingProps {
    *     "row-rule-inset",
    *     "rowRuleInset"
    *   ],
-   *   "syntax": "<length-percentage> <length-percentage>? [/ <length-percentage> <length-percentage>?]?",
+   *   "longhands": [
+   *     "row-rule-edge-inset-start",
+   *     "row-rule-edge-inset-end",
+   *     "row-rule-interior-inset-start",
+   *     "row-rule-interior-inset-end"
+   *   ],
+   *   "syntax": "<'column-rule-edge-inset'> [ / <'column-rule-interior-inset'> ]?",
    *   "extended": []
    * }
    * ```
@@ -57912,7 +59063,7 @@ export interface $$CSSMissingProps {
    *   "name": "row-rule-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-inset-end",
    *   "initial": "see individual properties",
-   *   "appliesTo": "column-rule-edge-inset-end and column-rule-interior-inset-end for column-rule-inset-end, row-rule-edge-inset-end and row-rule-interior-inset-end for row-rule-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -57922,7 +59073,11 @@ export interface $$CSSMissingProps {
    *     "row-rule-inset-end",
    *     "rowRuleInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "longhands": [
+   *     "row-rule-edge-inset-end",
+   *     "row-rule-interior-inset-end"
+   *   ],
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -57939,7 +59094,7 @@ export interface $$CSSMissingProps {
    *   "name": "row-rule-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-inset-end",
    *   "initial": "see individual properties",
-   *   "appliesTo": "column-rule-edge-inset-end and column-rule-interior-inset-end for column-rule-inset-end, row-rule-edge-inset-end and row-rule-interior-inset-end for row-rule-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -57949,7 +59104,11 @@ export interface $$CSSMissingProps {
    *     "row-rule-inset-end",
    *     "rowRuleInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "longhands": [
+   *     "row-rule-edge-inset-end",
+   *     "row-rule-interior-inset-end"
+   *   ],
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -57966,7 +59125,7 @@ export interface $$CSSMissingProps {
    *   "name": "row-rule-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-inset-start",
    *   "initial": "see individual properties",
-   *   "appliesTo": "column-rule-edge-inset-start and column-rule-interior-inset-start for column-rule-inset-start, row-rule-edge-inset-start and row-rule-interior-inset-start for row-rule-inset-start",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -57976,7 +59135,11 @@ export interface $$CSSMissingProps {
    *     "row-rule-inset-start",
    *     "rowRuleInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "longhands": [
+   *     "row-rule-edge-inset-start",
+   *     "row-rule-interior-inset-start"
+   *   ],
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -57993,7 +59156,7 @@ export interface $$CSSMissingProps {
    *   "name": "row-rule-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-inset-start",
    *   "initial": "see individual properties",
-   *   "appliesTo": "column-rule-edge-inset-start and column-rule-interior-inset-start for column-rule-inset-start, row-rule-edge-inset-start and row-rule-interior-inset-start for row-rule-inset-start",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -58003,7 +59166,11 @@ export interface $$CSSMissingProps {
    *     "row-rule-inset-start",
    *     "rowRuleInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "longhands": [
+   *     "row-rule-edge-inset-start",
+   *     "row-rule-interior-inset-start"
+   *   ],
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -58020,7 +59187,7 @@ export interface $$CSSMissingProps {
    *   "name": "row-rule-interior-inset",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-interior-inset",
    *   "initial": "see individual properties",
-   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-start, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-edge-inset-end, row-rule-interior-inset-start, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -58029,6 +59196,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "row-rule-interior-inset",
    *     "rowRuleInteriorInset"
+   *   ],
+   *   "longhands": [
+   *     "row-rule-interior-inset-start",
+   *     "row-rule-interior-inset-end"
    *   ],
    *   "syntax": "<length-percentage> [ <length-percentage> ]?",
    *   "extended": []
@@ -58047,7 +59218,7 @@ export interface $$CSSMissingProps {
    *   "name": "row-rule-interior-inset",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-interior-inset",
    *   "initial": "see individual properties",
-   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-interior-inset-start, row-rule-edge-inset-end, and row-rule-interior-inset-end",
+   *   "appliesTo": "Same as column-rule-edge-inset-start, column-rule-edge-inset-end, column-rule-interior-inset-start, column-rule-interior-inset-end, row-rule-edge-inset-start, row-rule-edge-inset-end, row-rule-interior-inset-start, and row-rule-interior-inset-end",
    *   "inherited": "see individual properties",
    *   "percentages": "see individual properties",
    *   "computedValue": "see individual properties",
@@ -58056,6 +59227,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "row-rule-interior-inset",
    *     "rowRuleInteriorInset"
+   *   ],
+   *   "longhands": [
+   *     "row-rule-interior-inset-start",
+   *     "row-rule-interior-inset-end"
    *   ],
    *   "syntax": "<length-percentage> [ <length-percentage> ]?",
    *   "extended": []
@@ -58073,7 +59248,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "row-rule-interior-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-interior-inset-end",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -58084,7 +59259,7 @@ export interface $$CSSMissingProps {
    *     "row-rule-interior-inset-end",
    *     "rowRuleInteriorInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -58100,7 +59275,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "row-rule-interior-inset-end",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-interior-inset-end",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -58111,7 +59286,7 @@ export interface $$CSSMissingProps {
    *     "row-rule-interior-inset-end",
    *     "rowRuleInteriorInsetEnd"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -58127,7 +59302,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "row-rule-interior-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-interior-inset-start",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -58138,7 +59313,7 @@ export interface $$CSSMissingProps {
    *     "row-rule-interior-inset-start",
    *     "rowRuleInteriorInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -58154,7 +59329,7 @@ export interface $$CSSMissingProps {
    * {
    *   "name": "row-rule-interior-inset-start",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-interior-inset-start",
-   *   "initial": "auto",
+   *   "initial": "0",
    *   "appliesTo": "grid containers, flex containers, multicol containers, and grid lanes containers",
    *   "inherited": "no",
    *   "percentages": "refer to the crossing gap width",
@@ -58165,7 +59340,7 @@ export interface $$CSSMissingProps {
    *     "row-rule-interior-inset-start",
    *     "rowRuleInteriorInsetStart"
    *   ],
-   *   "syntax": "auto | <length-percentage>",
+   *   "syntax": "<length-percentage>",
    *   "extended": []
    * }
    * ```
@@ -58233,6 +59408,60 @@ export interface $$CSSMissingProps {
    * 
    * ```json
    * {
+   *   "name": "row-rule-visibility-items",
+   *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-visibility-items",
+   *   "initial": "all",
+   *   "appliesTo": "grid containers, and multicol containers",
+   *   "inherited": "no",
+   *   "percentages": "n/a",
+   *   "computedValue": "as specified",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "discrete",
+   *   "styleDeclaration": [
+   *     "row-rule-visibility-items",
+   *     "rowRuleVisibilityItems"
+   *   ],
+   *   "syntax": "all | around | between",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "row-rule-visibility-items"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "row-rule-visibility-items",
+   *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-visibility-items",
+   *   "initial": "all",
+   *   "appliesTo": "grid containers, and multicol containers",
+   *   "inherited": "no",
+   *   "percentages": "n/a",
+   *   "computedValue": "as specified",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "discrete",
+   *   "styleDeclaration": [
+   *     "row-rule-visibility-items",
+   *     "rowRuleVisibilityItems"
+   *   ],
+   *   "syntax": "all | around | between",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "rowRuleVisibilityItems"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
    *   "name": "row-rule-width",
    *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-row-rule-width",
    *   "initial": "medium",
@@ -58241,7 +59470,7 @@ export interface $$CSSMissingProps {
    *   "percentages": "n/a",
    *   "computedValue": "list of absolute lengths, snapped as a border width",
    *   "canonicalOrder": "per grammar",
-   *   "animationType": "repeatable list, see § 3.4.1 Interpolation behavior.",
+   *   "animationType": "repeatable list, see § 4.7 Interpolation of list values.",
    *   "styleDeclaration": [
    *     "row-rule-width",
    *     "rowRuleWidth"
@@ -58268,7 +59497,7 @@ export interface $$CSSMissingProps {
    *   "percentages": "n/a",
    *   "computedValue": "list of absolute lengths, snapped as a border width",
    *   "canonicalOrder": "per grammar",
-   *   "animationType": "repeatable list, see § 3.4.1 Interpolation behavior.",
+   *   "animationType": "repeatable list, see § 4.7 Interpolation of list values.",
    *   "styleDeclaration": [
    *     "row-rule-width",
    *     "rowRuleWidth"
@@ -58299,6 +59528,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rule"
    *   ],
+   *   "longhands": [
+   *     "column-rule",
+   *     "row-rule"
+   *   ],
    *   "syntax": "<'column-rule'>",
    *   "extended": []
    * }
@@ -58325,6 +59558,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rule-break",
    *     "ruleBreak"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-break",
+   *     "row-rule-break"
    *   ],
    *   "syntax": "<'column-rule-break'>",
    *   "extended": []
@@ -58353,6 +59590,10 @@ export interface $$CSSMissingProps {
    *     "rule-break",
    *     "ruleBreak"
    *   ],
+   *   "longhands": [
+   *     "column-rule-break",
+   *     "row-rule-break"
+   *   ],
    *   "syntax": "<'column-rule-break'>",
    *   "extended": []
    * }
@@ -58379,6 +59620,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rule-color",
    *     "ruleColor"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-color",
+   *     "row-rule-color"
    *   ],
    *   "syntax": "<'column-rule-color'>",
    *   "extended": []
@@ -58407,6 +59652,10 @@ export interface $$CSSMissingProps {
    *     "rule-color",
    *     "ruleColor"
    *   ],
+   *   "longhands": [
+   *     "column-rule-color",
+   *     "row-rule-color"
+   *   ],
    *   "syntax": "<'column-rule-color'>",
    *   "extended": []
    * }
@@ -58433,6 +59682,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rule-edge-inset",
    *     "ruleEdgeInset"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-edge-inset",
+   *     "row-rule-edge-inset"
    *   ],
    *   "syntax": "<'column-rule-edge-inset'>",
    *   "extended": []
@@ -58461,6 +59714,10 @@ export interface $$CSSMissingProps {
    *     "rule-edge-inset",
    *     "ruleEdgeInset"
    *   ],
+   *   "longhands": [
+   *     "column-rule-edge-inset",
+   *     "row-rule-edge-inset"
+   *   ],
    *   "syntax": "<'column-rule-edge-inset'>",
    *   "extended": []
    * }
@@ -58487,6 +59744,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rule-inset",
    *     "ruleInset"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-inset",
+   *     "row-rule-inset"
    *   ],
    *   "syntax": "<'column-rule-inset'>",
    *   "extended": []
@@ -58515,6 +59776,10 @@ export interface $$CSSMissingProps {
    *     "rule-inset",
    *     "ruleInset"
    *   ],
+   *   "longhands": [
+   *     "column-rule-inset",
+   *     "row-rule-inset"
+   *   ],
    *   "syntax": "<'column-rule-inset'>",
    *   "extended": []
    * }
@@ -58541,6 +59806,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rule-inset-end",
    *     "ruleInsetEnd"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-inset-end",
+   *     "row-rule-inset-end"
    *   ],
    *   "syntax": "<'column-rule-inset-end'>",
    *   "extended": []
@@ -58569,6 +59838,10 @@ export interface $$CSSMissingProps {
    *     "rule-inset-end",
    *     "ruleInsetEnd"
    *   ],
+   *   "longhands": [
+   *     "column-rule-inset-end",
+   *     "row-rule-inset-end"
+   *   ],
    *   "syntax": "<'column-rule-inset-end'>",
    *   "extended": []
    * }
@@ -58595,6 +59868,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rule-inset-start",
    *     "ruleInsetStart"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-inset-start",
+   *     "row-rule-inset-start"
    *   ],
    *   "syntax": "<'column-rule-inset-start'>",
    *   "extended": []
@@ -58623,6 +59900,10 @@ export interface $$CSSMissingProps {
    *     "rule-inset-start",
    *     "ruleInsetStart"
    *   ],
+   *   "longhands": [
+   *     "column-rule-inset-start",
+   *     "row-rule-inset-start"
+   *   ],
    *   "syntax": "<'column-rule-inset-start'>",
    *   "extended": []
    * }
@@ -58650,6 +59931,10 @@ export interface $$CSSMissingProps {
    *     "rule-interior-inset",
    *     "ruleInteriorInset"
    *   ],
+   *   "longhands": [
+   *     "column-rule-interior-inset",
+   *     "row-rule-interior-inset"
+   *   ],
    *   "syntax": "<'column-rule-interior-inset'>",
    *   "extended": []
    * }
@@ -58676,6 +59961,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rule-interior-inset",
    *     "ruleInteriorInset"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-interior-inset",
+   *     "row-rule-interior-inset"
    *   ],
    *   "syntax": "<'column-rule-interior-inset'>",
    *   "extended": []
@@ -58758,6 +60047,10 @@ export interface $$CSSMissingProps {
    *     "rule-style",
    *     "ruleStyle"
    *   ],
+   *   "longhands": [
+   *     "column-rule-style",
+   *     "row-rule-style"
+   *   ],
    *   "syntax": "<'column-rule-style'>",
    *   "extended": []
    * }
@@ -58785,12 +60078,76 @@ export interface $$CSSMissingProps {
    *     "rule-style",
    *     "ruleStyle"
    *   ],
+   *   "longhands": [
+   *     "column-rule-style",
+   *     "row-rule-style"
+   *   ],
    *   "syntax": "<'column-rule-style'>",
    *   "extended": []
    * }
    * ```
   */
   "ruleStyle"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "rule-visibility-items",
+   *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-rule-visibility-items",
+   *   "initial": "see individual properties",
+   *   "appliesTo": "Same as column-rule-visibility-items and row-rule-visibility-items",
+   *   "inherited": "see individual properties",
+   *   "percentages": "see individual properties",
+   *   "computedValue": "see individual properties",
+   *   "animationType": "see individual properties",
+   *   "canonicalOrder": "per grammar",
+   *   "styleDeclaration": [
+   *     "rule-visibility-items",
+   *     "ruleVisibilityItems"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-visibility-items"
+   *   ],
+   *   "syntax": "<'column-rule-visibility-items'>",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "rule-visibility-items"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "rule-visibility-items",
+   *   "href": "https://drafts.csswg.org/css-gaps-1/#propdef-rule-visibility-items",
+   *   "initial": "see individual properties",
+   *   "appliesTo": "Same as column-rule-visibility-items and row-rule-visibility-items",
+   *   "inherited": "see individual properties",
+   *   "percentages": "see individual properties",
+   *   "computedValue": "see individual properties",
+   *   "animationType": "see individual properties",
+   *   "canonicalOrder": "per grammar",
+   *   "styleDeclaration": [
+   *     "rule-visibility-items",
+   *     "ruleVisibilityItems"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-visibility-items"
+   *   ],
+   *   "syntax": "<'column-rule-visibility-items'>",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "ruleVisibilityItems"?: $$PropValues | undefined
 
   /**
    * 
@@ -58811,6 +60168,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rule-width",
    *     "ruleWidth"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-width",
+   *     "row-rule-width"
    *   ],
    *   "syntax": "<'column-rule-width'>",
    *   "extended": []
@@ -58838,6 +60199,10 @@ export interface $$CSSMissingProps {
    *   "styleDeclaration": [
    *     "rule-width",
    *     "ruleWidth"
+   *   ],
+   *   "longhands": [
+   *     "column-rule-width",
+   *     "row-rule-width"
    *   ],
    *   "syntax": "<'column-rule-width'>",
    *   "extended": []
@@ -60476,6 +61841,10 @@ export interface $$CSSMissingProps {
    *     "text-spacing",
    *     "textSpacing"
    *   ],
+   *   "longhands": [
+   *     "text-spacing-trim",
+   *     "text-autospace"
+   *   ],
    *   "syntax": "none | auto | <spacing-trim> || <autospace>",
    *   "extended": []
    * }
@@ -60503,6 +61872,10 @@ export interface $$CSSMissingProps {
    *     "text-spacing",
    *     "textSpacing"
    *   ],
+   *   "longhands": [
+   *     "text-spacing-trim",
+   *     "text-autospace"
+   *   ],
    *   "syntax": "none | auto | <spacing-trim> || <autospace>",
    *   "extended": []
    * }
@@ -60518,7 +61891,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "timeline-trigger",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger",
    *   "initial": "see individual properties",
    *   "appliesTo": "see individual properties",
    *   "inherited": "see individual properties",
@@ -60530,7 +61903,13 @@ export interface $$CSSMissingProps {
    *     "timeline-trigger",
    *     "timelineTrigger"
    *   ],
-   *   "syntax": "none | [ <'timeline-trigger-name'> <'timeline-trigger-source'> <'timeline-trigger-range'> [ '/' <'timeline-trigger-exit-range'> ]? ]#",
+   *   "longhands": [
+   *     "timeline-trigger-name",
+   *     "timeline-trigger-source",
+   *     "timeline-trigger-activation-range",
+   *     "timeline-trigger-active-range"
+   *   ],
+   *   "syntax": "none | [ <'timeline-trigger-name'> <'timeline-trigger-source'> <'timeline-trigger-activation-range'> [ '/' <'timeline-trigger-active-range'> ]? ]#",
    *   "extended": []
    * }
    * ```
@@ -60545,7 +61924,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "timeline-trigger",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger",
    *   "initial": "see individual properties",
    *   "appliesTo": "see individual properties",
    *   "inherited": "see individual properties",
@@ -60557,7 +61936,13 @@ export interface $$CSSMissingProps {
    *     "timeline-trigger",
    *     "timelineTrigger"
    *   ],
-   *   "syntax": "none | [ <'timeline-trigger-name'> <'timeline-trigger-source'> <'timeline-trigger-range'> [ '/' <'timeline-trigger-exit-range'> ]? ]#",
+   *   "longhands": [
+   *     "timeline-trigger-name",
+   *     "timeline-trigger-source",
+   *     "timeline-trigger-activation-range",
+   *     "timeline-trigger-active-range"
+   *   ],
+   *   "syntax": "none | [ <'timeline-trigger-name'> <'timeline-trigger-source'> <'timeline-trigger-activation-range'> [ '/' <'timeline-trigger-active-range'> ]? ]#",
    *   "extended": []
    * }
    * ```
@@ -60571,8 +61956,8 @@ export interface $$CSSMissingProps {
    * 
    * ```json
    * {
-   *   "name": "timeline-trigger-exit-range",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-exit-range",
+   *   "name": "timeline-trigger-activation-range",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-activation-range",
    *   "initial": "see individual properties",
    *   "appliesTo": "see individual properties",
    *   "inherited": "see individual properties",
@@ -60581,15 +61966,19 @@ export interface $$CSSMissingProps {
    *   "animationType": "see individual properties",
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
-   *     "timeline-trigger-exit-range",
-   *     "timelineTriggerExitRange"
+   *     "timeline-trigger-activation-range",
+   *     "timelineTriggerActivationRange"
    *   ],
-   *   "syntax": "[ <'timeline-trigger-exit-range-start'> <'timeline-trigger-exit-range-end'>? ]#",
+   *   "longhands": [
+   *     "timeline-trigger-activation-range-start",
+   *     "timeline-trigger-activation-range-end"
+   *   ],
+   *   "syntax": "[ <'timeline-trigger-activation-range-start'> <'timeline-trigger-activation-range-end'>? ]#",
    *   "extended": []
    * }
    * ```
   */
-  "timeline-trigger-exit-range"?: $$PropValues | undefined
+  "timeline-trigger-activation-range"?: $$PropValues | undefined
 
   /**
    * 
@@ -60598,8 +61987,8 @@ export interface $$CSSMissingProps {
    * 
    * ```json
    * {
-   *   "name": "timeline-trigger-exit-range",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-exit-range",
+   *   "name": "timeline-trigger-activation-range",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-activation-range",
    *   "initial": "see individual properties",
    *   "appliesTo": "see individual properties",
    *   "inherited": "see individual properties",
@@ -60608,15 +61997,19 @@ export interface $$CSSMissingProps {
    *   "animationType": "see individual properties",
    *   "canonicalOrder": "per grammar",
    *   "styleDeclaration": [
-   *     "timeline-trigger-exit-range",
-   *     "timelineTriggerExitRange"
+   *     "timeline-trigger-activation-range",
+   *     "timelineTriggerActivationRange"
    *   ],
-   *   "syntax": "[ <'timeline-trigger-exit-range-start'> <'timeline-trigger-exit-range-end'>? ]#",
+   *   "longhands": [
+   *     "timeline-trigger-activation-range-start",
+   *     "timeline-trigger-activation-range-end"
+   *   ],
+   *   "syntax": "[ <'timeline-trigger-activation-range-start'> <'timeline-trigger-activation-range-end'>? ]#",
    *   "extended": []
    * }
    * ```
   */
-  "timelineTriggerExitRange"?: $$PropValues | undefined
+  "timelineTriggerActivationRange"?: $$PropValues | undefined
 
   /**
    * 
@@ -60625,9 +62018,9 @@ export interface $$CSSMissingProps {
    * 
    * ```json
    * {
-   *   "name": "timeline-trigger-exit-range-end",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-exit-range-end",
-   *   "initial": "auto",
+   *   "name": "timeline-trigger-activation-range-end",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-activation-range-end",
+   *   "initial": "normal",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
    *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
@@ -60635,15 +62028,15 @@ export interface $$CSSMissingProps {
    *   "canonicalOrder": "per grammar",
    *   "animationType": "not animatable",
    *   "styleDeclaration": [
-   *     "timeline-trigger-exit-range-end",
-   *     "timelineTriggerExitRangeEnd"
+   *     "timeline-trigger-activation-range-end",
+   *     "timelineTriggerActivationRangeEnd"
    *   ],
-   *   "syntax": "[ auto | normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
+   *   "syntax": "[ normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
    *   "extended": []
    * }
    * ```
   */
-  "timeline-trigger-exit-range-end"?: $$PropValues | undefined
+  "timeline-trigger-activation-range-end"?: $$PropValues | undefined
 
   /**
    * 
@@ -60652,9 +62045,9 @@ export interface $$CSSMissingProps {
    * 
    * ```json
    * {
-   *   "name": "timeline-trigger-exit-range-end",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-exit-range-end",
-   *   "initial": "auto",
+   *   "name": "timeline-trigger-activation-range-end",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-activation-range-end",
+   *   "initial": "normal",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
    *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
@@ -60662,15 +62055,15 @@ export interface $$CSSMissingProps {
    *   "canonicalOrder": "per grammar",
    *   "animationType": "not animatable",
    *   "styleDeclaration": [
-   *     "timeline-trigger-exit-range-end",
-   *     "timelineTriggerExitRangeEnd"
+   *     "timeline-trigger-activation-range-end",
+   *     "timelineTriggerActivationRangeEnd"
    *   ],
-   *   "syntax": "[ auto | normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
+   *   "syntax": "[ normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
    *   "extended": []
    * }
    * ```
   */
-  "timelineTriggerExitRangeEnd"?: $$PropValues | undefined
+  "timelineTriggerActivationRangeEnd"?: $$PropValues | undefined
 
   /**
    * 
@@ -60679,9 +62072,9 @@ export interface $$CSSMissingProps {
    * 
    * ```json
    * {
-   *   "name": "timeline-trigger-exit-range-start",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-exit-range-start",
-   *   "initial": "auto",
+   *   "name": "timeline-trigger-activation-range-start",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-activation-range-start",
+   *   "initial": "normal",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
    *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
@@ -60689,15 +62082,15 @@ export interface $$CSSMissingProps {
    *   "canonicalOrder": "per grammar",
    *   "animationType": "not animatable",
    *   "styleDeclaration": [
-   *     "timeline-trigger-exit-range-start",
-   *     "timelineTriggerExitRangeStart"
+   *     "timeline-trigger-activation-range-start",
+   *     "timelineTriggerActivationRangeStart"
    *   ],
-   *   "syntax": "[ auto | normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
+   *   "syntax": "[ normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
    *   "extended": []
    * }
    * ```
   */
-  "timeline-trigger-exit-range-start"?: $$PropValues | undefined
+  "timeline-trigger-activation-range-start"?: $$PropValues | undefined
 
   /**
    * 
@@ -60706,8 +62099,97 @@ export interface $$CSSMissingProps {
    * 
    * ```json
    * {
-   *   "name": "timeline-trigger-exit-range-start",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-exit-range-start",
+   *   "name": "timeline-trigger-activation-range-start",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-activation-range-start",
+   *   "initial": "normal",
+   *   "appliesTo": "all elements",
+   *   "inherited": "no",
+   *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
+   *   "computedValue": "list, each item either the keyword normal or a timeline range and progress percentage",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "not animatable",
+   *   "styleDeclaration": [
+   *     "timeline-trigger-activation-range-start",
+   *     "timelineTriggerActivationRangeStart"
+   *   ],
+   *   "syntax": "[ normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "timelineTriggerActivationRangeStart"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "timeline-trigger-active-range",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-active-range",
+   *   "initial": "see individual properties",
+   *   "appliesTo": "see individual properties",
+   *   "inherited": "see individual properties",
+   *   "percentages": "see individual properties",
+   *   "computedValue": "see individual properties",
+   *   "animationType": "see individual properties",
+   *   "canonicalOrder": "per grammar",
+   *   "styleDeclaration": [
+   *     "timeline-trigger-active-range",
+   *     "timelineTriggerActiveRange"
+   *   ],
+   *   "longhands": [
+   *     "timeline-trigger-active-range-start",
+   *     "timeline-trigger-active-range-end"
+   *   ],
+   *   "syntax": "[ <'timeline-trigger-active-range-start'> <'timeline-trigger-active-range-end'>? ]#",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "timeline-trigger-active-range"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "timeline-trigger-active-range",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-active-range",
+   *   "initial": "see individual properties",
+   *   "appliesTo": "see individual properties",
+   *   "inherited": "see individual properties",
+   *   "percentages": "see individual properties",
+   *   "computedValue": "see individual properties",
+   *   "animationType": "see individual properties",
+   *   "canonicalOrder": "per grammar",
+   *   "styleDeclaration": [
+   *     "timeline-trigger-active-range",
+   *     "timelineTriggerActiveRange"
+   *   ],
+   *   "longhands": [
+   *     "timeline-trigger-active-range-start",
+   *     "timeline-trigger-active-range-end"
+   *   ],
+   *   "syntax": "[ <'timeline-trigger-active-range-start'> <'timeline-trigger-active-range-end'>? ]#",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "timelineTriggerActiveRange"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "timeline-trigger-active-range-end",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-active-range-end",
    *   "initial": "auto",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -60716,15 +62198,96 @@ export interface $$CSSMissingProps {
    *   "canonicalOrder": "per grammar",
    *   "animationType": "not animatable",
    *   "styleDeclaration": [
-   *     "timeline-trigger-exit-range-start",
-   *     "timelineTriggerExitRangeStart"
+   *     "timeline-trigger-active-range-end",
+   *     "timelineTriggerActiveRangeEnd"
    *   ],
    *   "syntax": "[ auto | normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
    *   "extended": []
    * }
    * ```
   */
-  "timelineTriggerExitRangeStart"?: $$PropValues | undefined
+  "timeline-trigger-active-range-end"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "timeline-trigger-active-range-end",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-active-range-end",
+   *   "initial": "auto",
+   *   "appliesTo": "all elements",
+   *   "inherited": "no",
+   *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
+   *   "computedValue": "list, each item either the keyword normal or a timeline range and progress percentage",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "not animatable",
+   *   "styleDeclaration": [
+   *     "timeline-trigger-active-range-end",
+   *     "timelineTriggerActiveRangeEnd"
+   *   ],
+   *   "syntax": "[ auto | normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "timelineTriggerActiveRangeEnd"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "timeline-trigger-active-range-start",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-active-range-start",
+   *   "initial": "auto",
+   *   "appliesTo": "all elements",
+   *   "inherited": "no",
+   *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
+   *   "computedValue": "list, each item either the keyword normal or a timeline range and progress percentage",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "not animatable",
+   *   "styleDeclaration": [
+   *     "timeline-trigger-active-range-start",
+   *     "timelineTriggerActiveRangeStart"
+   *   ],
+   *   "syntax": "[ auto | normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "timeline-trigger-active-range-start"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "timeline-trigger-active-range-start",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-active-range-start",
+   *   "initial": "auto",
+   *   "appliesTo": "all elements",
+   *   "inherited": "no",
+   *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
+   *   "computedValue": "list, each item either the keyword normal or a timeline range and progress percentage",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "not animatable",
+   *   "styleDeclaration": [
+   *     "timeline-trigger-active-range-start",
+   *     "timelineTriggerActiveRangeStart"
+   *   ],
+   *   "syntax": "[ auto | normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "timelineTriggerActiveRangeStart"?: $$PropValues | undefined
 
   /**
    * 
@@ -60734,7 +62297,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "timeline-trigger-name",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-name",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-name",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -60761,7 +62324,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "timeline-trigger-name",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-name",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-name",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -60787,170 +62350,8 @@ export interface $$CSSMissingProps {
    * 
    * ```json
    * {
-   *   "name": "timeline-trigger-range",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-range",
-   *   "initial": "see individual properties",
-   *   "appliesTo": "see individual properties",
-   *   "inherited": "see individual properties",
-   *   "percentages": "see individual properties",
-   *   "computedValue": "see individual properties",
-   *   "animationType": "see individual properties",
-   *   "canonicalOrder": "per grammar",
-   *   "styleDeclaration": [
-   *     "timeline-trigger-range",
-   *     "timelineTriggerRange"
-   *   ],
-   *   "syntax": "[ <'timeline-trigger-range-start'> <'timeline-trigger-range-end'>? ]#",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "timeline-trigger-range"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "timeline-trigger-range",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-range",
-   *   "initial": "see individual properties",
-   *   "appliesTo": "see individual properties",
-   *   "inherited": "see individual properties",
-   *   "percentages": "see individual properties",
-   *   "computedValue": "see individual properties",
-   *   "animationType": "see individual properties",
-   *   "canonicalOrder": "per grammar",
-   *   "styleDeclaration": [
-   *     "timeline-trigger-range",
-   *     "timelineTriggerRange"
-   *   ],
-   *   "syntax": "[ <'timeline-trigger-range-start'> <'timeline-trigger-range-end'>? ]#",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "timelineTriggerRange"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "timeline-trigger-range-end",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-range-end",
-   *   "initial": "normal",
-   *   "appliesTo": "all elements",
-   *   "inherited": "no",
-   *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
-   *   "computedValue": "list, each item either the keyword normal or a timeline range and progress percentage",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "not animatable",
-   *   "styleDeclaration": [
-   *     "timeline-trigger-range-end",
-   *     "timelineTriggerRangeEnd"
-   *   ],
-   *   "syntax": "[ normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "timeline-trigger-range-end"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "timeline-trigger-range-end",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-range-end",
-   *   "initial": "normal",
-   *   "appliesTo": "all elements",
-   *   "inherited": "no",
-   *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
-   *   "computedValue": "list, each item either the keyword normal or a timeline range and progress percentage",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "not animatable",
-   *   "styleDeclaration": [
-   *     "timeline-trigger-range-end",
-   *     "timelineTriggerRangeEnd"
-   *   ],
-   *   "syntax": "[ normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "timelineTriggerRangeEnd"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "timeline-trigger-range-start",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-range-start",
-   *   "initial": "normal",
-   *   "appliesTo": "all elements",
-   *   "inherited": "no",
-   *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
-   *   "computedValue": "list, each item either the keyword normal or a timeline range and progress percentage",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "not animatable",
-   *   "styleDeclaration": [
-   *     "timeline-trigger-range-start",
-   *     "timelineTriggerRangeStart"
-   *   ],
-   *   "syntax": "[ normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "timeline-trigger-range-start"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
-   *   "name": "timeline-trigger-range-start",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-range-start",
-   *   "initial": "normal",
-   *   "appliesTo": "all elements",
-   *   "inherited": "no",
-   *   "percentages": "relative to the specified named timeline range if one was specified, else to the entire timeline",
-   *   "computedValue": "list, each item either the keyword normal or a timeline range and progress percentage",
-   *   "canonicalOrder": "per grammar",
-   *   "animationType": "not animatable",
-   *   "styleDeclaration": [
-   *     "timeline-trigger-range-start",
-   *     "timelineTriggerRangeStart"
-   *   ],
-   *   "syntax": "[ normal | <length-percentage> | <timeline-range-name> <length-percentage>? ]#",
-   *   "extended": []
-   * }
-   * ```
-  */
-  "timelineTriggerRangeStart"?: $$PropValues | undefined
-
-  /**
-   * 
-   * 
-   * **Webref definition**
-   * 
-   * ```json
-   * {
    *   "name": "timeline-trigger-source",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-source",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-source",
    *   "initial": "auto",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -60977,7 +62378,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "timeline-trigger-source",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-timeline-trigger-source",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-timeline-trigger-source",
    *   "initial": "auto",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -61004,7 +62405,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "trigger-scope",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-trigger-scope",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-trigger-scope",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -61031,7 +62432,7 @@ export interface $$CSSMissingProps {
    * ```json
    * {
    *   "name": "trigger-scope",
-   *   "href": "https://drafts.csswg.org/css-animations-2/#propdef-trigger-scope",
+   *   "href": "https://drafts.csswg.org/animation-triggers-1/#propdef-trigger-scope",
    *   "initial": "none",
    *   "appliesTo": "all elements",
    *   "inherited": "no",
@@ -61103,6 +62504,60 @@ export interface $$CSSMissingProps {
    * ```
   */
   "viewTransitionGroup"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "view-transition-scope",
+   *   "href": "https://drafts.csswg.org/css-view-transitions-2/#propdef-view-transition-scope",
+   *   "initial": "none",
+   *   "appliesTo": "all elements",
+   *   "inherited": "no",
+   *   "percentages": "n/a",
+   *   "computedValue": "as specified",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "discrete",
+   *   "styleDeclaration": [
+   *     "view-transition-scope",
+   *     "viewTransitionScope"
+   *   ],
+   *   "syntax": "none | auto",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "view-transition-scope"?: $$PropValues | undefined
+
+  /**
+   * 
+   * 
+   * **Webref definition**
+   * 
+   * ```json
+   * {
+   *   "name": "view-transition-scope",
+   *   "href": "https://drafts.csswg.org/css-view-transitions-2/#propdef-view-transition-scope",
+   *   "initial": "none",
+   *   "appliesTo": "all elements",
+   *   "inherited": "no",
+   *   "percentages": "n/a",
+   *   "computedValue": "as specified",
+   *   "canonicalOrder": "per grammar",
+   *   "animationType": "discrete",
+   *   "styleDeclaration": [
+   *     "view-transition-scope",
+   *     "viewTransitionScope"
+   *   ],
+   *   "syntax": "none | auto",
+   *   "extended": []
+   * }
+   * ```
+  */
+  "viewTransitionScope"?: $$PropValues | undefined
 
   /**
    * 
@@ -62191,7 +63646,15 @@ type BossComponentProps<C> = C extends keyof BossIntrinsicElements
 type AsProp<C extends BossElementType> = {
     as?: C
 }
-type PolymorphicComponentProp<C extends BossElementType, Props = {}> = Props & BossComponentProps<C> & AsProp<C>
+type BossMergedProps<Props, ComponentProps> = Omit<Props, keyof ComponentProps> &
+    Omit<ComponentProps, keyof Props> & {
+        [K in Extract<keyof ComponentProps, keyof Props>]?: ComponentProps[K] | Props[K]
+    }
+type PolymorphicComponentProp<C extends BossElementType, Props = {}> = BossMergedProps<
+    Props,
+    BossComponentProps<C>
+> &
+    AsProp<C>
 type PolymorphicComponentPropWithRef<C extends BossElementType, Props = {}> = PolymorphicComponentProp<C, Props> & {
     ref?: unknown
 }
@@ -62247,10 +63710,10 @@ type ProxyCustomMembers = {
 
     $: $$NoopFn
     merge: (...inputs: import('boss-css/merge').MergeInput[]) => import('boss-css/merge').MergeOutput
-    cx: (...inputs: import('boss-css/cx').CxValue[]) => string
-    cv: typeof import('boss-css/cx').cv
-    scv: typeof import('boss-css/cx').scv
-    sv: typeof import('boss-css/cx').sv
+    cx: (...inputs: import('boss-css/variants').CxValue[]) => string
+    cv: typeof import('boss-css/variants').cv
+    scv: typeof import('boss-css/variants').scv
+    sv: typeof import('boss-css/variants').sv
     css: CssFn
     style: StyleFn
 

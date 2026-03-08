@@ -17,6 +17,7 @@ What it does:
 - Stencil projects skip PostCSS setup; use `npx boss-css watch` instead and wire `globalScript` + `globalStyle`.
 - Stencil projects update `stencil.config.*` and create `src/global/app.ts` to import the Boss runtime when needed.
 - Next.js projects set `css.autoLoad: false` in `.bo$$/config.js`; import `.bo$$/styles.css` manually in your root layout.
+- If `vite.config.*` already uses the Nitro Vite plugin (`nitro(...)`), init adds `traceDeps: ['jsdom']` automatically so Nitro traces the server-side DOM dependency.
 - New `postcss.config.js` files are generated as ESM (`export default { ... }`).
 - Generated blocks in ESLint/PostCSS config and instrumentation files are wrapped with `// bo$$:begin` and `// bo$$:end` so reruns can update safely.
 - Adds `// @ts-check` and a `UserConfig` JSDoc annotation in `.bo$$/config.js` for type-safe config editing.
@@ -95,6 +96,13 @@ import '../.bo$$/styles.css'
 ```
 
 ## Troubleshooting
+
+- Nitro SSR note: when your `vite.config.*` uses `nitro(...)`, keep `traceDeps: ['jsdom']` on that plugin so Nitro includes the server-side DOM helper dependency.
+```ts
+nitro({
+  traceDeps: ['jsdom'],
+})
+```
 
 - Boss PostCSS auto-disables directory dependencies when a Turbopack env flag is set (`TURBOPACK` or `__NEXT_TURBOPACK`). To override:
 ```js

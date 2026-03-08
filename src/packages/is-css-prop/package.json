@@ -6,6 +6,13 @@
     "main": "./index.js",
     "module": "./index.js",
     "browser": "./browser.js",
+    "exports": {
+        ".": {
+            "node": "./index.js",
+            "browser": "./browser.js",
+            "default": "./index.js"
+        }
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },

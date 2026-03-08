@@ -6,6 +6,13 @@
     "main": "./createElement.js",
     "module": "./createElement.js",
     "browser": "./createElement.browser.js",
+    "exports": {
+        ".": {
+            "node": "./createElement.js",
+            "browser": "./createElement.browser.js",
+            "default": "./createElement.js"
+        }
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
