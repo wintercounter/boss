@@ -90,8 +90,12 @@ Aliases map short names to CSS props. They work in JSX and className.
 </TabItem>
 </Tabs>
 
-Numeric alias values can resolve through token groups at runtime the same way as compile-time tokenization. Example:
-`p={2}` resolves to `padding: var(--size-2)` when `size.2` exists.
+Numeric bosswind size values scale from `size.base` (default `3px`). Examples:
+`p={2}` resolves to `padding: calc(2 * var(--size-base))`.
+`padding={2}` resolves to the same result.
+
+With bosswind enabled, this applies to any prop mapped to the `size` token group, including aliases like `p` and
+longhand CSS props like `padding`, `width`, `gap`, and `marginTop`.
 
 ### flex/grid coexistence
 
@@ -268,7 +272,10 @@ Key token groups and mappings:
   `outline-color`, `stroke`, `text-decoration-color`, `text-shadow`, `box-shadow`, `background-image`,
   `linear-gradient`, `radial-gradient`, `conic-gradient`, `filter`
 - `size` => width/height/min/max/inset/top/right/bottom/left, spacing (margin/padding), translate, flex-basis, gap,
-  border-spacing, scroll-margin/padding, text-indent (numeric values assume a 12px base unit)
+  border-spacing, scroll-margin/padding, text-indent
+
+Bosswind numeric size props and aliases multiply `size.base` (default `3px`), so `p:4` and `padding:4` both compile to
+`padding: calc(4 * var(--size-base))`.
 - `grid` => `grid-column`, `grid-row`, `grid-template-columns`, `grid-template-rows`, `grid-auto-columns`,
   `grid-auto-rows`
 - `duration` => `transition-duration`, `transition-delay`, `animation-duration`, `animation-delay`

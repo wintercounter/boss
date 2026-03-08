@@ -1,4 +1,6 @@
 import { setBosswindSelectorMap } from '@/prop/bosswind/selectors'
+import { getTokenGroupForProp } from '@/use/token/propMap'
+import { normalizeTokens } from '@/use/token/normalize'
 
 export type BosswindConfig = {
     fontSizeKeys?: string[]
@@ -82,6 +84,12 @@ const aliasMap = new Map<string, string[]>([
     ['aspect', ['aspectRatio']],
 ])
 
+const sizeBaseAliasNames = new Set(
+    Array.from(aliasMap.entries())
+        .filter(([, targets]) => targets.length > 0 && targets.every(target => getTokenGroupForProp(target) === 'size'))
+        .map(([name]) => name),
+)
+
 const textAlias = 'text'
 const bgAlias = 'bg'
 const borderAlias = 'border'
@@ -141,6 +149,43 @@ const isLengthLike = (value: unknown) => {
         return true
     }
     return /^-?\d+(?:\.\d+)?(px|rem|em|vh|vw|vmin|vmax|ch|ex|%|pt|pc|mm|cm|in)$/.test(value)
+}
+
+const isScalableBosswindSizeValue = (value: unknown) => {
+    return typeof value === 'number' || (typeof value === 'string' && isNumericString(value))
+}
+
+const isBosswindSizeProp = (prop: string) => getTokenGroupForProp(prop) === 'size'
+
+const shouldScaleBosswindSizeProp = (prop: string, value: unknown) => {
+    return isBosswindSizeProp(prop) && isScalableBosswindSizeValue(value)
+}
+
+const resolveBosswindTokens = (tokens: unknown) => {
+    if (!tokens || typeof tokens !== 'object') return null
+    return normalizeTokens(tokens as Record<string, unknown>) as Record<string, unknown>
+}
+
+const getBosswindSizeBaseValue = (tokens: unknown) => {
+    const normalized = resolveBosswindTokens(tokens)
+    const sizeGroup = normalized?.size
+    if (!sizeGroup || typeof sizeGroup !== 'object' || Array.isArray(sizeGroup)) return null
+    const baseValue = (sizeGroup as Record<string, unknown>).base
+    return baseValue === undefined ? null : baseValue
+}
+
+const getBosswindSizeBaseVarName = (api: import('@/types').BossApiBase) => `--${api.selectorPrefix ?? ''}size-base`
+
+export const ensureBosswindSizeBaseVar = (api: import('@/types').BossApiBase, tokens: unknown) => {
+    const baseValue = getBosswindSizeBaseValue(tokens)
+    if (baseValue === null || baseValue === undefined) return
+    api.css?.addRoot?.(`${getBosswindSizeBaseVarName(api)}: ${api.dictionary.toValue(baseValue)};`)
+}
+
+const toBosswindSizeBaseCalc = (api: import('@/types').BossApiBase, value: string | number) => {
+    const numericValue = typeof value === 'number' ? value : Number(value)
+    if (numericValue === 0) return 0
+    return `calc(${String(value)} * var(${getBosswindSizeBaseVarName(api)}))`
 }
 
 const readTokenGroup = (value: unknown) => {
@@ -694,10 +739,28 @@ export const rewriteBosswindTree = (
                 usedBosswind = true
                 if (value === null || value === true) return
                 const targets = aliasMap.get(name) || []
-                const resolvedValue = name === 'shadow' ? resolveShadowValue(value, config) : value
+                const shouldScale =
+                    sizeBaseAliasNames.has(name) &&
+                    isScalableBosswindSizeValue(value) &&
+                    targets.every(target => isBosswindSizeProp(target))
+                const resolvedValue = shouldScale ? toBosswindSizeBaseCalc(api, value) : value
+                if (shouldScale) {
+                    ensureBosswindSizeBaseVar(api, tokens)
+                }
                 targets.forEach(target => {
-                    output[target] = cloneProp(prop, resolvedValue, getSelectorName(name))
+                    const selectorValue = prop.selectorValue !== undefined ? prop.selectorValue : value
+                    output[target] = shouldScale
+                        ? cloneProp(prop, resolvedValue, getSelectorName(name), selectorValue)
+                        : cloneProp(prop, resolvedValue, getSelectorName(name))
                 })
+                return
+            }
+
+            if (shouldScaleBosswindSizeProp(name, value)) {
+                usedBosswind = true
+                ensureBosswindSizeBaseVar(api, tokens)
+                const selectorValue = prop.selectorValue !== undefined ? prop.selectorValue : value
+                output[name] = cloneProp(prop, toBosswindSizeBaseCalc(api, value), getSelectorName(name), selectorValue)
                 return
             }
 
@@ -904,10 +967,29 @@ export const rewriteBosswindInput = (
         if (aliasMap.has(name)) {
             if (value === null || value === true) return
             const targets = aliasMap.get(name) || []
+            const shouldScale =
+                sizeBaseAliasNames.has(name) &&
+                isScalableBosswindSizeValue(value) &&
+                targets.every(target => isBosswindSizeProp(target))
+            const resolvedValue = shouldScale ? toBosswindSizeBaseCalc(api, value as string | number) : value
+            if (shouldScale) {
+                ensureBosswindSizeBaseVar(api, api.tokens)
+            }
             targets.forEach(target => {
-                output[target] = value
-                setSelector(target, getSelectorName(name))
+                output[target] = resolvedValue
+                if (shouldScale) {
+                    setSelector(target, getSelectorName(name), value)
+                } else {
+                    setSelector(target, getSelectorName(name))
+                }
             })
+            return
+        }
+
+        if (shouldScaleBosswindSizeProp(name, value)) {
+            ensureBosswindSizeBaseVar(api, api.tokens)
+            output[name] = toBosswindSizeBaseCalc(api, value as string | number)
+            setSelector(name, getSelectorName(name), value)
             return
         }
 

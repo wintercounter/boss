@@ -3,6 +3,7 @@ import { merge } from 'ts-deepmerge'
 import tailwindTheme from '@/prop/bosswind/tailwind-theme'
 import {
     bosswindProps,
+    ensureBosswindSizeBaseVar,
     getBosswindMeta,
     getBosswindDefaults,
     getBosswindFontSizeKeys,
@@ -82,6 +83,8 @@ export const onBoot: Plugin<'onBoot'> = async api => {
 }
 
 export const onReady: Plugin<'onReady'> = async api => {
+    const resolvedTokens = typeof api.tokens === 'function' ? api.tokens({}) : api.tokens
+    ensureBosswindSizeBaseVar(api, resolvedTokens)
     const flex = api.dictionary.get('flex')
     if (flex) flex.single = true
     const grid = api.dictionary.get('grid')

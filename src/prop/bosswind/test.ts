@@ -83,7 +83,7 @@ describe('bosswind', () => {
             expect(css).toContain('.grid\\:1fr { grid: 1fr }')
         })
 
-        test('spacing alias uses tokens', async ({ $ }) => {
+        test('spacing alias uses size base scaling', async ({ $ }) => {
             const api = await createServerApi($)
 
             await api.trigger('onParse', {
@@ -91,8 +91,33 @@ describe('bosswind', () => {
             })
 
             const css = api.css.text.trim()
-            expect(css).toContain('.p\\:4 { padding: var(--size-4) }')
-            expect(css).toContain('--size-4: 12px;')
+            expect(css).toContain('.p\\:4 { padding: calc(4 * var(--size-base)) }')
+            expect(css).toContain('--size-base: 3px;')
+        })
+
+        test('fractional spacing alias uses size base scaling', async ({ $ }) => {
+            const api = await createServerApi($)
+
+            await api.trigger('onParse', {
+                content: `<div className="p:1.5">`,
+            })
+
+            const css = api.css.text.trim()
+            expect(css).toContain('.p\\:1\\.5 { padding: calc(1.5 * var(--size-base)) }')
+            expect(css).toContain('--size-base: 3px;')
+        })
+
+        test('direct size props use size base scaling', async ({ $ }) => {
+            const api = await createServerApi($)
+
+            await api.trigger('onParse', {
+                content: `<div className="padding:4 width:2">`,
+            })
+
+            const css = api.css.text.trim()
+            expect(css).toContain('.padding\\:4 { padding: calc(4 * var(--size-base)) }')
+            expect(css).toContain('.width\\:2 { width: calc(2 * var(--size-base)) }')
+            expect(css).toContain('--size-base: 3px;')
         })
 
         test('spacing aliases expand to multiple props', async ({ $ }) => {
@@ -103,15 +128,15 @@ describe('bosswind', () => {
             })
 
             const css = api.css.text.trim()
-            expect(css).toContain('.px\\:4 { padding-left: var(--size-4) }')
-            expect(css).toContain('.px\\:4 { padding-right: var(--size-4) }')
-            expect(css).toContain('.py\\:2 { padding-top: var(--size-2) }')
-            expect(css).toContain('.py\\:2 { padding-bottom: var(--size-2) }')
-            expect(css).toContain('.inset-x\\:3 { left: var(--size-3) }')
-            expect(css).toContain('.inset-x\\:3 { right: var(--size-3) }')
-            expect(css).toContain('.inset-y\\:1 { top: var(--size-1) }')
-            expect(css).toContain('.inset-y\\:1 { bottom: var(--size-1) }')
-            expect(css).toContain('.gap-x\\:4 { column-gap: var(--size-4) }')
+            expect(css).toContain('.px\\:4 { padding-left: calc(4 * var(--size-base)) }')
+            expect(css).toContain('.px\\:4 { padding-right: calc(4 * var(--size-base)) }')
+            expect(css).toContain('.py\\:2 { padding-top: calc(2 * var(--size-base)) }')
+            expect(css).toContain('.py\\:2 { padding-bottom: calc(2 * var(--size-base)) }')
+            expect(css).toContain('.inset-x\\:3 { left: calc(3 * var(--size-base)) }')
+            expect(css).toContain('.inset-x\\:3 { right: calc(3 * var(--size-base)) }')
+            expect(css).toContain('.inset-y\\:1 { top: calc(1 * var(--size-base)) }')
+            expect(css).toContain('.inset-y\\:1 { bottom: calc(1 * var(--size-base)) }')
+            expect(css).toContain('.gap-x\\:4 { column-gap: calc(4 * var(--size-base)) }')
         })
 
         test('text alias resolves font size and color tokens', async ({ $ }) => {
@@ -240,52 +265,52 @@ describe('bosswind', () => {
             const api = await createServerApi($)
 
             const cases = [
-                { name: 'p', input: 'p:4', outputs: [{ prop: 'padding', value: '4' }] },
+                { name: 'p', input: 'p:4', outputs: [{ prop: 'padding', value: 'calc(4 * var(--size-base))' }] },
                 {
                     name: 'px',
                     input: 'px:4',
                     outputs: [
-                        { prop: 'paddingLeft', value: '4' },
-                        { prop: 'paddingRight', value: '4' },
+                        { prop: 'paddingLeft', value: 'calc(4 * var(--size-base))' },
+                        { prop: 'paddingRight', value: 'calc(4 * var(--size-base))' },
                     ],
                 },
                 {
                     name: 'py',
                     input: 'py:4',
                     outputs: [
-                        { prop: 'paddingTop', value: '4' },
-                        { prop: 'paddingBottom', value: '4' },
+                        { prop: 'paddingTop', value: 'calc(4 * var(--size-base))' },
+                        { prop: 'paddingBottom', value: 'calc(4 * var(--size-base))' },
                     ],
                 },
-                { name: 'pt', input: 'pt:4', outputs: [{ prop: 'paddingTop', value: '4' }] },
-                { name: 'pr', input: 'pr:4', outputs: [{ prop: 'paddingRight', value: '4' }] },
-                { name: 'pb', input: 'pb:4', outputs: [{ prop: 'paddingBottom', value: '4' }] },
-                { name: 'pl', input: 'pl:4', outputs: [{ prop: 'paddingLeft', value: '4' }] },
-                { name: 'm', input: 'm:4', outputs: [{ prop: 'margin', value: '4' }] },
+                { name: 'pt', input: 'pt:4', outputs: [{ prop: 'paddingTop', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'pr', input: 'pr:4', outputs: [{ prop: 'paddingRight', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'pb', input: 'pb:4', outputs: [{ prop: 'paddingBottom', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'pl', input: 'pl:4', outputs: [{ prop: 'paddingLeft', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'm', input: 'm:4', outputs: [{ prop: 'margin', value: 'calc(4 * var(--size-base))' }] },
                 {
                     name: 'mx',
                     input: 'mx:4',
                     outputs: [
-                        { prop: 'marginLeft', value: '4' },
-                        { prop: 'marginRight', value: '4' },
+                        { prop: 'marginLeft', value: 'calc(4 * var(--size-base))' },
+                        { prop: 'marginRight', value: 'calc(4 * var(--size-base))' },
                     ],
                 },
                 {
                     name: 'my',
                     input: 'my:4',
                     outputs: [
-                        { prop: 'marginTop', value: '4' },
-                        { prop: 'marginBottom', value: '4' },
+                        { prop: 'marginTop', value: 'calc(4 * var(--size-base))' },
+                        { prop: 'marginBottom', value: 'calc(4 * var(--size-base))' },
                     ],
                 },
-                { name: 'mt', input: 'mt:4', outputs: [{ prop: 'marginTop', value: '4' }] },
-                { name: 'mr', input: 'mr:4', outputs: [{ prop: 'marginRight', value: '4' }] },
-                { name: 'mb', input: 'mb:4', outputs: [{ prop: 'marginBottom', value: '4' }] },
-                { name: 'ml', input: 'ml:4', outputs: [{ prop: 'marginLeft', value: '4' }] },
-                { name: 'gapX', input: 'gapX:4', outputs: [{ prop: 'columnGap', value: '4' }] },
-                { name: 'gapY', input: 'gapY:4', outputs: [{ prop: 'rowGap', value: '4' }] },
-                { name: 'w', input: 'w:4', outputs: [{ prop: 'width', value: '4' }] },
-                { name: 'h', input: 'h:4', outputs: [{ prop: 'height', value: '4' }] },
+                { name: 'mt', input: 'mt:4', outputs: [{ prop: 'marginTop', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'mr', input: 'mr:4', outputs: [{ prop: 'marginRight', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'mb', input: 'mb:4', outputs: [{ prop: 'marginBottom', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'ml', input: 'ml:4', outputs: [{ prop: 'marginLeft', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'gapX', input: 'gapX:4', outputs: [{ prop: 'columnGap', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'gapY', input: 'gapY:4', outputs: [{ prop: 'rowGap', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'w', input: 'w:4', outputs: [{ prop: 'width', value: 'calc(4 * var(--size-base))' }] },
+                { name: 'h', input: 'h:4', outputs: [{ prop: 'height', value: 'calc(4 * var(--size-base))' }] },
                 { name: 'minW', input: 'minW:10px', outputs: [{ prop: 'minWidth', value: '10px' }] },
                 { name: 'minH', input: 'minH:10px', outputs: [{ prop: 'minHeight', value: '10px' }] },
                 { name: 'maxW', input: 'maxW:10px', outputs: [{ prop: 'maxWidth', value: '10px' }] },
@@ -294,26 +319,26 @@ describe('bosswind', () => {
                     name: 'inset',
                     input: 'inset:4',
                     outputs: [
-                        { prop: 'top', value: '4' },
-                        { prop: 'right', value: '4' },
-                        { prop: 'bottom', value: '4' },
-                        { prop: 'left', value: '4' },
+                        { prop: 'top', value: 'calc(4 * var(--size-base))' },
+                        { prop: 'right', value: 'calc(4 * var(--size-base))' },
+                        { prop: 'bottom', value: 'calc(4 * var(--size-base))' },
+                        { prop: 'left', value: 'calc(4 * var(--size-base))' },
                     ],
                 },
                 {
                     name: 'insetX',
                     input: 'insetX:4',
                     outputs: [
-                        { prop: 'left', value: '4' },
-                        { prop: 'right', value: '4' },
+                        { prop: 'left', value: 'calc(4 * var(--size-base))' },
+                        { prop: 'right', value: 'calc(4 * var(--size-base))' },
                     ],
                 },
                 {
                     name: 'insetY',
                     input: 'insetY:4',
                     outputs: [
-                        { prop: 'top', value: '4' },
-                        { prop: 'bottom', value: '4' },
+                        { prop: 'top', value: 'calc(4 * var(--size-base))' },
+                        { prop: 'bottom', value: 'calc(4 * var(--size-base))' },
                     ],
                 },
                 { name: 'grow', input: 'grow', outputs: [{ prop: 'flexGrow', value: 1 }] },
@@ -496,7 +521,7 @@ describe('bosswind', () => {
             })
 
             const css = api.css.text.trim()
-            expect(css).toContain('.p\\:6 { padding: 6px }')
+            expect(css).toContain('.p\\:6 { padding: calc(6 * var(--size-base)) }')
             expect(css).toContain('.flex { display: flex }')
             expect(css).toContain('.grow { flex-grow: 1 }')
         })
@@ -517,7 +542,27 @@ describe('bosswind', () => {
             })
 
             expect(output).toStrictEqual({
-                style: { padding: '2px', fontSize: 'sm' },
+                style: { padding: 'calc(2 * var(--size-base))', fontSize: 'sm' },
+            })
+        })
+
+        test('direct size props rewrite before inline-first', async ({ $ }) => {
+            const api = await $.createBrowserApi({
+                plugins: [$.prop.bosswindBrowser, $.strategy.inlineFirstBrowser],
+            })
+
+            const output = {}
+            api.trigger('onBrowserObjectStart', {
+                input: { padding: 2, width: 4 },
+                output,
+                tag: 'div',
+            })
+
+            expect(output).toStrictEqual({
+                style: {
+                    padding: 'calc(2 * var(--size-base))',
+                    width: 'calc(4 * var(--size-base))',
+                },
             })
         })
 
