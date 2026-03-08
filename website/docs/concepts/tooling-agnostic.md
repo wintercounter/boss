@@ -14,7 +14,7 @@ Boss CSS is built to be tooling agnostic. It does not depend on Babel, Webpack, 
 
 Boss puts most of the editor experience in TypeScript types rather than editor plugins:
 
-- **Accurate CSS prop types**: generated from Webref and CSSType, so you get full CSS property docs and values.
+- **Accurate CSS prop types**: generated from Webref and CSSType, so `$$` includes standard CSS props, vendor-prefixed compatibility props, and documented alias keys with full value/docs metadata.
 - **Token-aware props**: props with tokens offer token key autocomplete and value hints.
 - **Runtime + prepared types**: the generated runtime ships types for prepared components and Boss props out of the box.
 
