@@ -7,13 +7,13 @@ title: FAQ
 Check:
 - `content` globs include your files.
 - You imported `.bo$$/styles.css` (or `css.autoLoad` is true).
-- You aren’t in `runtime.only` mode (which disables server CSS).
+- You aren’t in `runtime.only` mode, unless you intentionally set `runtime.globals: 'file'` for globals-only CSS output.
 
 ## Why is my className ignored?
 
 The className parser only supports **static** strings. Template literals with `${}` are skipped.
 
-## Do I need the runtime?
+## Do I need the generated runtime?
 
 Only if you use:
 - `$$` JSX props

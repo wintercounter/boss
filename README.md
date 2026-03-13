@@ -24,6 +24,7 @@
 ## Table of Contents
 
 - [Why Boss CSS](#why-boss-css)
+- [Choose a Setup](#choose-a-setup)
 - [Quick Start](#quick-start)
 - [What It Looks Like](#what-it-looks-like)
 - [Usage Examples](#usage-examples)
@@ -41,15 +42,21 @@
 
 ## Why Boss CSS
 
-Boss CSS treats JSX props and `className` syntax as two inputs into the same style system.
+Boss CSS is a styling engine with two authoring inputs, multiple output strategies, and an optional compile step.
 
-What that means in practice:
+Think about it in three layers:
 
-- Write styles directly on `$$` elements with real CSS prop names.
-- Parse static `className` strings using `prop:value` syntax.
-- Switch output strategy without changing how components are authored.
-- Compose reusable patterns with `$$.cx`, `cv`, `scv`, and `sv`.
-- Extend the system through plugins instead of forking the runtime.
+1. Authoring inputs
+    - `$$` JSX props
+    - static `className` / `class` syntax
+2. Output strategies
+    - `inline-first`
+    - `classname-first`
+    - `classname-only`
+    - `runtime`
+3. Build modes
+    - PostCSS / `build` / `watch`
+    - optional `compile`
 
 The project is built around a plugin pipeline:
 
@@ -61,13 +68,30 @@ The project is built around a plugin pipeline:
 Core capabilities:
 
 - Polymorphic `$$` authoring with generated framework runtime adapters.
-- Unified JSX props and className parsing.
+- JSX props and static className parsing in the same engine.
 - Generated TypeScript types for CSS props and prepared components.
 - Token support, pseudo selectors, breakpoints, and arbitrary child selectors.
 - Multiple output strategies, plus optional compile-time source rewriting.
 - Bosswind for Tailwind-like prop aliases on top of the same engine.
 - CLI and PostCSS integration for build, watch, compile, and dev workflows.
 - Framework and bundler agnostic.
+
+Important distinctions:
+
+- `generated runtime` means `.bo$$/index.js` and `.bo$$/index.d.ts`.
+- `runtime` is the runtime strategy plugin for runtime-only or hybrid browser evaluation.
+- `compile` is a build step, not a strategy.
+
+## Choose a Setup
+
+| You want to author with                                       | Pick this strategy | Import near app root          | When to choose it                                                                       |
+| ------------------------------------------------------------- | ------------------ | ----------------------------- | --------------------------------------------------------------------------------------- |
+| `$$` JSX props with the default output                        | `inline-first`     | `import './.bo$$'`            | Small CSS output, recommended starting point                                            |
+| `$$` JSX props with more static class rules                   | `classname-first`  | `import './.bo$$'`            | Cacheable class-heavy CSS, dynamic values as functions. Closest eqvivalent to Tailwind. |
+| Static `className` / `class` tokens only                      | `classname-only`   | `import './.bo$$/styles.css'` | Static class string lane, no generated runtime files                                    |
+| `$$` JSX props with browser-evaluated values or no server CSS | `runtime`          | `import './.bo$$'`            | Runtime-only or hybrid behavior                                                         |
+
+`boss-css compile` comes after this choice. It follows `inline-first` or `classname-first`; it does not replace them.
 
 ## Quick Start
 
@@ -82,6 +106,8 @@ Import the generated runtime once near your app root:
 ```tsx
 import './.bo$$'
 ```
+
+If you choose `classname-only`, import `./.bo$$/styles.css` only instead.
 
 Typical commands after setup:
 
@@ -700,36 +726,49 @@ export function DashboardShell() {
 
 ## How It Works
 
-Boss CSS is usage-driven. The source code you write determines what runtime and CSS output get generated.
+Boss CSS is usage-driven. The source code you write determines what CSS and generated runtime files Boss emits.
 
 High-level flow:
 
-1. Parse source files from JSX and/or static className strings.
+1. Parse source files from `$$` JSX and/or static className strings.
 2. Convert that input into a normalized prop tree.
 3. Run the tree through prop plugins such as `css`, `pseudo`, `at`, `child`, `bosswind`, and `token`.
-4. Let the selected strategy decide what becomes CSS, inline styles, variables, or runtime output.
-5. Emit generated runtime files, d.ts files, and CSS.
+4. Let the selected strategy decide what becomes CSS, inline styles, variables, or browser-evaluated work.
+5. Emit generated runtime files when the chosen strategy needs them, plus d.ts files and CSS.
 
-This model is why the same component styles can move between:
+The same engine can produce very different outputs, but the choices are not completely interchangeable:
 
 - `inline-first` output for minimal CSS,
-- `classname-first` for load once, cache forever scenarios,
-- `classname-only` output for static utility-style builds,
-- `runtime-only` or `hybrid` output when values must be computed in the browser.
+- `classname-first` for more class-oriented output,
+- `classname-only` for static className builds,
+- `runtime` for runtime-only or hybrid browser evaluation.
+
+Important constraints:
+
+- `classname-only` is the static className lane. It is not the whole no-generated-runtime story.
+- `runtime.only` disables static className parsing.
+- `compile` currently supports JSX with `inline-first` and `classname-first` only.
 
 ## Strategy Modes
 
-Boss CSS supports multiple output strategies:
+Boss CSS supports four output strategies:
 
 - `inline-first`: Default. Pushes as much as possible into inline styles or CSS variables and keeps stylesheet output
   small.
 - `classname-first`: Prefers classes where possible and uses runtime logic for dynamic values.
-- `classname-only`: CSS-only className parsing with no generated JSX runtime files.
-- `runtime`: Runtime-only or hybrid mode. Useful when styles or values must be resolved in the browser.
+- `classname-only`: CSS-only static className parsing with no generated JSX runtime files.
+- `runtime`: Runtime strategy wrapper for runtime-only or hybrid mode when values must be resolved in the browser.
 
 Read more: https://bosscss.com/docs/concepts/runtime-strategy
 
-The same component intent can be emitted very differently depending on the strategy you pick:
+Each strategy changes four things:
+
+- what you author,
+- which generated files exist,
+- what lands in CSS,
+- what still runs in the browser.
+
+Those differences matter more than the slogan version of “runtime”:
 
 <details open>
 <summary><code>inline-first</code>: minimal CSS, small generated runtime</summary>
@@ -956,7 +995,7 @@ Use this when your styles are static and you want the smallest possible client f
 </details>
 
 <details>
-<summary><code>runtime</code>: runtime-only or hybrid for browser-resolved values</summary>
+<summary><code>runtime</code>: runtime strategy for browser-resolved values</summary>
 
 Use this when values must be computed in the browser. The `runtime` strategy wraps `inline-first`, `classname-first`, or
 `classic`, and can run fully client-side or alongside server output.
@@ -997,7 +1036,7 @@ You write:
 
 Boss emits:
 
-- `.bo$$/index.js` and `.bo$$/index.d.ts`
+- `.bo$$/index.js` and `.bo$$/index.d.ts` for the generated runtime
 - no server CSS in `runtime.only: true` mode unless you choose `runtime.globals: 'file'`
 - runtime style injection in the browser based on the selected strategy
 - hybrid mode when `runtime.only: false`, which keeps server CSS output and still evaluates dynamic props
@@ -1040,14 +1079,19 @@ What lands in `.bo$$/styles.css`:
 
 ## Compile
 
-`boss-css compile` is a separate build step. It is not a strategy. It rewrites static `$$` JSX into plain elements,
-folds Boss markers into normal DOM props, optimizes classNames and removes Boss runtime imports when they are no longer
+`boss-css compile` is an optional build step. It is not a strategy.
+
+It follows your configured `inline-first` or `classname-first` strategy and rewrites supported JSX into plain elements,
+folds Boss markers into normal DOM props, optimizes classNames, and removes Boss runtime imports when they are no longer
 needed.
 
 Today, compile supports `inline-first` and `classname-first`.
 
-Compile is bundler agnostic by design (no Babel, Webpack, Vite, etc. plugins). It is meant to run during CI, it modifies
-your source code before your own build step, so ideally you do `lint` => `boss compile` => `build`.
+In temp mode, compile mirrors transformed source and generated CSS under `compile.tempOutDir`. In prod mode it mutates
+source in place and does not write CSS files.
+
+Compile is bundler agnostic by design (no Babel, Webpack, Vite, etc. plugins). It is meant to run during CI before your
+own build step, so ideally you do `lint` => `boss compile` => `build`.
 
 <details open>
 <summary>Compile example: static <code>$$</code> becomes a plain element</summary>
@@ -1186,7 +1230,7 @@ If you want ideas for where Boss CSS feels strongest, start here:
 
 - Build a typed design-system layer where primitives stay close to real CSS props.
 - Migrate a utility-heavy codebase toward JSX props without abandoning className parsing.
-- Keep a zero-runtime or near-zero-runtime pipeline for mostly static applications.
+- Keep Boss browser work minimal for mostly static applications.
 - Use runtime-only or hybrid mode for dashboards, editors, or theme-heavy apps with dynamic values.
 - Create prepared components that feel like styled primitives without hiding the underlying prop model.
 - Add a custom prop plugin for product-specific shorthands instead of encoding them in component props.

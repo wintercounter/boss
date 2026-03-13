@@ -22,7 +22,7 @@ Primary file: `src/api/config.ts`.
 
 Hook order on boot:
 1. `onBoot`
-2. optional auto import of `./styles.css` into runtime output (`css.autoLoad` + runtime settings)
+2. optional auto import of `./styles.css` into generated runtime files (`css.autoLoad` + runtime settings)
 3. `onReady`
 
 Plugin hooks are triggered through `api.trigger(event, payload)`.
@@ -108,7 +108,7 @@ Entry: `src/tasks/compile.ts`, implementation under `src/compile/`.
 Compile is a source transform pipeline (SWC-driven) that can:
 - Rewrite `$$` JSX usage.
 - Normalize/transform classname tokens.
-- Remove runtime imports when output is runtime-free.
+- Remove generated runtime imports when the transformed file no longer needs them.
 - Emit CSS in temp mode.
 
 ## 6. Strategy architecture
@@ -117,7 +117,7 @@ Location: `src/strategy/`.
 
 - `inline-first`: prefer inline styles/variables with CSS rules when needed.
 - `classname-first`: prefer class output; dynamic values rely on function props.
-- `classname-only`: class parsing only, no runtime output.
+- `classname-only`: class parsing only, no generated runtime files.
 - `runtime`: runtime-only/hybrid entry that selects runtime behavior and client CSS injection.
 - `classic/runtime-only`: supporting runtime-only variants.
 

@@ -55,11 +55,11 @@ To use runtime hybrid (server CSS + runtime):
 npx boss-css init -y --src-root src --config-dir src/.bo$$ --strategy runtime-hybrid --plugins fontsource,reset,token,at,child,css,pseudo,classname,jsx,ai
 ```
 
-To use classname-only (no runtime, no JSX parser):
+To use classname-only (no generated runtime files, no JSX parser):
 ```bash
 npx boss-css init -y --src-root src --config-dir src/.bo$$ --strategy classname-only --plugins fontsource,reset,token,at,child,css,pseudo,classname,ai
 ```
-Classname-only assumes static classnames (Tailwind-style), does not add runtime or dynamic prop handling, and requires importing `styles.css` manually in your app entry.
+Classname-only assumes static classnames (Tailwind-style), does not add dynamic prop handling, skips generated runtime files, and requires importing `styles.css` manually in your app entry.
 
 ## Optional plugins
 

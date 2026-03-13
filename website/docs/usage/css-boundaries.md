@@ -104,8 +104,9 @@ export default {
 - **PostCSS**: the plugin processes `.bo$$/styles.css` and any `*.boss.css` files, and overwrites them each run.
 - **npx boss-css build / watch**: writes `.bo$$/styles.css` and all boundary files; watch ignores boundary outputs to
   avoid rebuild loops.
-- **npx boss-css compile**: does not write CSS files (it only rewrites source output). Boundary files are unchanged in
-  compile mode.
+- **npx boss-css compile**:
+  - temp mode rewrites source into `compile.tempOutDir` and mirrors boundary CSS outputs there when CSS is non-empty
+  - prod mode mutates source in place and does not write CSS files
 
 ## Practical usage
 

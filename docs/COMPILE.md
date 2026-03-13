@@ -4,7 +4,16 @@
 Boss compile rewrites your source code. Use it in CI/CD or production mode for real builds. In dev mode it writes to a temporary copy so you can inspect the output without mutating your working files. This approach keeps Boss tooling-agnostic (no Babel/Webpack/Vite plugin required).
 :::
 
-Boss compile is a source-to-source optimization pass. It rewrites `$$` JSX usage into plain DOM elements, removes runtime imports when they are not needed, and can emit CSS in temp (non-prod) mode for debugging.
+Boss compile is an optional build mode. It follows your selected strategy and rewrites supported JSX source ahead of your app build.
+
+It is **not** a strategy.
+
+Current scope:
+
+- JSX source rewriting only
+- `inline-first` and `classname-first` only
+- temp mode mirrors transformed source and generated CSS under `compile.tempOutDir`
+- prod mode mutates source in place and does not write CSS files
 
 This is a build-time tool. It does not run in dev by default.
 
@@ -17,6 +26,7 @@ npx boss-css compile
 - By default this writes to `compile.tempOutDir` (see config).
 - For in-place mutation, use `--prod` or set `NODE_ENV=production` (no CSS is written in prod mode).
 - If you use a custom config directory, the default `compile.tempOutDir` follows it (`<configDir>/compiled`).
+- Compile reads your existing strategy config. It does not replace the strategy selection in `.bo$$/config.js`.
 
 ## Configuration
 
@@ -74,7 +84,7 @@ Example (root = project):
 ```
 
 Non-JS/TS files are copied only in temp mode. In prod mode they are left untouched.
-CSS output is only written in temp mode.
+Generated CSS, including boundary outputs, is only written in temp mode.
 
 ## Stats output
 
@@ -113,6 +123,7 @@ Time: 1.24s
 
 ## What compile does
 
+- Follows your configured `inline-first` or `classname-first` strategy.
 - Parses JS/TS/JSX/TSX with SWC.
 - Parses className strings for boss class syntax (including strings outside JSX).
 - Converts `$$` JSX elements into DOM tags (inline-first or classname-first strategy).
@@ -123,15 +134,18 @@ Time: 1.24s
 - Supports `!important` in className tokens via a trailing `!` (for example `color:red!`).
 - Rewrites className token strings like `color:$$.token.color.white` to token shorthand (`color:white`).
 - Uses framework detection (`framework` config or tsconfig `jsxImportSource`) to choose the class prop (for example `class` in Solid/Qwik/Stencil, `className` in React/Preact).
-- Emits CSS (minified with LightningCSS) and writes it to `stylesheetPath` in temp mode.
+- Emits generated CSS (minified with LightningCSS) in temp mode when output is non-empty.
+- Mirrors boundary CSS outputs in temp mode when boundaries are configured.
 - Orders generated `@media` rules after base rules and sorts them by width (max-width desc, min-width asc).
-- Removes boss runtime imports when the runtime is not needed.
+- Removes Boss runtime imports when the runtime is no longer needed.
 
 ## What compile does not do (yet)
 
+- It is not a strategy and does not add a new output mode.
 - Only inline-first and classname-first strategies are supported.
-- `npx boss-css compile` only supports JSX today.
+- The JSX rewrite path only supports JSX today.
 - Other strategies are not wired.
+- It does not guarantee that every file becomes free of Boss runtime imports. Files that still need runtime behavior keep those imports.
 
 ## Runtime pruning rules
 
