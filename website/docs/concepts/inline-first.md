@@ -2,48 +2,57 @@
 title: Inline-first Strategy
 ---
 
-The `inline-first` strategy prioritizes inline styles for top-level CSS props, and uses CSS variables + classes for nested contexts like pseudo states and media queries.
+## 1) What this strategy is
 
-## Why inline-first
+`inline-first` is the default JSX-oriented strategy. It keeps as much base styling as possible on the element and emits CSS rules only where selectors or shared rules are needed.
 
-- Inline styles are cheap to apply for simple props.
-- Nested styles require selectors, so they become CSS classes with variables.
-- It produces the smallest CSS output because static top-level props do not emit class rules.
-- The runtime stays small and predictable.
+## 2) What you author
 
-## Example
+Use this strategy when your main authoring input is `$$` JSX props.
 
-Input:
+You can also keep the classname parser enabled for static `className` / `class` tokens elsewhere in the app, but the core `inline-first` path is JSX authoring.
 
-```tsx
-<$$
-  color="red"
-  hover={{ color: 'blue' }}
-  at={{ 'mobile+': { color: 'green' } }}
-/>
-```
+## 3) What files are generated
 
-Output (conceptually):
+In build/watch/PostCSS flows, `inline-first` typically generates:
 
-- Inline style for the base prop: `style={{ color: 'red' }}`
-- CSS variables + classes for nested props:
+- `.bo$$/index.js`
+- `.bo$$/index.d.ts`
+- `.bo$$/styles.css`
+- optional `*.boss.css` boundary files
 
-```css
-.hover\:color:hover { color: var(--hover-color) }
-@media screen and (min-width: 376px) {
-  .at\:mobile\+\:color { color: var(--at-mobile-plus-color) }
-}
-```
+If you later use compile, it follows this strategy and can rewrite supported JSX into plain elements. Compile is separate from the strategy itself.
 
-Runtime output from the browser parser builds the `className` and CSS variables automatically.
+## 4) What lands in CSS
 
-## Notes
+- Nested selectors such as `hover`, `focus`, `child`, and `at`
+- Token declarations and any global CSS from plugins
+- Static className token rules if the classname parser is enabled
 
-- Nested CSS props always use variables to avoid inline conflicts.
-- Nested selectors are emitted with `!important` so they can override inline styles when needed.
-- Shorthand properties and deep props also prefer variables.
-- Function values are evaluated by the runtime (use hybrid or runtime-only if you rely on them).
+Base props like `display`, `gap`, or `backgroundColor` usually stay inline instead of becoming standalone class rules.
 
-## Runtime strategy
+## 5) What runs in the browser
 
-When `runtime.strategy` is `inline-first`, these same rules are applied by the runtime-only handler, and any required CSS is injected in the browser.
+The generated runtime in `.bo$$/index.js` handles `$$` JSX at render time.
+
+Typical browser work:
+
+- turn JSX props into DOM props
+- attach inline styles for base values
+- attach CSS variables for nested contexts
+- evaluate browser-evaluated values such as function props when present
+
+## 6) Constraints / caveats
+
+- Nested contexts still need CSS output, so this is not “inline only”.
+- Function values still need a generated runtime path.
+- Compile currently supports JSX with `inline-first`, but compile is optional and not a requirement for using this strategy.
+
+## 7) When to choose it
+
+Choose `inline-first` when:
+
+- you want the default Boss setup
+- you prefer small stylesheet output
+- your team likes JSX props as the main authoring surface
+- most values are static or simple enough to stay on the element

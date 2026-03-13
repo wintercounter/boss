@@ -2,61 +2,64 @@
 title: Runtime Strategy
 ---
 
-The `runtime` strategy is a wrapper that can run Boss CSS fully in the browser or in hybrid mode. You configure `runtime` once, and it selects the underlying behavior (`inline-first`, `classname-first`, or `classic`) at runtime.
+## 1) What this strategy is
 
-## When to use
+`runtime` is the runtime strategy wrapper. It runs Boss behavior in the browser, either fully (`runtime.only: true`) or alongside server CSS output (`runtime.only: false`).
 
-- Runtime-only: skip server CSS output and inject rules on the client.
-- Hybrid: keep server CSS output and still run the runtime handler for dynamic values.
+It is a strategy plugin, not the same thing as the generated runtime files in `.bo$$/`.
 
-## Configuration
+## 2) What you author
 
-```js
-import * as fontsource from 'boss-css/fontsource/server'
-import * as reset from 'boss-css/reset/server'
-import * as at from 'boss-css/prop/at/server'
-import * as child from 'boss-css/prop/child/server'
-import * as css from 'boss-css/prop/css/server'
-import * as pseudo from 'boss-css/prop/pseudo/server'
-import * as jsx from 'boss-css/parser/jsx/server'
-import * as classname from 'boss-css/parser/classname/server'
-import * as runtime from 'boss-css/strategy/runtime/server'
-import * as token from 'boss-css/use/token/server'
+Use `runtime` with `$$` JSX props.
 
-export default {
-  plugins: [fontsource, reset, token, at, child, css, pseudo, classname, jsx, runtime],
-  runtime: {
-    only: true,
-    strategy: 'inline-first', // or 'classname-first' | 'classic'
-    globals: 'inline',        // inline | file | none
-  },
-}
-```
+In hybrid mode you can still keep the classname parser in your config for build-time class token parsing. In `runtime.only` mode, static className parsing is disabled, so do not rely on class token authoring there.
 
-Notes:
+## 3) What files are generated
 
-- Use only the `runtime` strategy plugin; do not include `inline-first` or `classname-first` directly.
-- `runtime.only: true` disables server CSS output and skips the `.bo$$/styles.css` import (unless `runtime.globals: 'file'`).
-- `runtime.only: false` enables hybrid mode (server CSS + runtime handling).
-- `runtime.strategy` selects the underlying semantics at runtime.
-- `runtime.globals` controls reset/fontsource/$$.css output in runtime-only:
-  - `inline` injects globals into a runtime style tag (default).
-  - `file` emits `styles.css` even in runtime-only.
-  - `none` skips all global CSS output.
-- In runtime-only, tokens resolve to CSS variables and the runtime injects token vars on first use (even if `runtime.globals` is `none`).
-- In runtime-only mode, the **className parser is disabled** (className strings are not converted into CSS).
+The `runtime` strategy still generates:
 
-## What happens at runtime
+- `.bo$$/index.js`
+- `.bo$$/index.d.ts`
 
-- The runtime wrapper initializes the client CSS injector (`RuntimeCSS`) on `onInit`.
-- The runtime wrapper dispatches to `inline-first`, `classname-first`, or `classic` runtime-only handlers.
-- Runtime-only selector helpers for `at`, `pseudo`, and `child` are wired automatically when `runtime` config is enabled.
+CSS output depends on mode:
 
-## Classic runtime behavior
+- `runtime.only: true`: no server strategy CSS output
+- `runtime.only: true` with `runtime.globals: 'file'`: writes `.bo$$/styles.css` for globals only
+- `runtime.only: false`: emits the same server CSS you would get from the selected underlying strategy
 
-`classic` computes a stable hash of the full prop tree at runtime, assigns a className, and injects the full rule set (including nested contexts).
-It is runtime-only behavior; server output falls back to inline-first when `runtime.only` is `false`.
+## 4) What lands in CSS
 
-## Hybrid mode behavior
+- In runtime-only mode, strategy CSS rules are injected in the browser instead of written on the server.
+- With `runtime.globals: 'file'`, globals such as reset, fontsource, and `$$.css` are written to `styles.css`.
+- In hybrid mode, server CSS comes from the selected underlying strategy (`inline-first` or `classname-first`).
 
-In hybrid mode, server CSS is still emitted by the selected strategy, and the runtime still processes props at render time. This keeps server output intact while allowing runtime-only features and dynamic values.
+## 5) What runs in the browser
+
+The browser runs the runtime strategy wrapper plus the selected underlying runtime handler:
+
+- `inline-first`
+- `classname-first`
+- `classic`
+
+That browser work can:
+
+- evaluate browser-evaluated values at render time
+- inject CSS rules when needed
+- resolve runtime token values from your token config
+
+## 6) Constraints / caveats
+
+- Use only the `runtime` strategy plugin. Do not also include `inline-first` or `classname-first` as strategy plugins.
+- `runtime.only: true` disables server strategy CSS output.
+- `runtime.only: true` disables className parsing.
+- `runtime.strategy: 'classic'` is a browser behavior only. In hybrid mode, server output falls back to `inline-first`.
+- `runtime.globals` controls what happens to reset, fontsource, and `$$.css` in runtime-only mode.
+
+## 7) When to choose it
+
+Choose `runtime` when:
+
+- values must be resolved in the browser
+- you want runtime-only CSS injection
+- you need hybrid mode: server CSS plus browser evaluation
+- you are building dashboards, editors, or other UI where style values depend on live state

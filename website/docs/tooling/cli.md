@@ -72,7 +72,7 @@ Nitro note: if your `vite.config.*` uses `nitro(...)`, keep `traceDeps: ['jsdom'
 When `--strategy runtime-only` is chosen, the generated config includes a `runtime` block with `runtime.only: true` and `runtime.strategy: 'inline-first'`.
 When `--strategy runtime-hybrid` is chosen, the generated config includes a `runtime` block with `runtime.only: false` and `runtime.strategy: 'inline-first'`. Edit the config to switch to `classname-first` or `classic` if needed.
 
-When `--strategy classname-only` is chosen, `npx boss-css init` skips JSX/runtime wiring and does not generate `.bo$$/index.js` or `.bo$$/index.d.ts`. Classname-only assumes static classnames (Tailwind-style), does not add dynamic prop handling, and requires manually importing `styles.css`.
+When `--strategy classname-only` is chosen, `npx boss-css init` skips JSX/generated-runtime wiring and does not generate `.bo$$/index.js` or `.bo$$/index.d.ts`. Classname-only assumes static classnames (Tailwind-style), does not add dynamic prop handling, and requires manually importing `styles.css`.
 
 ## Build (no PostCSS)
 
@@ -80,7 +80,7 @@ When `--strategy classname-only` is chosen, `npx boss-css init` skips JSX/runtim
 npx boss-css build
 ```
 
-Build generates runtime output and CSS directly from your source files, without PostCSS. See [Build and Watch](/docs/tooling/build-watch) for details.
+Build generates CSS and, when needed, generated runtime files directly from your source files, without PostCSS. See [Build and Watch](/docs/tooling/build-watch) for details.
 For programmatic usage, see [Runners](/docs/api/runners).
 
 ## Watch (no PostCSS)

@@ -2,42 +2,13 @@
 title: Classname-only Strategy
 ---
 
-`classname-only` is the zero-runtime strategy. It parses static `className` (or `class`) strings, emits CSS, and skips all runtime output.
+## 1) What this strategy is
 
-Use it when:
-- You are not using `$$` JSX (or you want to avoid it entirely).
-- You only need static className syntax (`prop:value` tokens).
-- You want the smallest possible runtime footprint (none).
+`classname-only` is the static class string strategy. It parses static `className` / `class` tokens into CSS and skips the generated runtime files.
 
-## What it does (and does not) do
+## 2) What you author
 
-- ✅ Parses static className strings on the server and emits CSS.
-- ✅ Works with `boss-css/parser/classname/server`.
-- ❌ Does **not** generate `.bo$$/index.js` or `.bo$$/index.d.ts`.
-- ❌ Does **not** support dynamic values (functions) because there is no runtime.
-- ❌ Does **not** parse template literals with `${}` (classnames must be static).
-
-## Setup
-
-```js
-// .bo$$/config.js
-import * as fontsource from 'boss-css/fontsource/server'
-import * as reset from 'boss-css/reset/server'
-import * as token from 'boss-css/use/token/server'
-import * as at from 'boss-css/prop/at/server'
-import * as child from 'boss-css/prop/child/server'
-import * as css from 'boss-css/prop/css/server'
-import * as pseudo from 'boss-css/prop/pseudo/server'
-import * as classname from 'boss-css/parser/classname/server'
-import * as classnameOnly from 'boss-css/strategy/classname-only/server'
-
-export default {
-  plugins: [fontsource, reset, token, at, child, css, pseudo, classname, classnameOnly],
-  content: ['{src,pages,app,lib,components}/**/*.{html,js,jsx,ts,tsx,mdx,md}'],
-}
-```
-
-## Usage
+Author with static `className` or `class` strings:
 
 ```html
 <div className="display:flex gap:12 hover:color:purple">
@@ -45,7 +16,50 @@ export default {
 </div>
 ```
 
-## Notes
+This is the class string lane. It is not the umbrella term for every setup that skips generated runtime files in Boss.
 
-- You must import `.bo$$/styles.css` manually since there is no runtime auto-load.
-- For dynamic values or runtime-only features, use the `runtime` strategy instead.
+## 3) What files are generated
+
+`classname-only` generates CSS outputs only:
+
+- `.bo$$/styles.css`
+- optional `*.boss.css` boundary files
+
+It does **not** generate:
+
+- `.bo$$/index.js`
+- `.bo$$/index.d.ts`
+
+## 4) What lands in CSS
+
+- Every parsed static class token
+- Nested selector rules expressed in class syntax
+- Token declarations and plugin-generated global CSS
+
+Because there is no JSX runtime here, all Boss output is stylesheet-based.
+
+## 5) What runs in the browser
+
+Nothing from Boss runs in the browser for this strategy.
+
+You import the generated stylesheet yourself:
+
+```tsx
+import './.bo$$/styles.css'
+```
+
+## 6) Constraints / caveats
+
+- Class strings must be static.
+- Function values and browser-evaluated values are not available.
+- `$$` JSX authoring is not the intended path for this strategy.
+- `boss-css compile` is not part of this strategy and currently does not target `classname-only`.
+
+## 7) When to choose it
+
+Choose `classname-only` when:
+
+- you want the static className lane
+- your templates already emit static class strings
+- you do not want Boss-generated runtime files in the client bundle
+- you are working in non-React or low-JS environments

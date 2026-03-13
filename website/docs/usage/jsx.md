@@ -85,7 +85,7 @@ Use the `child` prop to target any selector relative to the component:
 
 ## Dynamic values
 
-Functions are executed in the browser runtime, so you can compute values at render time:
+Functions are browser-evaluated values, so you can compute them at render time:
 
 ```tsx
 <$$ textTransform={() => 'uppercase'} margin={() => [1, 2, 3]}>
@@ -96,11 +96,12 @@ Functions are executed in the browser runtime, so you can compute values at rend
 Notes:
 - In `classname-first`, dynamic values **must** be functions (non-function dynamics are skipped).
 - In `classname-first`, dynamic token values should return `$$.token.*` from the function (string tokens are not resolved).
-- Runtime-only or hybrid output is required to evaluate functions at render time.
+- `inline-first`, `classname-first`, and `runtime` all provide a browser path for function values because they generate runtime files.
+- `classname-only` does not support function values because it has no generated runtime.
 
 ## Custom CSS blocks (`$$.css`)
 
-Use `$$.css` to append raw CSS to the generated stylesheet. This works with the PostCSS pipeline and compile output.
+Use `$$.css` to append raw CSS to Boss CSS output.
 
 ```tsx
 $$.css`
@@ -123,7 +124,12 @@ Notes:
 - Object values must be static; nested objects are treated as selectors or `@` rules.
 - Top-level declarations without a selector are wrapped in `:root`.
 - Tokens are not resolved; use CSS variables (for example `var(--color-white)`) if needed.
-- Not supported in `runtime.only` mode (server CSS output is disabled there).
+- In PostCSS / build / watch flows, `$$.css` is written into generated CSS files.
+- In compile temp mode, `$$.css` is mirrored into the generated CSS output under `compile.tempOutDir`.
+- In `runtime.only`, `$$.css` follows `runtime.globals`:
+  - `inline`: injected in the browser
+  - `file`: written to `.bo$$/styles.css`
+  - `none`: skipped
 
 ## Arrays and units
 

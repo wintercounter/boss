@@ -2,7 +2,7 @@
 title: Runtime-only Patterns
 ---
 
-Runtime-only is useful when you need dynamic values or want to avoid server CSS output.
+Runtime-only is a `runtime` strategy setup with `runtime.only: true`.
 
 ## Setup
 
@@ -21,6 +21,8 @@ export default {
 
 ## Dynamic values
 
+Runtime-only is the cleanest path when values must be resolved in the browser:
+
 ```tsx
 <$$
   padding={() => (isCompact ? 8 : 16)}
@@ -28,17 +30,20 @@ export default {
 />
 ```
 
-## Runtime-only selectors
+## Nested selectors still work
 
-`at`, `pseudo`, and `child` are wired for runtime-only output, so nested contexts still work:
+`at`, `pseudo`, and `child` still work because the runtime strategy injects the needed rules in the browser:
 
 ```tsx
 <$$ at={{ 'mobile+': { fontSize: () => 18 } }} />
 ```
 
-## Notes
+## Important caveats
 
-- ClassName parsing is disabled in `runtime.only`.
-- Use `runtime.strategy: 'classic'` for a fully runtime-driven className output.
-- `runtime.globals` controls reset/fontsource/$$.css output in runtime-only (`inline` is the default).
-- Tokens resolve to CSS variables in runtime-only, and the runtime injects token vars on first use (works even with `globals: 'none'`).
+- Static className parsing is disabled in `runtime.only`.
+- `runtime.strategy` chooses the browser behavior: `inline-first`, `classname-first`, or `classic`.
+- `runtime.globals` controls reset, fontsource, and `$$.css` output:
+  - `inline`: inject them into a runtime style tag
+  - `file`: write them to `.bo$$/styles.css`
+  - `none`: skip them
+- Tokens resolve in the browser from your token config.

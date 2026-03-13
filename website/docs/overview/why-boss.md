@@ -2,7 +2,7 @@
 title: Why Boss CSS
 ---
 
-Boss CSS is designed for teams that want a **polymorphic, usage‑driven pipeline** with **strong types**, minimal runtime, and flexible authoring styles.
+Boss CSS is a styling engine with two authoring inputs, multiple output strategies, and an optional compile step.
 
 ## A tiny taste
 
@@ -23,43 +23,66 @@ export default function Hero() {
 }
 ```
 
+## The product shape
+
+Think about Boss in three layers:
+
+1. **Authoring inputs**
+   - `$$` JSX props
+   - Static `className` / `class` tokens
+2. **Output strategies**
+   - `inline-first`
+   - `classname-first`
+   - `classname-only`
+   - `runtime`
+3. **Build modes**
+   - PostCSS
+   - `npx boss-css build` / `watch`
+   - optional `npx boss-css compile`
+
+That separation matters:
+
+- `classname-only` is the static className lane. It is not the whole no-generated-runtime story.
+- `runtime` is the runtime strategy plugin. It is not the same thing as the generated runtime files.
+- `compile` is an optional source-rewrite step. It is not a strategy.
+
 ## Features at a glance
 
-- **Usage‑driven output**: runtime + types are generated from actual usage.
-- **Polymorphic strategies**: inline‑first, classname‑first, runtime‑only, and classname‑only.
-- **Zero‑runtime paths**: classname‑only or compile mode to drop the runtime entirely.
-- **Tooling‑agnostic**: run via PostCSS/CLI only, no bundler plugin required.
-- **JSX + className**: use `$$` props or CSS‑like className syntax with nested contexts.
-- **Tokens + theming**: token variables + typed access with `$$.token`.
-- **CSS boundaries**: split output by folder with `*.boss.css` files.
-- **Bosswind mode**: Tailwind‑like props and classnames.
-- **Composable**: prepared components, variants (`cv`/`scv`/`sv`), and `cx` helpers.
-- **TypeScript‑first**: rich prop + token types without an IDE extension.
-- **CLI + PostCSS**: init, watch, compile, and parse without framework-specific loaders.
-- **Devtools + linting**: optional runtime inspection plus an ESLint plugin for authoring rules.
-- **Tooling‑agnostic**: works without Babel/Webpack/Vite plugins; leans on TS types for DX.
+- **Two authoring inputs**: use `$$` JSX props or static `className` / `class` tokens.
+- **Multiple output strategies**: choose inline-heavy, class-heavy, static-class-only, or browser-evaluated output.
+- **Generated runtime + types**: Boss writes `.bo$$/index.js` and `.bo$$/index.d.ts` for strategies that use JSX authoring.
+- **Usage-driven CSS**: only used rules are emitted into `.bo$$/styles.css` and optional boundary files.
+- **Optional compile step**: rewrite supported JSX ahead of your app build when you want source transforms.
+- **Tokens + theming**: typed token access with `$$.token`.
+- **Bosswind mode**: Tailwind-like aliases on top of the same engine.
+- **Tooling agnostic**: use PostCSS, CLI build/watch, or your own build orchestration.
+- **CSS boundaries**: split CSS by directory without changing authoring.
+- **AI + devtools**: generated agent context, runtime inspection, and linting support.
 
-## Thinking in Boss
+## What Boss generates
 
-If you want the conceptual model, read [Thinking in Boss](/docs/concepts/thinking-in-boss), [Core Concepts](/docs/concepts/core-concepts), and [Tooling-Agnostic by Design](/docs/concepts/tooling-agnostic).
+Boss writes generated outputs. It does not expect you to hand-edit them.
 
-## What is generated
-
-Boss CSS does not edit your source files. It only writes generated outputs:
-
-- `.bo$$/styles.css` for compiled CSS rules
-- `.bo$$/index.js` for browser runtime setup
-- `.bo$$/index.d.ts` for typed `$$` and token hints
-
-When using `classname-only`, runtime files are not generated.
+- `.bo$$/index.js` and `.bo$$/index.d.ts` are the **generated runtime** for `inline-first`, `classname-first`, and `runtime`.
+- `.bo$$/styles.css` and any `*.boss.css` files contain generated CSS for build/watch/PostCSS flows.
+- `classname-only` skips the generated runtime files and only emits CSS.
+- In `runtime.only`, Boss skips server strategy CSS and only emits `styles.css` when `runtime.globals: 'file'`.
+- In compile temp mode, transformed source files and generated CSS are mirrored under `compile.tempOutDir`.
 
 ## Ideal use cases
 
 Boss CSS works well when you need:
 
-- **Consistent, typed styling** across large codebases.
-- **Multiple authoring styles** (props + className) in the same project.
-- **Runtime flexibility** for dynamic values without shipping heavy runtime CSS.
-- **Token‑driven design systems** with scoped theming.
+- Typed styling without committing the whole project to one authoring style.
+- A JSX prop lane for component work and a static class string lane for templates or utility-style code.
+- Strategy choices based on output trade-offs instead of rewriting every component.
+- Browser-evaluated values when needed, without making every page pay that cost.
+- A build step that can stay framework-agnostic.
 
-If you only need static classnames, use `classname-only` for zero runtime.
+## Learn the model
+
+For the full mental model, read:
+
+- [Core Concepts](/docs/concepts/core-concepts)
+- [Thinking in Boss](/docs/concepts/thinking-in-boss)
+- [Tooling-Agnostic by Design](/docs/concepts/tooling-agnostic)

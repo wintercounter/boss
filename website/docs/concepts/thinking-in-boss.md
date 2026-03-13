@@ -2,49 +2,59 @@
 title: Thinking in Boss
 ---
 
-Boss CSS is not just “props or className”. It’s a pipeline that turns usage into output. Once you internalize that, the rest of the system makes sense.
+Boss CSS makes more sense when you stop treating it as “one runtime” or “one authoring style”. It is one engine with separate choices about input, output, and build flow.
 
-## 1) Authoring is flexible
+## 1) Choose the authoring input first
 
-You can mix:
+Boss has two primary authoring inputs:
 
-- **JSX props** with `$$`
-- **Static className tokens** in templates
-- **Prepared components** for reusable styles
+- `$$` JSX props for component-driven styling
+- Static `className` / `class` tokens for string-driven styling
 
-This lets teams adopt Boss incrementally and meet different code styles where they are.
+That choice shapes the rest of the setup more than any slogan about “runtime” does.
 
-## 2) Output follows usage
+## 2) Then choose the output strategy
 
-Boss only emits what you actually use:
+Strategies are output trade-offs:
 
-- Types reflect your real tokens and prepared components.
-- Runtime handlers only appear when required.
-- CSS output stays small and scoped.
+- `inline-first` keeps base JSX props close to the element.
+- `classname-first` moves more static output into reusable class rules.
+- `classname-only` is the static class string lane.
+- `runtime` is the browser-evaluated lane.
 
-See [Polymorphic CSS‑in‑JS](/docs/overview/polymorphic-css-in-js).
+They share the same engine, but they are not perfectly interchangeable:
 
-## 3) Strategies are trade‑offs, not forks
+- `runtime.only` disables className parsing.
+- `classname-only` does not generate `.bo$$/index.js` or `.bo$$/index.d.ts`.
+- `compile` only supports JSX with `inline-first` and `classname-first`.
 
-Inline‑first, classname‑first, runtime‑only, and classname‑only are all views of the same pipeline.
-Choose the strategy that matches your needs without rewriting your authoring style.
+So the accurate idea is “shared engine, different constraints”, not “everything works everywhere”.
 
-## 4) Props are a language
+## 3) Build mode comes after strategy
 
-Boss props encode:
+PostCSS, `build`, and `watch` all generate the same kind of outputs for a given strategy.
 
-- **Selectors** (`hover`, `child`, `at`)
-- **Tokens** (`color="brand"`)
-- **Values** (arrays, functions, objects)
+`compile` is different:
 
-The pipeline then decides how to serialize them based on strategy.
+- it is optional
+- it rewrites source code
+- it follows your chosen strategy instead of replacing it
 
-## 5) Composition is built‑in
+## 4) Generated runtime is just one output
 
-Use:
+When you use JSX-oriented strategies, Boss usually generates:
 
-- `$$.style` to compute output on any element
-- `$$.cx` and `$$.merge` for composition
-- `cv`/`scv`/`sv` for variants
+- `.bo$$/index.js`
+- `.bo$$/index.d.ts`
+- `.bo$$/styles.css`
 
-You don’t need extra tooling to build a system of reusable styles.
+Those generated runtime files are not the same thing as the `runtime` strategy plugin.
+
+## 5) Composition is still the point
+
+Once the setup is clear, Boss gives you a consistent language for:
+
+- selectors (`hover`, `child`, `at`)
+- tokens (`$$.token`)
+- reusable style objects (`$$.$`, `$$.style`)
+- variants and composition helpers (`cv`, `scv`, `sv`, `cx`)

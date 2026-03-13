@@ -14,7 +14,7 @@ Boss CSS is flexible enough for many workflows. These are the best‑fit scenari
 
 - `$$` supports polymorphic components with `as`.
 - `cv`/`scv`/`sv` provide variants and composable styles.
-- Classname‑only output is great for shared UI with zero runtime.
+- Classname‑only output is great for shared UI that only needs static class strings and generated CSS.
 
 ## Apps with runtime dynamics
 

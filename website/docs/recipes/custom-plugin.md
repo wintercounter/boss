@@ -56,7 +56,7 @@ export const onBoot: Plugin<'onBoot'> = async api => {
 
 ## Runtime hooks (browser)
 
-Use `onBrowserObjectStart` to transform props into runtime output:
+Use `onBrowserObjectStart` to transform props into browser output:
 
 ```ts
 import type { Plugin } from 'boss-css'

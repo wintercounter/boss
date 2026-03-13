@@ -18,7 +18,7 @@ module.exports = {
 
 ## 2) Import the runtime
 
-The sample imports runtime output in `src/root.tsx`:
+The sample imports the generated runtime in `src/root.tsx`:
 
 ```tsx
 // src/root.tsx

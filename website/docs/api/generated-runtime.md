@@ -2,15 +2,29 @@
 title: Generated Runtime
 ---
 
-Boss CSS generates runtime files inside `.bo$$/`. These are outputs, not source.
+Boss CSS can generate runtime files inside `.bo$$/`. These files are outputs, not source.
+
+## When the generated runtime exists
+
+Boss generates `.bo$$/index.js` and `.bo$$/index.d.ts` when you use these strategies:
+
+- `inline-first`
+- `classname-first`
+- `runtime`
+
+Boss does **not** generate those files for `classname-only`.
 
 ## Files
 
-- `.bo$$/styles.css` contains compiled CSS rules.
-- `.bo$$/index.js` wires the browser runtime and exports `$$`.
-- `.bo$$/index.d.ts` provides types for `$$` and token autocompletion.
+- `.bo$$/index.js`: browser entry that wires the generated runtime and exports `$$`
+- `.bo$$/index.d.ts`: types for `$$`, prepared components, and token helpers
+- `.bo$$/styles.css`: generated CSS for build/watch/PostCSS flows, or globals-only CSS in `runtime.only` when `runtime.globals: 'file'`
 
-## Typical runtime output (inline-first / classname-first)
+`generated runtime` means `.bo$$/index.js` and `.bo$$/index.d.ts`. It does not mean the `runtime` strategy plugin.
+
+## Standard generated runtime output
+
+With `inline-first` or `classname-first`, the generated runtime imports the browser handlers directly:
 
 ```js
 import './styles.css'
@@ -32,11 +46,11 @@ globalThis.$$ = proxy
 export const $$ = proxy
 ```
 
-The strategy import is either `inline-first` or `classname-first` depending on your config.
+The strategy import is `inline-first` or `classname-first` based on config.
 
 ## Runtime strategy output
 
-When using the `runtime` strategy, the generated runtime wires a wrapper that selects the correct runtime-only handler at startup:
+When you select the `runtime` strategy, the generated runtime wires a wrapper. That wrapper decides which runtime-only handler to use in the browser:
 
 ```js
 import { createApi } from 'boss-css/api/browser'
@@ -61,12 +75,18 @@ globalThis.$$ = proxy
 export const $$ = proxy
 ```
 
-Notes:
+That is the difference between:
 
-- In runtime-only mode (`runtime.only: true`), `.bo$$/index.js` does not import `./styles.css` unless `runtime.globals: 'file'`.
-- The runtime wrapper initializes the client CSS injector and then dispatches to `inline-first`, `classname-first`, or `classic` based on `runtime.strategy`.
-- `css.autoLoad` controls whether `.bo$$/index.js` imports `./styles.css` (default: `true`). Set it to `false` when you want to manage CSS yourself.
+- the **generated runtime files** in `.bo$$/`
+- the **runtime strategy wrapper** in `boss-css/strategy/runtime/*`
+
+## CSS import behavior
+
+- `css.autoLoad: true` makes the generated runtime import `./styles.css` when that file should exist
+- `runtime.only: true` skips strategy CSS output
+- `runtime.globals: 'file'` still emits `styles.css` for globals and keeps the import
+- `runtime.globals: 'inline'` or `'none'` means `.bo$$/index.js` does not import `./styles.css`
 
 ## Do not edit
 
-Any changes to `.bo$$/` are overwritten on build. If you need to change output, update the source generators in `src/`.
+Anything inside `.bo$$/` is regenerated. Change config or source generators instead of editing those files directly.

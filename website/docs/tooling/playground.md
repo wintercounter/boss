@@ -20,7 +20,7 @@ The homepage "Launch Playground" call-to-action uses a high-contrast style so it
 - `boss-basic`: Inline-first runtime starter (tokens, pseudos, at rules).
 - `boss-ai`: Basic runtime starter with the AI plugin enabled.
 - `boss-classname-first`: Classname-first strategy with dynamic values as functions.
-- `boss-classname-only`: Classname-only strategy (no runtime, className parsing only, imports `styles.css`).
+- `boss-classname-only`: Classname-only strategy (no generated runtime files, className parsing only, imports `styles.css`).
 - `boss-runtime-only`: Runtime-only strategy (client-side CSS injection).
 - `boss-boundaries`: CSS boundaries with lazy-loaded sections + Suspense.
 - `boss-bosswind`: Bosswind utilities + Tailwind-style tokens.

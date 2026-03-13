@@ -56,4 +56,4 @@ color: var(--brand-primary);
 ## Notes
 
 - Register your custom prop plugin **before** the token plugin so the map is ready when tokens resolve.
-- `propMap` is synced into the runtime output, but only for **used** token groups.
+- `propMap` is synced into the generated runtime files, but only for **used** token groups.

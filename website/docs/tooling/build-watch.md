@@ -13,8 +13,9 @@ npx boss-css build
 `npx boss-css build`:
 - Reads `content` globs from `.bo$$/config.js` (or `bo$$` in `package.json`).
 - Parses files with your configured plugins.
-- Writes runtime output to `folder` (defaults to `configDir`), unless `classname-only` is selected.
-- Writes CSS to `stylesheetPath` and any `*.boss.css` boundary files unless `runtime.only = true`.
+- Writes generated runtime files to `folder` (defaults to `configDir`), unless `classname-only` is selected.
+- Writes CSS to `stylesheetPath` and any `*.boss.css` boundary files when `runtime.only = false`.
+- When `runtime.only = true` and `runtime.globals = 'file'`, writes `styles.css` for globals only.
   - See [CSS Boundaries](/docs/usage/css-boundaries) for directory scoping and hoisting details.
 
 ## Watch

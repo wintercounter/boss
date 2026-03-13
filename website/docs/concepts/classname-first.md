@@ -2,43 +2,57 @@
 title: Classname-first Strategy
 ---
 
-The `classname-first` strategy prefers CSS classnames for static values, and uses CSS variables only for dynamic values expressed as functions.
+## 1) What this strategy is
 
-## Why classname-first
+`classname-first` is the JSX-oriented strategy that pushes more static values into reusable class rules instead of leaving them inline.
 
-- Static values become class selectors, making output predictable and shareable.
-- CSS output size is closest to Tailwind-style utilities because each unique value emits a class rule.
-- Dynamic values must be written as functions: `prop={() => value}`. Non-function dynamics are skipped.
+## 2) What you author
 
-## Example
+This strategy still uses `$$` JSX props as the primary authoring surface.
 
-Input:
+If you keep the classname parser enabled, Boss can also parse static `className` / `class` tokens elsewhere. The important difference is that JSX props under this strategy prefer class-based output for static values.
 
-```tsx
-<$$
-  color="red"
-  hover={{ color: () => tone }}
-  at={{ 'mobile+': { padding: 12 } }}
-/>
-```
+## 3) What files are generated
 
-Output (conceptually):
+In build/watch/PostCSS flows, `classname-first` typically generates:
 
-- Static props become class names: `className="color:red at:mobile+:padding:12"`.
-- Dynamic props become CSS variables:
+- `.bo$$/index.js`
+- `.bo$$/index.d.ts`
+- `.bo$$/styles.css`
+- optional `*.boss.css` boundary files
 
-```css
-.hover\:color:hover { color: var(--hover-color) }
-```
+Compile can also rewrite supported JSX while following `classname-first`, but compile is a separate build step.
 
-Runtime output from the browser parser builds the `className` and CSS variables automatically.
+## 4) What lands in CSS
 
-## Notes
+- Static JSX prop values as class rules
+- Nested selectors such as `hover`, `focus`, `child`, and `at`
+- Token declarations and plugin-generated global CSS
+- Static className token rules if the classname parser is enabled
 
-- Dynamic values must be functions for the runtime to decide at render time.
-- Tokens are still emitted as CSS variables, but classnames use the token path segment (e.g. `color:white`).
-- Non-function dynamic values are skipped (a warning is logged).
+Compared with `inline-first`, more of the base styling lands in CSS because static values prefer class rules.
 
-## Runtime strategy
+## 5) What runs in the browser
 
-When `runtime.strategy` is `classname-first`, the runtime-only handler applies the same rules and injects any required CSS in the browser.
+The generated runtime still runs in the browser for `$$` JSX authoring.
+
+Typical browser work:
+
+- build the final `className` for JSX props
+- evaluate browser-evaluated values at render time
+- attach CSS variables or dynamic output for values that cannot be fixed ahead of time
+
+## 6) Constraints / caveats
+
+- Dynamic values must be functions such as `color={() => tone}`.
+- Non-function dynamic values are skipped.
+- Stylesheet output is usually larger than `inline-first` because more base props become class rules.
+- Compile supports this strategy, but only for JSX and only as an optional build step.
+
+## 7) When to choose it
+
+Choose `classname-first` when:
+
+- you want JSX authoring but more reusable class-based CSS
+- you care about cacheable static rules more than minimal CSS size
+- your dynamic values already fit the `prop={() => value}` model

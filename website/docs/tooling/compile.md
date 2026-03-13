@@ -6,7 +6,16 @@ title: Compile
 Boss compile rewrites your source code. Use it in CI/CD or production mode for real builds. In dev mode it writes to a temporary copy so you can inspect the output without mutating your working files. This approach keeps Boss tooling-agnostic (no Babel/Webpack/Vite plugin required).
 :::
 
-Boss compile is a build-time, source-to-source optimization pass. It rewrites `$$` JSX into plain DOM elements, emits CSS, and removes runtime imports when possible.
+Boss compile is an optional build mode. It follows your selected strategy and rewrites supported JSX source ahead of your app build.
+
+It is **not** a strategy.
+
+Current scope:
+
+- JSX source rewriting only
+- `inline-first` and `classname-first` only
+- temp mode mirrors transformed source and generated CSS under `compile.tempOutDir`
+- prod mode mutates source in place and does not write CSS files
 
 ## Quick start
 
@@ -17,6 +26,7 @@ npx boss-css compile
 - Default output goes to `compile.tempOutDir`.
 - Use `--prod` or `NODE_ENV=production` to mutate files in place.
 - If you use a custom config directory, the default `compile.tempOutDir` follows it (`<configDir>/compiled`).
+- Compile reads your existing strategy config. It does not replace the strategy selection in `.bo$$/config.js`.
 
 ## Configuration
 
@@ -62,7 +72,9 @@ When not in prod mode, output files mirror the source tree under `compile.tempOu
 <root>/.bo$$/styles.css   -> <root>/.bo$$/compiled/.bo$$/styles.css
 ```
 
-Non-JS/TS files are copied in temp mode. In prod mode they are left untouched.
+Boundary CSS outputs are mirrored there too when CSS is generated.
+
+Non-JS/TS files are copied in temp mode. In prod mode they are left untouched, and CSS files are not written.
 
 ## Stats output
 
@@ -101,6 +113,7 @@ Time: 1.24s
 
 ## What compile does
 
+- Follows your configured `inline-first` or `classname-first` strategy.
 - Parses JS/TS/JSX/TSX with SWC.
 - Parses classname strings for boss syntax (including normal elements).
 - Converts `$$` JSX elements into DOM tags (inline-first or classname-first).
@@ -109,14 +122,17 @@ Time: 1.24s
 - `$$.$` is a no-op marker (returns input at runtime) that tells the parser/compile to treat inputs as Boss props or className markers.
 - Supports `!important` in className tokens via a trailing `!` (for example `color:red!`).
 - Rewrites className token strings like `color:$$.token.color.white` to token shorthand (`color:white`).
-- Emits CSS (minified with LightningCSS) to `stylesheetPath`.
-- Removes boss runtime imports when runtime usage is not required.
+- Emits generated CSS (minified with LightningCSS) in temp mode when output is non-empty.
+- Mirrors boundary CSS outputs in temp mode when boundaries are configured.
+- Removes Boss runtime imports when runtime usage is no longer required.
 
 ## What compile does not do (yet)
 
+- It is not a strategy and does not add a new output mode.
 - Only inline-first and classname-first strategies are supported.
-- `npx boss-css compile` only supports JSX today.
+- The JSX rewrite path only supports JSX today.
 - Classname-first expects dynamic values to be written as functions (`prop={() => value}`).
+- It does not guarantee that every file becomes free of Boss runtime imports. Files that still need runtime behavior keep those imports.
 
 ## Runtime pruning rules
 

@@ -2,7 +2,7 @@
 title: No Framework (Vite)
 ---
 
-Use Boss CSS with plain HTML and JavaScript in a Vite project. This setup uses classnames only, so there is no runtime.
+Use Boss CSS with plain HTML and JavaScript in a Vite project. This setup uses the static className lane, so Boss only generates CSS files and skips the generated runtime files.
 
 ## 1) Configure classname-only
 
