@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://bosscss.com">Website</a> | <a href="https://bosscss.com/docs">Documentation</a>
+  <a href="https://bosscss.com">Website</a> | <a href="https://bosscss.com/docs">Documentation</a> | <a href="https://dev.to/wintercounter/boss-css-i-created-another-css-in-js-lib-and-here-is-why-23kc">Learn More</a>
 </p>
 
 ## Table of Contents
@@ -30,6 +30,9 @@
 - [Solution Patterns](#solution-patterns)
 - [How It Works](#how-it-works)
 - [Strategy Modes](#strategy-modes)
+- [Compile](#compile)
+- [CSS Boundaries](#css-boundaries)
+- [AI Ready](#ai-ready)
 - [Plugin Surface](#plugin-surface)
 - [Where It Shines](#where-it-shines)
 - [Docs Map](#docs-map)
@@ -61,7 +64,7 @@ Core capabilities:
 - Unified JSX props and className parsing.
 - Generated TypeScript types for CSS props and prepared components.
 - Token support, pseudo selectors, breakpoints, and arbitrary child selectors.
-- Multiple output strategies from zero-runtime compilation to runtime-only CSS injection.
+- Multiple output strategies, plus optional compile-time source rewriting.
 - Bosswind for Tailwind-like prop aliases on top of the same engine.
 - CLI and PostCSS integration for build, watch, compile, and dev workflows.
 - Framework and bundler agnostic.
@@ -721,10 +724,435 @@ Boss CSS supports multiple output strategies:
 - `inline-first`: Default. Pushes as much as possible into inline styles or CSS variables and keeps stylesheet output
   small.
 - `classname-first`: Prefers classes where possible and uses runtime logic for dynamic values.
-- `classname-only`: Server-side class parsing only, no JSX runtime output.
+- `classname-only`: CSS-only className parsing with no generated JSX runtime files.
 - `runtime`: Runtime-only or hybrid mode. Useful when styles or values must be resolved in the browser.
 
 Read more: https://bosscss.com/docs/concepts/runtime-strategy
+
+The same component intent can be emitted very differently depending on the strategy you pick:
+
+<details open>
+<summary><code>inline-first</code>: minimal CSS, small generated runtime</summary>
+
+This is the default strategy for `$$` JSX. Top-level props lean inline. Nested selectors like `hover`, `at`, and `child`
+become CSS rules with variables.
+
+Config:
+
+```js
+import * as jsx from 'boss-css/parser/jsx/server'
+import * as css from 'boss-css/prop/css/server'
+import * as pseudo from 'boss-css/prop/pseudo/server'
+import * as inlineFirst from 'boss-css/strategy/inline-first/server'
+
+export default {
+    plugins: [css, pseudo, jsx, inlineFirst],
+}
+```
+
+You write:
+
+```tsx
+<$$
+    display="inline-flex"
+    alignItems="center"
+    gap={8}
+    padding={[8, 10]}
+    borderRadius={12}
+    backgroundColor="#111c31"
+    color="white"
+    hover={{ backgroundColor: '#15233d' }}
+>
+    Save
+</$$>
+```
+
+Boss emits:
+
+- `.bo$$/index.js` and `.bo$$/index.d.ts` for the generated JSX runtime helpers
+- a small `.bo$$/styles.css` file mostly for nested selectors
+- base props that tend to stay inline, while `hover`, `at`, and `child` rules become CSS
+
+Typical emitted output:
+
+```tsx
+<div
+    className="hover:background-color"
+    style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '8px',
+        padding: '8px 12px',
+        borderRadius: '12px',
+        backgroundColor: '#111c31',
+        color: 'white',
+        '--hover-background-color': '#15233d',
+    }}
+>
+    Save
+</div>
+```
+
+What lands in `.bo$$/styles.css`:
+
+```css
+.hover\:background-color:hover {
+    background-color: var(--hover-background-color);
+}
+```
+
+Base props like `display`, `gap`, `padding`, and `backgroundColor` stay inline here, so they do not produce class rules.
+
+</details>
+
+<details>
+<summary><code>classname-first</code>: load once, reuse classes</summary>
+
+This keeps the same `$$` authoring style, but static values prefer generated classnames instead of inline styles.
+Dynamic values need to be functions so the runtime can decide which values need to use static classes versus CSS
+variables.
+
+Config:
+
+```js
+import * as jsx from 'boss-css/parser/jsx/server'
+import * as css from 'boss-css/prop/css/server'
+import * as pseudo from 'boss-css/prop/pseudo/server'
+import * as classnameFirst from 'boss-css/strategy/classname-first/server'
+
+export default {
+    plugins: [css, pseudo, jsx, classnameFirst],
+}
+```
+
+You write:
+
+```tsx
+<$$
+    display="inline-flex"
+    alignItems="center"
+    gap={8}
+    padding={[8, 12]}
+    borderRadius={12}
+    backgroundColor="#111c31"
+    color="white"
+    hover={{ backgroundColor: '#15233d' }}
+>
+    Save
+</$$>
+```
+
+Boss emits:
+
+- `.bo$$/index.js`, `.bo$$/index.d.ts`, and `.bo$$/styles.css`
+- class-oriented output for static values, closer to utility-style CSS, eg. Tailwind
+- runtime handling only where values are truly dynamic, usually as function props like `backgroundColor={() => tone}`
+
+Typical emitted output:
+
+```tsx
+<div className="display:inline-flex align-items:center gap:8 padding:8_12 border-radius:12 background-color:#111c31 color:white hover:background-color:#15233d">
+    Save
+</div>
+```
+
+What lands in `.bo$$/styles.css`:
+
+```css
+.display\:inline-flex {
+    display: inline-flex;
+}
+.align-items\:center {
+    align-items: center;
+}
+.gap\:8 {
+    gap: 8px;
+}
+.padding\:8px_12px {
+    padding: 8px 12px;
+}
+.border-radius\:12 {
+    border-radius: 12px;
+}
+.background-color\:\#111c31 {
+    background-color: #111c31;
+}
+.color\:white {
+    color: white;
+}
+.hover\:background-color\:\#15233d:hover {
+    background-color: #15233d;
+}
+```
+
+</details>
+
+<details>
+<summary><code>classname-only</code>: CSS only from static className syntax</summary>
+
+This is the CSS-only strategy for static className authoring. It parses static `className` strings, emits CSS, and skips
+the generated JSX runtime entirely.
+
+Config:
+
+```js
+import * as classname from 'boss-css/parser/classname/server'
+import * as css from 'boss-css/prop/css/server'
+import * as pseudo from 'boss-css/prop/pseudo/server'
+import * as classnameOnly from 'boss-css/strategy/classname-only/server'
+
+export default {
+    plugins: [css, pseudo, classname, classnameOnly],
+}
+```
+
+You write:
+
+```tsx
+<button className="display:inline-flex align-items:center gap:8 padding:8px_12px border-radius:12 background-color:#111c31 color:white hover:background-color:#15233d">
+    Save
+</button>
+```
+
+Boss emits:
+
+- `.bo$$/styles.css`
+- no `.bo$$/index.js`
+- no `.bo$$/index.d.ts`
+- no JSX runtime work in the browser
+- import `.bo$$/styles.css` manually
+
+Typical output:
+
+```css
+.display\:inline-flex {
+    display: inline-flex;
+}
+.align-items\:center {
+    align-items: center;
+}
+.gap\:8 {
+    gap: 8px;
+}
+.padding\:8px_12px {
+    padding: 8px 12px;
+}
+.border-radius\:12 {
+    border-radius: 12px;
+}
+.background-color\:\#111c31 {
+    background-color: #111c31;
+}
+.color\:white {
+    color: white;
+}
+.hover\:background-color\:\#15233d:hover {
+    background-color: #15233d;
+}
+```
+
+Use this when your styles are static and you want the smallest possible client footprint.
+
+</details>
+
+<details>
+<summary><code>runtime</code>: runtime-only or hybrid for browser-resolved values</summary>
+
+Use this when values must be computed in the browser. The `runtime` strategy wraps `inline-first`, `classname-first`, or
+`classic`, and can run fully client-side or alongside server output.
+
+Config:
+
+```js
+import * as jsx from 'boss-css/parser/jsx/server'
+import * as css from 'boss-css/prop/css/server'
+import * as pseudo from 'boss-css/prop/pseudo/server'
+import * as runtime from 'boss-css/strategy/runtime/server'
+
+export default {
+    plugins: [css, pseudo, jsx, runtime],
+    runtime: {
+        only: true,
+        strategy: 'inline-first',
+    },
+}
+```
+
+You write:
+
+```tsx
+<$$
+    display="inline-flex"
+    alignItems="center"
+    gap={8}
+    padding="8px 12px"
+    borderRadius={12}
+    backgroundColor={() => tone}
+    color="white"
+    hover={{ backgroundColor: () => hoverTone }}
+>
+    Save
+</$$>
+```
+
+Boss emits:
+
+- `.bo$$/index.js` and `.bo$$/index.d.ts`
+- no server CSS in `runtime.only: true` mode unless you choose `runtime.globals: 'file'`
+- runtime style injection in the browser based on the selected strategy
+- hybrid mode when `runtime.only: false`, which keeps server CSS output and still evaluates dynamic props
+- static `className` parsing is disabled in `runtime.only` mode
+
+Typical browser output when `runtime.strategy` is `inline-first`:
+
+```tsx
+<div
+    className="hover:background-color"
+    style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '8px',
+        padding: '8px 12px',
+        borderRadius: '12px',
+        backgroundColor: tone,
+        color: 'white',
+        '--hover-background-color': hoverTone,
+    }}
+>
+    Save
+</div>
+```
+
+What lands in `.bo$$/styles.css`:
+
+- `runtime.only: true`: no strategy CSS file. Rules are injected by the runtime in the browser. If
+  `runtime.globals: 'file'`, the file only contains global CSS such as reset, fontsource, and `$$.css(...)`.
+- `runtime.only: false`: the file contains the same strategy CSS you would get without runtime-only. For
+  `runtime.strategy: 'inline-first'`, that means:
+
+```css
+.hover\:background-color:hover {
+    background-color: var(--hover-background-color);
+}
+```
+
+</details>
+
+## Compile
+
+`boss-css compile` is a separate build step. It is not a strategy. It rewrites static `$$` JSX into plain elements,
+folds Boss markers into normal DOM props, optimizes classNames and removes Boss runtime imports when they are no longer
+needed.
+
+Today, compile supports `inline-first` and `classname-first`.
+
+Compile is bundler agnostic by design (no Babel, Webpack, Vite, etc. plugins). It is meant to run during CI, it modifies
+your source code before your own build step, so ideally you do `lint` => `boss compile` => `build`.
+
+<details open>
+<summary>Compile example: static <code>$$</code> becomes a plain element</summary>
+
+Input:
+
+```tsx
+export const Example = () => <$$ className="card" display="block" hover={{ color: 'red' }} />
+```
+
+Output:
+
+```tsx
+export const Example = () => <div className="card hover:color" style={{ display: 'block', '--hover-color': 'red' }} />
+```
+
+CSS:
+
+```css
+.hover\:color:hover {
+    color: var(--hover-color);
+}
+```
+
+</details>
+
+## CSS Boundaries
+
+Boss can split CSS output by folder boundaries instead of pushing everything into a single stylesheet.
+
+Example layout:
+
+```text
+src/
+  app/
+    app.boss.css
+    layout.tsx
+    admin/
+      admin.boss.css
+      layout.tsx
+  marketing/
+    marketing.boss.css
+    layout.tsx
+```
+
+Import each boundary where that section of the app starts:
+
+```tsx
+// src/app/layout.tsx
+import './app.boss.css'
+
+// src/app/admin/layout.tsx
+import './admin.boss.css'
+
+// src/marketing/layout.tsx
+import './marketing.boss.css'
+```
+
+How it behaves:
+
+- Keep the boundary files empty.
+- Rules used by only one section stay in that section's `*.boss.css`.
+- Shared rules are hoisted to the nearest common ancestor boundary or `.bo$$/styles.css`.
+- This is useful when app, admin, marketing, docs, or embedded surfaces should load different CSS bundles.
+
+Read more: https://bosscss.com/docs/recipes/css-boundaries-layout
+
+## AI Ready
+
+Boss can generate live project context for coding agents, not just CSS and runtime files.
+
+The AI plugin writes:
+
+- `.bo$$/LLMS.md`: a live markdown reference with tokens, pseudos, breakpoints, strategies, boundaries, prepared
+  components, and other generated metadata
+- `.bo$$/skills/`: agent skills, each with its own `SKILL.md`
+
+Minimal setup:
+
+```js
+import * as ai from 'boss-css/ai/server'
+
+export default {
+    plugins: [
+        ai,
+        // ...other plugins
+    ],
+}
+```
+
+What makes it useful:
+
+- `boss-css init` enables it by default
+- place `ai` early if other plugins emit metadata during `onBoot`
+- build, watch, PostCSS, and compile sessions keep the files updated
+- plugins can publish extra agent context through `onMetaData`
+- generated skills can be installed into agents directly
+
+```bash
+npx skills add "./.bo$$/skills" -a codex -a claude-code
+```
+
+If you want Boss-aware agents in a repo, this is the bridge between your live config/output and the agent prompt.
+
+Read more: https://bosscss.com/docs/tooling/ai
 
 ## Plugin Surface
 
@@ -774,6 +1202,9 @@ Useful entry points:
 - ClassName syntax: https://bosscss.com/docs/usage/classname
 - Tokens and theming: https://bosscss.com/docs/usage/tokens
 - Bosswind: https://bosscss.com/docs/usage/bosswind
+- Compile: https://bosscss.com/docs/tooling/compile
+- CSS boundaries: https://bosscss.com/docs/recipes/css-boundaries-layout
+- AI plugin: https://bosscss.com/docs/tooling/ai
 - Prepared components: https://bosscss.com/docs/usage/prepared-components
 - Composition and variants: https://bosscss.com/docs/recipes/composition-and-variants
 - Runtime-only mode: https://bosscss.com/docs/recipes/runtime-only
